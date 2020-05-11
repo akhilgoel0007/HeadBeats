@@ -54,12 +54,51 @@
                   </div>
                 </v-expand-transition>
               </v-img>
-              <v-card-text class="pt-3" style="position: relative;">   
-                <v-fab-transition>
+              <v-card-text class="pt-3" style="position: relative;">
+                <v-menu transition="slide-y-transition">
+                  <template v-slot:activator="{ on: menu }">
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on: tooltip}">
+                        <v-btn absolute color="orange" class="white--text" fab large right top v-on="{...tooltip, ...menu}"> 
+                          <v-icon>mdi-view-grid-plus</v-icon>
+                        </v-btn>
+                      </template>
+                      <span>Additional Options</span>
+                    </v-tooltip>
+                  </template>
+                  <v-list>
+                    <v-list-item>
+                      <v-list-item-title @click.stop="dialog = true">Add Tag</v-list-item-title>
+                      <v-dialog v-model="dialog" max-width="290">
+                        <v-card>
+                          <v-card-title class="headline">Use Google's location service?</v-card-title>
+                          <v-card-text>
+                            Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.
+                          </v-card-text>
+                          <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn color="green darken-1" text @click="dialog = false">Save Changes</v-btn>
+                          <v-btn color="green darken-1" text @click="dialog = false">Close</v-btn>
+                          </v-card-actions>
+                        </v-card>
+                      </v-dialog>
+                    </v-list-item>
+                    <v-list-item>
+                      <v-list-item-title>Add To Playlist</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item>
+                      <v-list-item-title>Misc Option 1</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item>
+                      <v-list-item-title>Misc Option 2</v-list-item-title>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+                <!-- <v-fab-transition>
                   <v-btn absolute color="orange" class="white--text" fab large right top>
-                    <v-icon>mdi-plus</v-icon>
+                    <v-icon>mdi-view-grid-plus</v-icon>
                   </v-btn>
-                </v-fab-transition>
+                </v-fab-transition> -->
 
                 <h3 class="Title-Font font-weight-light orange--text mb-2">{{Song.Title}}</h3>
                 <div class="Info-Font font-weight-light">
@@ -80,13 +119,14 @@
 
 <script>
 
-const BaseUrl = 'http://localhost:8080/Data/Songs.json'
+const BaseUrl = 'http://localhost:8080/data/Songs.json'
 
 import axios from 'axios';
 
 export default {
   name: 'Playlists',
   data: () => ({
+    dialog: false,
     Tab: true, 
     AllPlaylists: [],
   }),
@@ -94,7 +134,7 @@ export default {
   async created() {
     try {
       const res = await axios.get(BaseUrl);
-      this.AllPlaylists = JSON.parse(res.data.AddPlayList);
+      this.AllPlaylists = res.data.AllPlaylists;
       console.log(this.AllPlaylists);
     } catch(e) {
       console.log(e);

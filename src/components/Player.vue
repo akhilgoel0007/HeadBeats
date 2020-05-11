@@ -21,6 +21,9 @@
         <button class="floating-action-btn">
           <v-icon class="icon-config">mdi-skip-next</v-icon>
         </button>
+        <button class="floating-action-btn">
+          <v-icon class="icon-config">mdi-replay</v-icon>
+        </button>
       </div>
       <div class="footer-fab-playlist">
         <button class="floating-action-btn footer-fab-playlist-image">

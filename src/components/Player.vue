@@ -35,19 +35,20 @@
 </template>
 
 <style scoped>
+
 .icon-config {
-  height: 55px;
-  width: 55px;
+  height: inherit;
+  width: inherit;
   border-radius: 100%;
   color: white;
   background-color: #9575cdff;
   font-size: inherit;
+  border: 2.5px solid white;
 }
 
 .icon-config:hover {
   background-color: white;
   color: #9575cdff;
-  /* font-size: inherit; */
 }
 
 .footer-bar-container {
@@ -67,6 +68,7 @@
   position: relative;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .footer-song-metadata {
@@ -103,9 +105,9 @@
 }
 
 .floating-action-btn {
-  width: 60px;
-  height: 60px;
-  font-size: 30px;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
   background-color: #9575cdff;
   color: white;
 
@@ -113,12 +115,10 @@
   margin-right: 10px;
 
   border-radius: 100%;
-  border: 2.5px solid white;
   outline: none;
 
   cursor: pointer;
   transition: 0.25s;
-  /* color: rgb(0, 0, 0, 0.2); */
 }
 
 .floating-action-btn::after {
@@ -126,15 +126,13 @@
   content: "";
   position: absolute;
   border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: #b3d4fc;
   /*border: 0px;*/
 
   width: 60px;
   height: 60px;
   margin-top: -30px;
   margin-left: -30px;
-
-  /* Center the ripple */
   top: 50%;
   left: 50%;
 
@@ -165,6 +163,9 @@
 }
 
 .footer-fab-play {
+  width: 60px;
+  height: 60px;
+  font-size: 30px;
   background-color: #9575cdff;
   color: white;
 }

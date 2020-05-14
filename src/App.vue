@@ -10,8 +10,6 @@
   </v-app>
 </template>
 
-
-
 <script>
 
 import NavBar from '@/components/NavBar'

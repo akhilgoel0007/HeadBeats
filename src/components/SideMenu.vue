@@ -3,11 +3,29 @@
     <!--Change the height when adding new component-->
         <v-list app class='pt-0 pb-0'>
             <v-list-item-group>
-                <v-list-item v-for="Option in SidedrawerItems" :key="Option.Name" v-bind:class='Option.TextColor'>
-                    <v-list-item-icon v-bind:class='Option.TextColor'>
-                        <v-icon class="white--text font-weight-bold">{{Option.Icon}}</v-icon>
+                <v-list-item class="Add-Music-Color" @click="PickSongs()">
+                    <v-list-item-icon class="Add-Music-Color">
+                        <v-icon class="white--text font-weight-bold">mdi-music-note-plus</v-icon>
                     </v-list-item-icon >
-                    <v-list-item-title class="white--text font-weight-bold" v-bind:class='Option.TextColor'>{{Option.Name}}</v-list-item-title>
+                    <v-list-item-title class="white--text font-weight-bold Add-Music-Color">Add Music</v-list-item-title>
+                </v-list-item>
+                <v-list-item class="New-Playlist-Color">
+                    <v-list-item-icon class='New-Playlist-Color'>
+                        <v-icon class="white--text font-weight-bold">mdi-playlist-plus</v-icon>
+                    </v-list-item-icon >
+                    <v-list-item-title class="white--text font-weight-bold New-Playlist-Color" >New Playlist</v-list-item-title>
+                </v-list-item>
+                <v-list-item class="Settings-Color">
+                    <v-list-item-icon class='Settings-Color'>
+                        <v-icon class="white--text font-weight-bold">mdi-cogs</v-icon>
+                    </v-list-item-icon >
+                    <v-list-item-title class="white--text font-weight-bold Settings-Color">Settings</v-list-item-title>
+                </v-list-item>
+                <v-list-item class="Help-Color">
+                    <v-list-item-icon class="Help-Color">
+                        <v-icon class="white--text font-weight-bold">mdi-help-circle</v-icon>
+                    </v-list-item-icon >
+                    <v-list-item-title class="white--text font-weight-bold Help-Color" >Help</v-list-item-title>
                 </v-list-item>
                 <!-- <v-divider></v-divider> -->
             </v-list-item-group>
@@ -16,17 +34,43 @@
 </template>
 
 <script>
-  export default {
+    import { remote } from 'electron';
+
+    export default {
+    
     data: () => ({
-        SidedrawerItems: [
-            { Name: 'Add Music', Icon: 'mdi-music-note-plus', TextColor: 'Add-Music-Color'},
-            { Name: 'New Playlist', Icon: 'mdi-playlist-plus', TextColor: 'New-Playlist-Color'},
-            { Name: 'Settings', Icon: 'mdi-cogs', TextColor: 'Settings-Color'},
-            { Name: 'Help', Icon: 'mdi-help-circle', TextColor: 'Help-Color'},
-            // { Name: ''},
-        ]
+        //
     }),
-  }
+
+    methods: {
+        PickSongs: function() {
+            const { dialog } = remote;
+
+            dialog.showOpenDialog({
+                properties: ['openFile', 'multiSelections'],
+                filters: [{
+                    name: 'Select Songs',
+                }]
+            }, function(file) {
+                if(file) {
+                    console.log(file);
+                }
+            })
+        },
+
+        CreateNewPlaylist: function() {
+            //
+        },
+
+        OpenSettings: function() {
+            //
+        },
+
+        OpenHelp: function() {
+            //
+        }
+    }}
+
 </script>
 
 <style scoped>

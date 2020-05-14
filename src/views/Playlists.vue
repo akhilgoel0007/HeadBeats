@@ -69,15 +69,23 @@
                   <v-list>
                     <v-list-item>
                       <v-list-item-title @click.stop="dialog = true">Add Tag</v-list-item-title>
-                      <v-dialog v-model="dialog" max-width="290">
+                      <v-dialog v-model="dialog" max-width="800px" class="Card-Config">
                         <v-card>
                           <v-card-title class="headline">Add Tags</v-card-title>
                           <v-card-text>
-                         </v-card-text>
+                          <v-combobox v-model="chips" chips multiple label="Song Tags">
+                            <template v-slot:selection="data">
+                              <v-chip @click="select" close @click:close="remove(data.item)">
+                                <v-avatar left class="accent white--text" v-text="data.item.slice(0, 1).toUpperCase()"></v-avatar>
+                                {{ data.item }}
+                              </v-chip>
+                            </template>
+                          </v-combobox>
+                          </v-card-text>
                           <v-card-actions>
-                          <v-spacer></v-spacer>
-                          <v-btn color="green darken-1" text @click="dialog = false">Save Changes</v-btn>
-                          <v-btn color="green darken-1" text @click="dialog = false">Close</v-btn>
+                            <v-spacer></v-spacer>
+                            <v-btn color="green darken-1" text @click="dialog = false">Save Changes</v-btn>
+                            <v-btn color="green darken-1" text @click="dialog = false">Close</v-btn>
                           </v-card-actions>
                         </v-card>
                       </v-dialog>
@@ -127,6 +135,7 @@ export default {
   data: () => ({
     dialog: false,
     Tab: true, 
+    chips: [],
     AllPlaylists: [],
   }),
 
@@ -141,6 +150,11 @@ export default {
   },
 
   methods: {
+    remove (item) {
+      this.chips.splice(this.chips.indexOf(item), 1)
+      this.chips = [...this.chips]
+    },
+
     AddPlayList: () => {
       //
     },
@@ -164,6 +178,11 @@ export default {
   opacity: .5;
   position: absolute;
   width: 100%;
+}
+
+.Card-Config {
+  padding: 10px;
+  /* overflow-y: auto; */
 }
 
 </style>

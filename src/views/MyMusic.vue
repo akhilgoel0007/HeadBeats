@@ -19,7 +19,7 @@
 
         <v-divider></v-divider>
 
-        <v-card-text style="height: 600px;">
+        <v-card-text style="height: 500px;">
             
         </v-card-text>
     </v-card>

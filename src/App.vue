@@ -21,6 +21,10 @@ export default {
   name: 'App',
   components: { NavBar, SideMenu, SystemBar, Player }, 
   
+  mounted() {
+    this.$store.dispatch('LoadData');
+  },
+
   data: () => ({
     //
   }),

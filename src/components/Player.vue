@@ -2,26 +2,26 @@
     <div class="footer-bar-container">
         <div class="footer-bar">
             <div class="footer-song-metadata">
-                <img src="shape.jpg" class="footer-album-art" />
+                <img id="CoverImage" class="footer-album-art" />
                 <div class="footer-song-metadata-text">
-                    <span class="footer-song-name">Shape of You</span>
-                    <span class="footer-song-artist">Ed Sheeran</span>
+                    <span id="SongName" class="footer-song-name"></span>
+                    <span id="ArtistName" class="footer-song-artist"></span>
                 </div>
             </div>
             <div class="fab-btns">
-                <button class="floating-action-btn">
+                <button id="Shuffle-Button" class="floating-action-btn">
                     <v-icon class="icon-config">mdi-shuffle</v-icon>
                 </button>
-                <button class="floating-action-btn">
+                <button id="Previous-Button" class="floating-action-btn">
                     <v-icon class="icon-config">mdi-skip-previous</v-icon>
                 </button>
-                <button class="floating-action-btn footer-fab-play">
-                    <v-icon class="icon-config">mdi-play</v-icon>
+                <button id="Play-Button" class="floating-action-btn footer-fab-play" @click="PlayPause()">
+                    <v-icon id="Play-Button-Icon" class="icon-config">mdi-play</v-icon>
                 </button>
-                <button class="floating-action-btn">
+                <button id="Next-Button" class="floating-action-btn">
                     <v-icon class="icon-config">mdi-skip-next</v-icon>
                 </button>
-                <button class="floating-action-btn">
+                <button id="Replay-Button" class="floating-action-btn">
                     <v-icon class="icon-config">mdi-replay</v-icon>
                 </button>
             </div>
@@ -34,6 +34,39 @@
     </div>
 </template>
 
+<script>
+
+// import * as mm from 'music-metadata';
+
+export default {
+  data: () => ({
+    return: {
+      PlayerStatus: true,
+    }
+  }),
+
+  methods: {
+    GetMetaData: function() {
+      //
+    },
+
+    PlayPause: function() {
+      var Player = document.getElementById("player");
+
+      if(this.PlayerStatus) {
+        Player.pause();
+        this.PlayerStatus = false;
+      } else {
+        if(Player.readyState) {
+          Player.play();
+          this.PlayerStatus = true;
+        }
+      }
+    }
+  }
+}
+</script>
+
 <style scoped>
 .icon-config {
   height: inherit;
@@ -44,10 +77,12 @@
   font-size: inherit;
   border: 2.5px solid white;
 }
+
 .icon-config:hover {
   background-color: white;
   color: #9575cdff;
 }
+
 .footer-bar-container {
   background-color: #9575cdff;
   width: 100%;
@@ -60,40 +95,50 @@
   margin: auto;
   padding: 10px 0px;
 }
+
 .footer-bar {
   position: relative;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
+
 .footer-song-metadata {
   position: relative;
   display: flex;
   justify-content: start;
-  font-size: 20px;
+  font-size: 17px;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   width: 25%;
   height: 60px;
 }
+
 .footer-album-art {
   height: 60px;
   width: 60px;
-  margin: 0px 5px;
+  margin: 0px 15px;
+  border: 1.5px solid white;
+  box-shadow: 0 5px 0 rgb(107, 5, 107),
 }
+
 .footer-song-metadata-text {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
+
 .fab-btns {
   text-align: center;
   width: 100%;
   position: absolute;
 }
+
 .floating-btn {
   width: 60px;
   height: 60px;
   border-radius: 100%;
 }
+
 .floating-action-btn {
   width: 45px;
   height: 45px;
@@ -107,6 +152,7 @@
   cursor: pointer;
   transition: 0.25s;
 }
+
 .floating-action-btn::after {
   display: none;
   content: "";
@@ -123,9 +169,11 @@
   animation: ripple 0.75s;
   opacity: 0;
 }
+
 .floating-action-btn:focus:not(:active)::after {
   display: block;
 }
+
 @keyframes ripple {
   from {
     opacity: 1;
@@ -136,11 +184,13 @@
     transform: scale(1.7);
   }
 }
+
 .floating-action-btn:hover {
   color: #9575cdff;
   background-color: white;
   border: 0px;
 }
+
 .footer-fab-play {
   width: 60px;
   height: 60px;
@@ -148,18 +198,22 @@
   background-color: #9575cdff;
   color: white;
 }
+
 .footer-fab-play:hover {
   background-color: white;
   border-color: 0px;
   color: white;
 }
+
 .footer-fab-playlist {
   position: absolute;
   right: 10px;
   color: black;
   width: 60px;
 }
+
 .footer-fab-playlist-image:hover {
   background-color: white;
 }
+
 </style>

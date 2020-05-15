@@ -1,9 +1,12 @@
 <template>
     <v-navigation-drawer app class="ExtendedProperties" expand-on-hover right height="27.2%">
     <!--Change the height when adding new component-->
+        <audio id="player">
+            <source id="SongSource">
+        </audio>
         <v-list app class='pt-0 pb-0'>
             <v-list-item-group>
-                <v-list-item class="Add-Music-Color" @click="PickSongs()">
+                <v-list-item class="Add-Music-Color" @click="PickSongs">
                     <v-list-item-icon class="Add-Music-Color">
                         <v-icon class="white--text font-weight-bold">mdi-music-note-plus</v-icon>
                     </v-list-item-icon >
@@ -35,6 +38,8 @@
 
 <script>
     import { remote } from 'electron';
+    import * as mm from 'music-metadata';
+    import * as util from 'util';
 
     export default {
     
@@ -51,9 +56,58 @@
                 filters: [{
                     name: 'Select Songs',
                 }]
-            }, function(file) {
+            }, async function(file) {
                 if(file) {
-                    console.log(file);
+                    console.log(this.$store.state.AllSongs);
+                    for(let i=0; i<file.length; ++i) {
+                        var Path = file[i];
+                        let ImageSource = "";
+                        let SongTitle = "";
+
+                        mm.parseFile(Path)
+                        .then( metadata => {
+                            util.inspect(metadata, {showHidden:true, depth: null}); 
+                            if(metadata.common.picture) {
+                                ImageSource = `data:${metadata.common.picture[0].format}; base64,${metadata.common.picture[0].data.toString('base64')}`;
+                            }
+                            SongTitle = metadata.common.title;
+                            
+                            var AllSongs = this.$store.state.AllSongs;
+                            AllSongs.push({
+                                Source: Path,
+                                Title: SongTitle,
+                                ImageSrc: ImageSource,    
+                            })
+                        })
+                    }
+
+                    // const Source = document.getElementById('SongSource');
+                    // var Path = file[0];
+
+                    // console.log(file.length);
+
+                    // Source.src = Path;
+
+                    // const player = document.getElementById('player');
+
+                    // mm.parseFile(Path)
+                    // .then( metadata => {
+                    //     util.inspect(metadata, {showHidden:true, depth: null});
+                        
+                    //     if(metadata.common.picture) {
+                    //         var Image = document.getElementById("CoverImage")
+                    //         Image.src = `data:${metadata.common.picture[0].format}; base64,${metadata.common.picture[0].data.toString('base64')}`;
+                    //     }
+
+                    //     var SongName = document.getElementById("SongName");
+                    //     SongName.innerHTML = metadata.common.title;
+                    // })
+                    // .catch(err => {
+                    //     console.log(err.message);
+                    // });
+
+                    // player.load();
+                    // player.play();
                 }
             })
         },

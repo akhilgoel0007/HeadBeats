@@ -126,38 +126,33 @@
 
 <script>
 
-const BaseUrl = 'http://localhost:8080/data/Songs.json'
-
-import axios from 'axios';
+// import axios from 'axios';
 
 export default {
   name: 'Playlists',
+
   data: () => ({
     dialog: false,
     Tab: true, 
     chips: [],
-    AllPlaylists: [],
+    // AllPlaylists:
   }),
 
-  async created() {
-    try {
-      const res = await axios.get(BaseUrl);
-      this.AllPlaylists = res.data.AllPlaylists;
-      console.log(this.AllPlaylists);
-    } catch(e) {
-      console.log(e);
-    }
-  },
-
   methods: {
-    remove (item) {
-      this.chips.splice(this.chips.indexOf(item), 1)
-      this.chips = [...this.chips]
-    },
+    // remove (item) {
+    //   this.chips.splice(this.chips.indexOf(item), 1)
+    //   this.chips = [...this.chips]
+    // },
 
     AddPlayList: () => {
       //
     },
+  },
+
+  computed: {
+    AllPlaylists() {
+      return this.$store.state.AllPlaylists
+    }
   }
 }
 

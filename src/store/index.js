@@ -9,11 +9,29 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     AllPlaylists: [],
-    AllSongs: []
+    AllSongs: [],
   },
 
   mutations: {
-    
+    AddNewSongs: (state, payload) => { //Identifies if the added song is already present.. if not adds it to list..
+      for(var i=0; i<payload.length; ++i) {
+        var Present = false;
+        state.AllSongs.forEach(Song => {
+          if((Song.Title == payload[i].Title) || (Song.Source == payload[i].Source)) {
+            Present = true;
+          }
+        })
+
+        if(!Present) {
+          // console.log("Working");
+          state.AllSongs.push(payload[i]);
+        } else {
+          // console.log("Duplicate Found..");
+          // console.log(state.AllSongs);
+        }
+      }
+      // console.log(state.AllSongs);
+    }
   },
   
   actions: {
@@ -26,10 +44,12 @@ export default new Vuex.Store({
         console.log(e);
       }
     },
+
+    AddNewSongs: (context, AllSongs) => {
+      context.commit('AddNewSongs', AllSongs);
+    }
   },
   
   modules: {
   },
 })
-
-

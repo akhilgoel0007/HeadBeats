@@ -6,7 +6,7 @@
         </audio>
         <v-list app class='pt-0 pb-0'>
             <v-list-item-group>
-                <v-list-item class="Add-Music-Color" @click="PickSongs">
+                <v-list-item class="Add-Music-Color" @click="PickSongs()">
                     <v-list-item-icon class="Add-Music-Color">
                         <v-icon class="white--text font-weight-bold">mdi-music-note-plus</v-icon>
                     </v-list-item-icon >
@@ -44,43 +44,48 @@
     export default {
     
     data: () => ({
-        //
+        AllNewSongs: [],
     }),
 
     methods: {
-        PickSongs: function() {
+        AddSongsToStore: function(GetNewSongs) {
             const { dialog } = remote;
-
             dialog.showOpenDialog({
                 properties: ['openFile', 'multiSelections'],
                 filters: [{
                     name: 'Select Songs',
                 }]
-            }, async function(file) {
+            },async function(file) {
                 if(file) {
-                    console.log(this.$store.state.AllSongs);
-                    for(let i=0; i<file.length; ++i) {
-                        var Path = file[i];
-                        let ImageSource = "";
-                        let SongTitle = "";
+                    var NewSongs = [];
 
-                        mm.parseFile(Path)
+                    for(let i=0; i<file.length; ++i) {
+                        let Path = file[i];
+                         
+                        var NewSong = { 
+                            'Source': Path,
+                        }
+                        
+                        NewSongs.push(NewSong);
+                    }
+
+                    for(let i=0; i<file.length; ++i) {
+
+                        await mm.parseFile(NewSongs[i].Source)
                         .then( metadata => {
                             util.inspect(metadata, {showHidden:true, depth: null}); 
                             if(metadata.common.picture) {
-                                ImageSource = `data:${metadata.common.picture[0].format}; base64,${metadata.common.picture[0].data.toString('base64')}`;
+                                NewSongs[i].ImageSrc = `data:${metadata.common.picture[0].format}; base64,${metadata.common.picture[0].data.toString('base64')}`;
+                            } else {
+                                NewSongs[i].ImageSrc = "";
                             }
-                            SongTitle = metadata.common.title;
-                            
-                            var AllSongs = this.$store.state.AllSongs;
-                            AllSongs.push({
-                                Source: Path,
-                                Title: SongTitle,
-                                ImageSrc: ImageSource,    
-                            })
-                        })
+
+                            NewSongs[i].Title = metadata.common.title;
+                        });
                     }
 
+                    GetNewSongs(NewSongs);
+                    
                     // const Source = document.getElementById('SongSource');
                     // var Path = file[0];
 
@@ -110,6 +115,14 @@
                     // player.play();
                 }
             })
+        },
+
+        PickSongs: function() {
+            var AllNewSongs = this.$store;
+
+            this.AddSongsToStore(function(AllSongs){
+                AllNewSongs.dispatch('AddNewSongs', AllSongs)
+            });
         },
 
         CreateNewPlaylist: function() {

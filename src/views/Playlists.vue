@@ -135,7 +135,6 @@ export default {
     dialog: false,
     Tab: true, 
     chips: [],
-    // AllPlaylists:
   }),
 
   methods: {

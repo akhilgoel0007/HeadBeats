@@ -1,36 +1,91 @@
 {
-    "AllSongs":[
+  "AllSongs":[
+  {
+    "id" : 1,
+    "Source": "ABC", 
+    "Title": "First Song", 
+    "Author": "A", 
+    "Duration": "1 min"
+  },
+  {
+    "id" : 2,
+    "Source": "ABC", 
+    "Title": "second Song", 
+    "Author": "A", 
+    "Duration": "1 min"
+  },
+  {
+    "id" : 3,
+    "Source": "ABC", 
+    "Title": "third Song", 
+    "Author": "A", 
+    "Duration": "1 min"
+  },
+  {
+    "id" : 4,
+    "Source": "ABC", 
+    "Title": "fourth Song", 
+    "Author": "A", 
+    "Duration": "1 min"
+  },
+  {
+    "id" : 5,
+    "Source": "ABC", 
+    "Title": "fifth Song", 
+    "Author": "A", 
+    "Duration": "1 min"
+  },
+  {
+    "id" : 6,
+    "Source": "", 
+    "Title": "sixth Song", 
+    "Author": "A", 
+    "Duration": "1 min"
+  },
+  {
+    "id" : 7,
+    "Source": "", 
+    "Title": "seventh Song", 
+    "Author": "A", 
+    "Duration": "1 min"
+  }],
+  
+  "AllPlaylists": [
+  { 
+    "id" : 1,
+    "Name": "Punjabi Songs",
+    "ContentOfPlaylist": [
     {
       "id" : 1,
-      "Source": "ABC", 
+      "Source": "", 
       "Title": "First Song", 
-      "Author": "A", 
-      "Duration": "1 min"
+      "Author": "A", "Duration": 
+      "1 min"
     },
     {
       "id" : 2,
-      "Source": "ABC", 
+      "Source": "", 
       "Title": "second Song", 
       "Author": "A", 
       "Duration": "1 min"
     },
     {
       "id" : 3,
-      "Source": "ABC", 
+      "Source": "", 
       "Title": "third Song", 
       "Author": "A", 
       "Duration": "1 min"
     },
     {
       "id" : 4,
-      "Source": "ABC", 
+      "Source": "", 
       "Title": "fourth Song", 
       "Author": "A", 
       "Duration": "1 min"
     },
     {
       "id" : 5,
-      "Source": "ABC", 
+      "Source": "", 
       "Title": "fifth Song", 
       "Author": "A", 
       "Duration": "1 min"
@@ -48,115 +103,60 @@
       "Title": "seventh Song", 
       "Author": "A", 
       "Duration": "1 min"
-    }],
-    
-    "AllPlaylists": [
-    { 
+    }]
+  },
+  { 
+    "id" : 2,
+    "Name": "English Songs",
+    "ContentOfPlaylist": [
+    {
       "id" : 1,
-      "Name": "Punjabi Songs",
-      "ContentOfPlaylist": [
-      {
-        "id" : 1,
-        "Source": "", 
-        "Title": "First Song", 
-        "Author": "A", "Duration": 
-        "1 min"
-      },
-      {
-        "id" : 2,
-        "Source": "", 
-        "Title": "second Song", 
-        "Author": "A", 
-        "Duration": "1 min"
-      },
-      {
-        "id" : 3,
-        "Source": "", 
-        "Title": "third Song", 
-        "Author": "A", 
-        "Duration": "1 min"
-      },
-      {
-        "id" : 4,
-        "Source": "", 
-        "Title": "fourth Song", 
-        "Author": "A", 
-        "Duration": "1 min"
-      },
-      {
-        "id" : 5,
-        "Source": "", 
-        "Title": "fifth Song", 
-        "Author": "A", 
-        "Duration": "1 min"
-      },
-      {
-        "id" : 6,
-        "Source": "", 
-        "Title": "sixth Song", 
-        "Author": "A", 
-        "Duration": "1 min"
-      },
-      {
-        "id" : 7,
-        "Source": "", 
-        "Title": "seventh Song", 
-        "Author": "A", 
-        "Duration": "1 min"
-      }]
+      "Source": "",
+      "Title": "Eight Song", 
+      "Author": "A", 
+      "Duration": "1 min"
     },
-    { 
+    {
       "id" : 2,
-      "Name": "English Songs",
-      "ContentOfPlaylist": [
-      {
-        "id" : 1,
-        "Source": "",
-        "Title": "Eight Song", 
-        "Author": "A", 
-        "Duration": "1 min"
-      },
-      {
-        "id" : 2,
-        "Source": "", 
-        "Title": "Nine Song", 
-        "Author": "A", 
-        "Duration": "1 min"
-      },
-      {
-        "id" : 3,
-        "Source": "", 
-        "Title": "Tenth Song", 
-        "Author": "A", 
-        "Duration": "1 min"
-      },
-      {
-        "id" : 4,
-        "Source": "", 
-        "Title": "Eleventh Song", 
-        "Author": "A", 
-        "Duration": "1 min"
-      },
-      {
-        "id" : 5,
-        "Source": "", 
-        "Title": "Twelveth Song", 
-        "Author": "A", 
-        "Duration": "1 min"
-      },
-      {
-        "id" : 6,
-        "Source": "", 
-        "Title": "Thirteenth Song", 
-        "Author": "A", 
-        "Duration": "1 min"
-      },
-      {
-        "id" : 7,
-        "Source": "", 
-        "Title": "Fourthteen Song", 
-        "Author": "A", 
-        "Duration": "1 min"
-      }]
-    }
-  ]}
+      "Source": "", 
+      "Title": "Nine Song", 
+      "Author": "A", 
+      "Duration": "1 min"
+    },
+    {
+      "id" : 3,
+      "Source": "", 
+      "Title": "Tenth Song", 
+      "Author": "A", 
+      "Duration": "1 min"
+    },
+    {
+      "id" : 4,
+      "Source": "", 
+      "Title": "Eleventh Song", 
+      "Author": "A", 
+      "Duration": "1 min"
+    },
+    {
+      "id" : 5,
+      "Source": "", 
+      "Title": "Twelveth Song", 
+      "Author": "A", 
+      "Duration": "1 min"
+    },
+    {
+      "id" : 6,
+      "Source": "", 
+      "Title": "Thirteenth Song", 
+      "Author": "A", 
+      "Duration": "1 min"
+    },
+    {
+      "id" : 7,
+      "Source": "", 
+      "Title": "Fourthteen Song", 
+      "Author": "A", 
+      "Duration": "1 min"
+    }]
+  }
+]}

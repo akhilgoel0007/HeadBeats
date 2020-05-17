@@ -64,24 +64,22 @@
                          
                         var NewSong = { 
                             'Source': Path,
+                            'Tags': [],
                         }
-                        
-                        NewSongs.push(NewSong);
-                    }
 
-                    for(let i=0; i<file.length; ++i) {
-
-                        await mm.parseFile(NewSongs[i].Source)
+                        await mm.parseFile(NewSong.Source)
                         .then( metadata => {
                             util.inspect(metadata, {showHidden:true, depth: null}); 
                             if(metadata.common.picture) {
-                                NewSongs[i].ImageSrc = `data:${metadata.common.picture[0].format}; base64,${metadata.common.picture[0].data.toString('base64')}`;
+                                NewSong.ImageSrc = `data:${metadata.common.picture[0].format}; base64,${metadata.common.picture[0].data.toString('base64')}`;
                             } else {
-                                NewSongs[i].ImageSrc = "";
+                                NewSong.ImageSrc = "";
                             }
 
-                            NewSongs[i].Title = metadata.common.title;
+                            NewSong.Title = metadata.common.title;
                         });
+
+                        NewSongs.push(NewSong);
                     }
 
                     GetNewSongs(NewSongs);

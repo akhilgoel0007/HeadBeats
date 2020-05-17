@@ -47,16 +47,16 @@
                             <template v-slot:activator="{ on: menu }">
                                 <v-tooltip bottom>
                                     <template v-slot:activator="{ on: tooltip}">
-                                        <v-btn absolute color="orange" class="white--text" fab large right top v-on="{...tooltip, ...menu}"> 
-                                            <v-icon>mdi-view-grid-plus</v-icon>
+                                        <v-btn style="background-color: transparent;" absolute class="white--text" fab large top right v-on="{...tooltip, ...menu}"> 
+                                            <v-icon style="color: rgb(45, 0, 129);">mdi-view-grid-plus</v-icon>
                                         </v-btn>
                                     </template>
                                     <span>Additional Options</span>
                                 </v-tooltip>
                             </template>
-                            <v-list>
-                                <v-list-item>
-                                    <v-list-item-title @click.stop="dialog = true">Add Tag</v-list-item-title>
+                            <v-list style="cursor: pointer">
+                                <v-list-item class="List-Items" @click.stop="dialog = true">
+                                    <v-list-item-title>Add Tag</v-list-item-title>
                                     <v-dialog v-model="dialog" max-width="800px" class="Card-Config">
                                         <v-card>
                                             <v-card-title class="headline">Add Tags</v-card-title>
@@ -78,14 +78,14 @@
                                         </v-card>
                                     </v-dialog>
                                 </v-list-item>
-                                <v-list-item>
+                                <v-list-item class="List-Items">
                                     <v-list-item-title>Add To Playlist</v-list-item-title>
                                 </v-list-item>
-                                <v-list-item>
-                                    <v-list-item-title>Misc Option 1</v-list-item-title>
+                                <v-list-item class="List-Items">
+                                    <v-list-item-title>Edit Song Name</v-list-item-title>
                                 </v-list-item>
-                                <v-list-item>
-                                    <v-list-item-title>Misc Option 2</v-list-item-title>
+                                <v-list-item class="List-Items">
+                                    <v-list-item-title>Edit Author Name</v-list-item-title>
                                 </v-list-item>
                             </v-list>
                         </v-menu>
@@ -94,8 +94,9 @@
                         <v-icon>mdi-view-grid-plus</v-icon>
                       </v-btn>
                     </v-fab-transition> -->
-
-                        <h3 class="Title-Font font-weight-light orange--text mb-2">{{Song.Title}}</h3>
+                        <div class=" Song-Title">
+                            {{Song.Title}}
+                        </div>
                         <div class="Info-Font font-weight-light">
                             Duration: {{Song.Duration}}<br>
                             Author: {{Song.Author}}<br>
@@ -124,7 +125,7 @@ export default {
 
     computed: {
         AllSongs() {
-            return this.$store.state.AllSongs;
+            return this.$store.state.MainData.AllSongs;
         }
     }
 }
@@ -147,8 +148,28 @@ export default {
   width: 100%;
 }
 
+.Icon-Color {
+    color: rgb(45, 0, 129);    
+}
+
+.Song-Title {
+    height: 30px;
+    font-size: 22px;
+    font-weight: 100;
+    color: orange; 
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    overflow-x: auto;
+}
+
 .Card-Config {
   padding: 10px;
+}
+
+.List-Items {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif /*Use this as universal font.*/ 
+}
+.List-Items:hover {
+    background-color: rgb(223, 223, 223);
 }
 
 </style>

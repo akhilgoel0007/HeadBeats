@@ -59,16 +59,16 @@
                   <template v-slot:activator="{ on: menu }">
                     <v-tooltip bottom>
                       <template v-slot:activator="{ on: tooltip}">
-                        <v-btn absolute color="orange" class="white--text" fab large right top v-on="{...tooltip, ...menu}"> 
-                          <v-icon>mdi-view-grid-plus</v-icon>
+                        <v-btn style="background-color: transparent;" absolute class="white--text" fab large right top v-on="{...tooltip, ...menu}"> 
+                          <v-icon style="color: rgb(45, 0, 129);">mdi-view-grid-plus</v-icon>
                         </v-btn>
                       </template>
                       <span>Additional Options</span>
                     </v-tooltip>
                   </template>
-                  <v-list>
-                    <v-list-item>
-                      <v-list-item-title @click.stop="dialog = true">Add Tag</v-list-item-title>
+                  <v-list style="cursor: pointer">
+                    <v-list-item class="List-Items" @click.stop="dialog = true">
+                      <v-list-item-title >Add Tag</v-list-item-title>
                       <v-dialog v-model="dialog" max-width="800px" class="Card-Config">
                         <v-card>
                           <v-card-title class="headline">Add Tags</v-card-title>
@@ -107,7 +107,7 @@
                   </v-btn>
                 </v-fab-transition> -->
 
-                <h3 class="Title-Font font-weight-light orange--text mb-2">{{Song.Title}}</h3>
+                <div class=" Song-Title"> {{Song.Title}} </div>
                 <div class="Info-Font font-weight-light">
                   Duration: {{Song.Duration}}<br>
                   Author: {{Song.Author}}<br>
@@ -150,7 +150,7 @@ export default {
 
   computed: {
     AllPlaylists() {
-      return this.$store.state.AllPlaylists
+      return this.$store.state.MainData.AllPlaylists;
     }
   }
 }
@@ -163,6 +163,15 @@ export default {
   float: left;
   margin: 22.1px;
   width: 300px;
+}
+
+.Song-Title {
+    height: 30px;
+    font-size: 22px;
+    font-weight: 100;
+    color: orange; 
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    overflow-x: auto;
 }
 
 .v-card--reveal {
@@ -179,4 +188,10 @@ export default {
   /* overflow-y: auto; */
 }
 
+.List-Items {
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif /*Use this as universal font.*/ 
+}
+.List-Items:hover {
+  background-color: rgb(223, 223, 223);
+}
 </style>

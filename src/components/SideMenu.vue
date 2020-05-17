@@ -12,11 +12,24 @@
                     </v-list-item-icon >
                     <v-list-item-title class="white--text font-weight-bold Add-Music-Color">Add Music</v-list-item-title>
                 </v-list-item>
-                <v-list-item class="New-Playlist-Color">
+                <v-list-item class="New-Playlist-Color" @click.stop="PlaylistDialog = true">
                     <v-list-item-icon class='New-Playlist-Color'>
                         <v-icon class="white--text font-weight-bold">mdi-playlist-plus</v-icon>
                     </v-list-item-icon >
                     <v-list-item-title class="white--text font-weight-bold New-Playlist-Color" >New Playlist</v-list-item-title>
+                    <v-dialog v-model="PlaylistDialog" max-width="600">
+                        <v-card>
+                            <v-card-title class="headline">Name of the Playlist</v-card-title>
+                            <v-card-text>
+                                <v-text-field v-model="NewPlaylist" v-on:keyup.enter="PressedEnter()"></v-text-field>
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn color="green darken-1" text @click="GetNewPlaylistName()"> Save </v-btn>
+                                <v-btn color="green darken-1" text @click="PlaylistDialog = false"> Close </v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-dialog>
                 </v-list-item>
                 <v-list-item class="Settings-Color">
                     <v-list-item-icon class='Settings-Color'>
@@ -44,7 +57,9 @@
     export default {
     
     data: () => ({
+        PlaylistDialog: false,
         AllNewSongs: [],
+        NewPlaylist: ""
     }),
 
     methods: {
@@ -123,8 +138,18 @@
             });
         },
 
+        PressedEnter: function() {
+            this.PlaylistDialog = false
+            this.NewPlaylist = ""; // Important to reintialize NewPlaylist Variable...
+        },
+
+        GetNewPlaylistName: function() {
+            this.PlaylistDialog = false;
+            // console.log(this.NewPlaylist);
+        },
+
         CreateNewPlaylist: function() {
-            //
+            
         },
 
         OpenSettings: function() {

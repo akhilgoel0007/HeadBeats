@@ -1,38 +1,34 @@
 <template>
-  <v-card class="Card-Config">
-    <v-combobox chips multiple label="Song Tags">
-      <template v-slot:selection="data">
-        <v-chip>
-          <v-avatar left class="accent white--text" v-text="data.item.slice(0, 1).toUpperCase()"></v-avatar>
-          {{ data.item }}
-        </v-chip>
-      </template>
-    </v-combobox>
-  </v-card>
+  <v-row justify="center">
+    <v-btn color="primary" dark @click.stop="dialog = true">
+      Open Dialog
+    </v-btn>
+
+    <v-dialog v-model="dialog" max-width="290">
+      <v-card>
+        <v-card-title class="headline">Name of the Playlist</v-card-title>
+        <v-card-text>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="dialog = false">
+            Disagree
+          </v-btn>
+          <v-btn color="green darken-1" text @click="dialog = false">
+            Agree
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-row>
 </template>
 
 <script>
   export default {
     data () {
       return {
-        items: [
-          'Programming',
-          'Design',
-          'Vue',
-          'Vuetify',
-        ],
+        dialog: false,
       }
     },
   }
 </script>
-
-<style scoped>
-  .Card-Config {
-    padding: 10px;
-    overflow-y: auto;
-    left: 100px;
-    top: 100px;
-    height: 200px;
-    width: 800px;
-  }
-</style>

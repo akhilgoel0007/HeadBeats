@@ -72,7 +72,7 @@
                                             </v-card-text>
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
-                                                <v-btn color="green darken-1" text @click="dialog = false">Save Changes</v-btn>
+                                                <v-btn color="green darken-1" text @click="Output()">Save Changes</v-btn>
                                                 <v-btn color="green darken-1" text @click="dialog = false">Close</v-btn>
                                             </v-card-actions>
                                         </v-card>
@@ -122,6 +122,13 @@ export default {
         Tab: true, 
         chips: [],
     }),
+
+    methods: {
+        Output: function() {
+            this.dialog = false;
+            console.log(this.chips);
+        }
+    },
 
     computed: {
         AllSongs() {

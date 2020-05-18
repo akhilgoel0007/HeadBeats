@@ -2,15 +2,12 @@
     <nav>
         <v-app-bar app clipped-right>
             <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-
             <v-toolbar-title class="grey--text">
                 <span class="font-weight-light">Head</span>
                 <span class="font-weight-bold">Beats</span>
                 <!-- <span> by @Akhil Goel ;)</span> -->
             </v-toolbar-title>
-
             <v-spacer></v-spacer>
-
             <v-btn depressed class="grey--text">
                 <v-icon>mdi-logout</v-icon> 
                 <span class="font-weight-bold">Sign Out</span>
@@ -24,17 +21,9 @@
                 <v-icon>mdi-dots-vertical</v-icon>
             </v-btn> -->
         </v-app-bar>
-
         <v-navigation-drawer app temporary v-model='drawer' class="indigo">
-            <v-avatar
-                size="200"
-                min-width="250px"
-                min-height="250px"
-            >
-                <img
-                    src="../assets/MyPic.jpg"
-                    alt="John"
-                >
+            <v-avatar size="200" min-width="250px" min-height="250px">
+                <img src="../assets/MyPic.jpg">
             </v-avatar>
             <v-list>
                 <v-list-item-group>

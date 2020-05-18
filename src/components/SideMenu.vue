@@ -88,7 +88,7 @@
                             if(metadata.common.picture) {
                                 NewSong.ImageSrc = `data:${metadata.common.picture[0].format}; base64,${metadata.common.picture[0].data.toString('base64')}`;
                             } else {
-                                NewSong.ImageSrc = "";
+                                NewSong.ImageSrc = 'http://localhost:8080/data/logo.png';
                             }
 
                             NewSong.Title = metadata.common.title;

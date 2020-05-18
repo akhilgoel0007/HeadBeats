@@ -6,17 +6,13 @@
 
     <v-dialog v-model="dialog" max-width="290">
       <v-card>
-        <v-card-title class="headline">Name of the Playlist</v-card-title>
-        <v-card-text>
-        </v-card-text>
+        <v-card-title class="headline">Playlists</v-card-title>
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="green darken-1" text @click="dialog = false">
-            Disagree
-          </v-btn>
-          <v-btn color="green darken-1" text @click="dialog = false">
-            Agree
-          </v-btn>
+          <v-container fluid style="padiing-top: 0px;">
+            <v-checkbox v-model="selected" label="John" value="John" hide-details></v-checkbox>
+            <v-checkbox v-model="selected" label="Jacob" value="Jacob" hide-details></v-checkbox>
+            <v-checkbox v-model="selected" label="Akhil" value="Akhil" hide-details></v-checkbox>
+          </v-container>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -28,6 +24,7 @@
     data () {
       return {
         dialog: false,
+        selected: ['John'],
       }
     },
   }

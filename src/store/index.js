@@ -27,7 +27,7 @@ export default new Vuex.Store({
       }
     },
 
-    UpdateLocalChanges: function() {
+    UpdateChanges: function() {
       let buffer = JSON.stringify(this.state.MainData);
       
       fs.writeFile('src/Songs.json', buffer, (err) => {
@@ -51,9 +51,13 @@ export default new Vuex.Store({
       })
     },
 
+    UpdateChanges: function(context) {
+      context.commit('UpdateChanges');
+    },
+
     AddNewSongs: function(context, payload) {
       context.commit('AddNewSongs', payload);
-      context.commit('UpdateLocalChanges');
+      context.dispatch('UpdateChanges');
     }
   },
   

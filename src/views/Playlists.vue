@@ -67,15 +67,15 @@
                     </v-tooltip>
                   </template>
                   <v-list style="cursor: pointer">
-                    <v-list-item class="List-Items" @click.stop="dialog = true">
+                    <v-list-item class="List-Items" @click.stop="TagDialog = true">
                       <v-list-item-title >Add Tag</v-list-item-title>
-                      <v-dialog v-model="dialog" max-width="800px" class="Card-Config">
+                      <v-dialog v-model="TagDialog" max-width="800px" class="Card-Config">
                         <v-card>
                           <v-card-title class="headline">Add Tags</v-card-title>
                           <v-card-text>
                           <v-combobox v-model="chips" chips multiple label="Song Tags">
                             <template v-slot:selection="data">
-                              <v-chip @click="select" close @click:close="remove(data.item)">
+                              <v-chip close @click:close="remove(data.item)">
                                 <v-avatar left class="accent white--text" v-text="data.item.slice(0, 1).toUpperCase()"></v-avatar>
                                 {{ data.item }}
                               </v-chip>
@@ -84,20 +84,35 @@
                           </v-card-text>
                           <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn color="green darken-1" text @click="dialog = false">Save Changes</v-btn>
+                            <v-btn color="green darken-1" text @click="Output()">Save Changes</v-btn>
                             <v-btn color="green darken-1" text @click="dialog = false">Close</v-btn>
                           </v-card-actions>
                         </v-card>
                       </v-dialog>
                     </v-list-item>
-                    <v-list-item>
+                    <v-list-item class="List-Items" @click.stop="PlaylistDialog = true">
                       <v-list-item-title>Add To Playlist</v-list-item-title>
+                      <v-dialog v-model="PlaylistDialog" max-width="290">
+                        <v-card>
+                          <v-card-title class="headline">Playlists</v-card-title>
+                          <v-card-actions>
+                            <v-container fluid>
+                              <div v-for="SongPlaylist in AllPlaylists" :key="SongPlaylist.Name">
+                                <v-checkbox v-model="selected" :label="SongPlaylist.Name" :value="SongPlaylist.Name" hide-details></v-checkbox>
+                              </div>
+                            </v-container>
+                          </v-card-actions>
+                        </v-card>
+                      </v-dialog>
                     </v-list-item>
-                    <v-list-item>
-                      <v-list-item-title>Misc Option 1</v-list-item-title>
+                    <v-list-item class="List-Items">
+                      <v-list-item-title>Add Lyrics</v-list-item-title>
                     </v-list-item>
-                    <v-list-item>
-                      <v-list-item-title>Misc Option 2</v-list-item-title>
+                    <v-list-item class="List-Items">
+                      <v-list-item-title>Edit Song Name</v-list-item-title>
+                    </v-list-item>
+                    <v-list-item class="List-Items">
+                      <v-list-item-title>Edit Author Name</v-list-item-title>
                     </v-list-item>
                   </v-list>
                 </v-menu>
@@ -126,14 +141,16 @@
 
 <script>
 
-// import axios from 'axios';
+// import {PlaylistBus} from '../main'
 
 export default {
   name: 'Playlists',
 
   data: () => ({
-    dialog: false,
-    Tab: true, 
+    TagDialog: false,
+    PlaylistDialog: false,
+    Tab: true,
+    selected: ['John'],
     chips: [],
   }),
 
@@ -142,6 +159,11 @@ export default {
     AddPlayList: () => {
       //
     },
+
+    Output: function() {
+      this.TagDialog = false;
+      console.log(this.chips);
+    }
   },
 
   computed: {

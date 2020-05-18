@@ -1,50 +1,29 @@
 {
   "AllSongs":[
   {
-    "Source": "ABC", 
+    "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
     "Title": "First Song", 
     "Author": "A", 
     "Duration": "1 min",
     "Tags": []
   },
   {
-    "Source": "ABC", 
+    "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
     "Title": "second Song", 
     "Author": "A", 
     "Duration": "1 min",
     "Tags": []
   },
   {
-    "Source": "ABC", 
+    "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
     "Title": "third Song", 
     "Author": "A", 
     "Duration": "1 min",
     "Tags": []
   },
   {
-    "Source": "ABC", 
+    "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
     "Title": "fourth Song", 
-    "Author": "A", 
-    "Duration": "1 min",
-    "Tags": []
-  },
-  {
-    "Source": "ABC", 
-    "Title": "fifth Song", 
-    "Author": "A", 
-    "Duration": "1 min",
-    "Tags": []
-  },
-  {
-    "Source": "", 
-    "Title": "sixth Song", 
-    "Author": "A", 
-    "Duration": "1 min",
-    "Tags": []
-  },
-  {
-    "Source": "", 
-    "Title": "seventh Song", 
     "Author": "A", 
     "Duration": "1 min",
     "Tags": []
@@ -55,50 +34,49 @@
     "Name": "Punjabi Songs",
     "ContentOfPlaylist": [
     {
-      "id" : 1,
-      "Source": "", 
+      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
       "Title": "First Song", 
       "Author": "A", 
       "Duration": "1 min",
       "Tags": []
     },
     {
-      "Source": "", 
+      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
       "Title": "second Song", 
       "Author": "A", 
       "Duration": "1 min",
       "Tags": []
     },
     {
-      "Source": "", 
+      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
       "Title": "third Song", 
       "Author": "A", 
       "Duration": "1 min",
       "Tags": []
     },
     {
-      "Source": "", 
+      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
       "Title": "fourth Song", 
       "Author": "A", 
       "Duration": "1 min",
       "Tags": []
     },
     {
-      "Source": "", 
+      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
       "Title": "fifth Song", 
       "Author": "A", 
       "Duration": "1 min",
       "Tags": []
     },
     {
-      "Source": "", 
+      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
       "Title": "sixth Song", 
       "Author": "A", 
       "Duration": "1 min",
       "Tags": []
     },
     {
-      "Source": "", 
+      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
       "Title": "seventh Song", 
       "Author": "A", 
       "Duration": "1 min",
@@ -109,49 +87,49 @@
     "Name": "English Songs",
     "ContentOfPlaylist": [
     {
-      "Source": "",
+      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png",
       "Title": "Eight Song", 
       "Author": "A", 
       "Duration": "1 min",
       "Tags": []
     },
     {
-      "Source": "", 
+      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
       "Title": "Nine Song", 
       "Author": "A", 
       "Duration": "1 min",
       "Tags": []
     },
     {
-      "Source": "", 
+      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
       "Title": "Tenth Song", 
       "Author": "A", 
       "Duration": "1 min",
       "Tags": []
     },
     {
-      "Source": "", 
+      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
       "Title": "Eleventh Song", 
       "Author": "A", 
       "Duration": "1 min",
       "Tags": []
     },
     {
-      "Source": "", 
+      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
       "Title": "Twelveth Song", 
       "Author": "A", 
       "Duration": "1 min",
       "Tags": []
     },
     {
-      "Source": "", 
+      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
       "Title": "Thirteenth Song", 
       "Author": "A", 
       "Duration": "1 min",
       "Tags": []
     },
     {
-      "Source": "", 
+      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
       "Title": "Fourthteen Song", 
       "Author": "A", 
       "Duration": "1 min",

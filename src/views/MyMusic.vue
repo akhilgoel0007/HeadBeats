@@ -20,23 +20,12 @@
         <v-divider></v-divider>
 
         <v-card-text style="height: 500px; overflow-y: auto">
-            <v-hover 
-                v-slot:default="{ hover }" 
-                v-for="Song in AllSongs" 
-                :key="Song.Title" 
-                class="AdditionalAttributes"
-            >
-                <v-card 
-                  class="mt-4" 
-                  color="grey lighten-4" max-width="300"
-                >
+            <v-hover v-slot:default="{ hover }" v-for="Song in AllSongs" :key="Song.Title" class="AdditionalAttributes">
+                <v-card class="mt-4" color="grey lighten-4" max-width="300">
                   <!-- Image source file path in below src tag -->
-                    <v-img :aspect-ratio="16/10" src="https://cdn.vuetifyjs.com/images/cards/kitchen.png">
+                    <v-img :aspect-ratio="16/10" :src="Song.ImageSrc">
                         <v-expand-transition>
-                            <div v-if="hover"
-                                class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text"
-                                style="height: 100%;"
-                            >
+                            <div v-if="hover" class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text" style="height: 100%;">
                                 <v-icon style="font-size: 100px" class="white--text">mdi-play</v-icon>
                             </div>
                         </v-expand-transition>
@@ -55,15 +44,15 @@
                                 </v-tooltip>
                             </template>
                             <v-list style="cursor: pointer">
-                                <v-list-item class="List-Items" @click.stop="dialog = true">
+                                <v-list-item class="List-Items" @click.stop="TagDialog = true">
                                     <v-list-item-title>Add Tag</v-list-item-title>
-                                    <v-dialog v-model="dialog" max-width="800px" class="Card-Config">
+                                    <v-dialog v-model="TagDialog" max-width="800px" class="Card-Config">
                                         <v-card>
                                             <v-card-title class="headline">Add Tags</v-card-title>
                                             <v-card-text>
-                                                <v-combobox v-model="chips" chips multiple label="Song Tags">
+                                                <v-combobox v-model="Song.Tags" chips multiple label="Song Tags">
                                                     <template v-slot:selection="data">
-                                                        <v-chip @click="select" close @click:close="remove(data.item)">
+                                                        <v-chip close @click:close="Remove(data.item)">
                                                             <v-avatar left class="accent white--text" v-text="data.item.slice(0, 1).toUpperCase()"></v-avatar>
                                                             {{ data.item }}
                                                         </v-chip>
@@ -73,13 +62,28 @@
                                             <v-card-actions>
                                                 <v-spacer></v-spacer>
                                                 <v-btn color="green darken-1" text @click="Output()">Save Changes</v-btn>
-                                                <v-btn color="green darken-1" text @click="dialog = false">Close</v-btn>
+                                                <v-btn color="green darken-1" text @click="TagDialog = false">Close</v-btn>
+                                            </v-card-actions>
+                                        </v-card>
+                                    </v-dialog>
+                                </v-list-item>
+                                <v-list-item class="List-Items" @click.stop="PlaylistDialog = true">
+                                    <v-list-item-title>Add To Playlist</v-list-item-title>
+                                    <v-dialog v-model="PlaylistDialog" max-width="290">
+                                        <v-card>
+                                            <v-card-title class="headline">Playlists</v-card-title>
+                                            <v-card-actions>
+                                                <v-container fluid>
+                                                    <div v-for="SongPlaylist in AllPlaylists" :key="SongPlaylist.Name">
+                                                        <v-checkbox v-model="selected" :label="SongPlaylist.Name" :value="SongPlaylist.Name" hide-details></v-checkbox>
+                                                    </div>
+                                                </v-container>
                                             </v-card-actions>
                                         </v-card>
                                     </v-dialog>
                                 </v-list-item>
                                 <v-list-item class="List-Items">
-                                    <v-list-item-title>Add To Playlist</v-list-item-title>
+                                    <v-list-item-title>Add Lyrics</v-list-item-title>
                                 </v-list-item>
                                 <v-list-item class="List-Items">
                                     <v-list-item-title>Edit Song Name</v-list-item-title>
@@ -113,26 +117,39 @@
 
 
 <script>
+// import {MyMusicBus} from '../main'
 
 export default {
     name: 'MyMusic',
     
     data: () => ({
-        dialog: false,
+        TagDialog: false,
+        PlaylistDialog: false,
         Tab: true, 
+        selected: ['John'],
         chips: [],
     }),
 
     methods: {
         Output: function() {
-            this.dialog = false;
-            console.log(this.chips);
-        }
+            this.TagDialog = false;
+            console.log(this.$store.state.MainData.AllSongs.Tags)
+            this.$store.dispatch('UpdateChanges');
+        },
+
+        Remove: function(item) {
+            this.$store.state.MainData.AllSongs.Tags.splice(this.$store.state.MainData.AllSongs.Tags.indexOf(item), 1)
+            this.$store.state.MainData.AllSongs.Tags = [...this.$store.state.MainData.AllSongs.Tags]
+      },
     },
 
     computed: {
         AllSongs() {
             return this.$store.state.MainData.AllSongs;
+        },
+
+        AllPlaylists() {
+            return this.$store.state.MainData.AllPlaylists;
         }
     }
 }

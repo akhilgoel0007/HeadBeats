@@ -6,6 +6,9 @@ import vuetify from './plugins/vuetify'
 
 Vue.config.productionTip = false
 
+export const MyMusicBus = new Vue();
+export const PlaylistBus = new Vue();
+
 new Vue({
   router,
   store,

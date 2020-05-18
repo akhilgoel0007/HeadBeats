@@ -35,8 +35,8 @@
 </template>
 
 <script>
-
-// import * as mm from 'music-metadata';
+// import {MyMusicBus} from '../main';
+// import {PlaylistBus} from '../main';
 
 export default {
   data: () => ({

@@ -21,7 +21,7 @@
 
         <v-card-text style="height: 500px; overflow-y: auto">
             <div v-for="Song in AllSongs" :key="Song.Title">
-                <CardView :CurrentSong="Song"></CardView>
+                <CardView :CurrentSong="Song" Place="AllSongs"></CardView>
             </div>
         </v-card-text>
     </v-card>
@@ -29,7 +29,6 @@
 
 
 <script>
-// import {MyMusicBus} from '../main'
 import CardView from '../components/CardView';
 
 export default {

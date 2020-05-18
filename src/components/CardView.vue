@@ -3,7 +3,7 @@
         <v-card class="mt-4" color="grey lighten-4" max-width="300">
             <v-img :aspect-ratio="16/10" :src="CurrentSong.ImageSrc">
                 <v-expand-transition>
-                    <button v-if="hover" v-on:click="Playing = !Playing" class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text" style="height: 100%;">
+                    <button v-if="hover" v-on:click="PlaySong(CurrentSong)" class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text" style="height: 100%;">
                         <v-icon v-if="Playing" style="font-size: 100px" class="white--text">mdi-pause</v-icon>
                         <v-icon v-else-if="!Playing" style="font-size: 100px" class="white--text">mdi-play</v-icon>
                     </button>
@@ -32,7 +32,7 @@
                                             <template v-slot:selection="data">
                                                 <v-chip close @click:close="Remove(data.item)">
                                                     <v-avatar left class="accent white--text" v-text="data.item.slice(0, 1).toUpperCase()"></v-avatar>
-                                                        {{ data.item }}
+                                                    {{ data.item }}
                                                 </v-chip>
                                             </template>
                                         </v-combobox>
@@ -63,22 +63,41 @@
                         <v-list-item class="List-Items">
                             <v-list-item-title>Add Lyrics</v-list-item-title>
                         </v-list-item>
-                        <v-list-item class="List-Items">
+                        <v-list-item class="List-Items" @click.stop="SongNameDialog = true">
                             <v-list-item-title>Edit Song Name</v-list-item-title>
+                            <v-dialog v-model="SongNameDialog" max-width="600">
+                                <v-card>
+                                    <v-card-title class="headline">Name Of The Song</v-card-title>
+                                    <v-card-text>
+                                        <v-text-field v-model="NewSongName" v-on:keyup.enter="SongNameEnter()"></v-text-field>
+                                    </v-card-text>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn color="green darken-1" text @click="GetSongName()"> Save </v-btn>
+                                        <v-btn color="green darken-1" text @click="SongNameDialog = false"> Close </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
                         </v-list-item>
-                        <v-list-item class="List-Items">
+                        <v-list-item class="List-Items" @click.stop="AuthorNameDialog = true">
                             <v-list-item-title>Edit Author Name</v-list-item-title>
+                            <v-dialog v-model="AuthorNameDialog" max-width="600">
+                                <v-card>
+                                    <v-card-title class="headline">Name Of The Author</v-card-title>
+                                    <v-card-text>
+                                        <v-text-field v-model="NewAuthorName" v-on:keyup.enter="AuthorNameEnter()"></v-text-field>
+                                    </v-card-text>
+                                    <v-card-actions>
+                                        <v-spacer></v-spacer>
+                                        <v-btn color="green darken-1" text @click="GetAuthorName()"> Save </v-btn>
+                                        <v-btn color="green darken-1" text @click="AuthorNameDialog = false"> Close </v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-dialog>
                         </v-list-item>
                     </v-list>
                 </v-menu>
-                    <!-- <v-fab-transition>
-                      <v-btn absolute color="orange" class="white--text" fab large right top>
-                        <v-icon>mdi-view-grid-plus</v-icon>
-                      </v-btn>
-                    </v-fab-transition> -->
-                <div class=" Song-Title">
-                    {{CurrentSong.Title}}
-                </div>
+                <div class=" Song-Title"> {{CurrentSong.Title}} </div>
                 <div class="Info-Font font-weight-light">
                     Duration: {{CurrentSong.Duration}}<br>
                     Author: {{CurrentSong.Author}}<br>
@@ -93,13 +112,19 @@
 
 <script>
 
+import { MyMusicBus } from '../main'
+
 export default {
-    props: ['CurrentSong'],
+    props: ['CurrentSong', 'Place'],
 
     data: () => ({
         TagDialog: false,
         PlaylistDialog: false,
+        AuthorNameDialog: false,
+        SongNameDialog: false,
         Playing: false,
+        NewSongName: "",
+        NewAuthorName: "",
         selected: ['John'],
         chips: [],
     }),
@@ -107,21 +132,60 @@ export default {
     methods: {
         Output: function() {
             this.TagDialog = false;
-            // console.log(this.CurrentSong);
-            // console.log(this.$store.state.MainData.AllSongs.Tags)
             this.$store.dispatch('UpdateChanges');
         },
 
         Remove: function(item) {
             this.$store.state.MainData.AllSongs.Tags.splice(this.$store.state.MainData.AllSongs.Tags.indexOf(item), 1)
             this.$store.state.MainData.AllSongs.Tags = [...this.$store.state.MainData.AllSongs.Tags]
-      },
+        },
+
+        GetAuthorName: function() {
+            this.AuthorNameDialog = false
+            console.log(this.NewAuthorName)
+            this.NewAuthorName = ""
+        },
+
+        GetSongName: function() {
+            this.SongNameDialog = false
+            console.log(this.NewSongName)
+            this.NewSongName = ""
+        },
+
+        AuthorNameEnter: function() {
+            this.GetAuthorName()
+        },
+
+        SongNameEnter: function() {
+            this.GetSongName()
+        },
+
+        PlaySong: function(PlayingSong) {
+            this.Playing = !this.Playing
+            if(this.Playing) {
+                MyMusicBus.$emit('PlaySong', PlayingSong)
+            } else {
+                MyMusicBus.$emit('PauseSong');
+            }
+        },
+
+        ToggleSongState: function() {
+            this.Playing = !this.Playing
+        }
     },
 
     computed: {
         AllPlaylists: function() {
             return this.$store.state.MainData.AllPlaylists;
         },
+    },
+
+    created() {
+        MyMusicBus.$on('ToggleCurrentSong', (SongName) => {
+            if(this.CurrentSong.Title == SongName) {
+                this.ToggleSongState()
+            }
+        })
     }
 }
 

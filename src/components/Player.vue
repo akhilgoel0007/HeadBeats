@@ -1,69 +1,127 @@
 <template>
-    <div class="footer-bar-container">
-        <div class="footer-bar">
-            <div class="footer-song-metadata">
-                <img id="CoverImage" class="footer-album-art" />
-                <div class="footer-song-metadata-text">
-                    <span id="SongName" class="footer-song-name"></span>
-                    <span id="ArtistName" class="footer-song-artist"></span>
-                </div>
-            </div>
-            <div class="fab-btns">
-                <button id="Shuffle-Button" class="floating-action-btn">
-                    <v-icon class="icon-config">mdi-shuffle</v-icon>
-                </button>
-                <button id="Previous-Button" class="floating-action-btn">
-                    <v-icon class="icon-config">mdi-skip-previous</v-icon>
-                </button>
-                <button id="Play-Button" class="floating-action-btn footer-fab-play" @click="PlayPause()">
-                    <v-icon id="Play-Button-Icon" class="icon-config">mdi-play</v-icon>
-                </button>
-                <button id="Next-Button" class="floating-action-btn">
-                    <v-icon class="icon-config">mdi-skip-next</v-icon>
-                </button>
-                <button id="Replay-Button" class="floating-action-btn">
-                    <v-icon class="icon-config">mdi-replay</v-icon>
-                </button>
-            </div>
-            <div class="footer-fab-playlist">
-                <button class="floating-action-btn footer-fab-playlist-image">
-                    <v-icon class="icon-config">mdi-playlist-plus</v-icon>
-                </button>
-            </div>
+  <div class="footer-bar-container">
+    <audio id="player">
+      <source id="SongSource">
+    </audio>
+    <div class="footer-bar">
+      <div class="footer-song-metadata">
+        <img id="CoverImage" class="footer-album-art" />
+        <div class="footer-song-metadata-text">
+          <span id="SongName" class="footer-song-name"></span>
+          <span id="ArtistName" class="footer-song-artist"></span>
         </div>
+      </div>
+      <div class="fab-btns">
+        <button id="Shuffle-Button" class="floating-action-btn">
+          <v-icon class="icon-config">mdi-shuffle</v-icon>
+        </button>
+        <button id="Previous-Button" class="floating-action-btn">
+          <v-icon class="icon-config">mdi-skip-previous</v-icon>
+        </button>
+        <button id="Play-Button" class="floating-action-btn footer-fab-play" @click="PlayPause()">
+          <v-icon v-if="PlayerStatus" id="Play-Button-Icon" class="icon-config">mdi-pause</v-icon>
+          <v-icon v-else-if="!PlayerStatus" id="Play-Button-Icon" class="icon-config">mdi-play</v-icon>
+        </button>
+        <button id="Next-Button" class="floating-action-btn">
+          <v-icon class="icon-config">mdi-skip-next</v-icon>
+        </button>
+        <button id="Replay-Button" class="floating-action-btn">
+          <v-icon class="icon-config">mdi-replay</v-icon>
+        </button>
+      </div>
+      <div class="footer-fab-playlist">
+        <button class="floating-action-btn footer-fab-playlist-image">
+          <v-icon class="icon-config">mdi-playlist-plus</v-icon>
+        </button>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
-// import {MyMusicBus} from '../main';
+import { MyMusicBus } from '../main';
 // import {PlaylistBus} from '../main';
 
 export default {
   data: () => ({
-    return: {
-      PlayerStatus: true,
-    }
+    PlayerStatus: false, // Triangle
+    LastSong: null,
+    CurrentSong: null,
   }),
 
   methods: {
-    GetMetaData: function() {
-      //
+    ToggleCardState: async function() {
+      MyMusicBus.$emit('ToggleCurrentSong', this.CurrentSong.Title)
     },
 
     PlayPause: function() {
       var Player = document.getElementById("player");
 
       if(this.PlayerStatus) {
-        Player.pause();
         this.PlayerStatus = false;
+        Player.pause();
       } else {
+        this.PlayerStatus = true;
         if(Player.readyState) {
           Player.play();
-          this.PlayerStatus = true;
         }
       }
+
+      this.ToggleCardState();
+    },
+
+    PlaySong: function() {
+      this.PlayerStatus = true
+      document.getElementById('player').load() // Load The Song in Player..
+      document.getElementById('player').play() // Play The Song in Player..
+    },
+
+    PlayCurrentSong: function() {
+      var Player = document.getElementById("player");
+      
+      if(Player.readyState) {
+        Player.play();
+        this.PlayerStatus = true;
+      }
+    },
+
+    PauseCurrentSong: function() {
+      var Player = document.getElementById("player");
+      this.PlayerStatus = false;
+      Player.pause();
+    },
+
+    LoadSong: function(Data) {
+      this.FeedMetaData(Data)
+      this.PlaySong()
+    },
+
+    FeedMetaData: function(Data) {
+      document.getElementById("SongName").innerHTML = Data.Title
+      document.getElementById("ArtistName").innerHTML = Data.Author
+      document.getElementById("CoverImage").src = Data.ImageSrc
+      document.getElementById('SongSource').src = Data.Source
     }
+  },
+
+  created() {
+    MyMusicBus.$on('PlaySong', (Data) => {
+      if(this.LastSong === null) {
+        this.LastSong = Data
+        this.CurrentSong = Data
+      } else {
+        this.LastSong = this.CurrentSong
+        this.CurrentSong = Data
+      }
+
+      this.LoadSong(Data);
+    })
+
+    MyMusicBus.$on('PauseSong', () => {
+      this.PauseCurrentSong()
+    })
   }
+
 }
 </script>
 
@@ -108,7 +166,7 @@ export default {
   display: flex;
   justify-content: start;
   font-size: 17px;
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   width: 25%;
   height: 60px;
 }

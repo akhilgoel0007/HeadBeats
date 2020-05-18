@@ -163,7 +163,15 @@ export default {
     Output: function() {
       this.TagDialog = false;
       console.log(this.chips);
-    }
+    },
+
+    ToggleIconText: function() {
+      if(this.IconText === 'mdi-play') {
+        this.IconText = 'mdi-pause';
+      } else {
+        this.IconText = 'mdi-play';
+      }
+    },
   },
 
   computed: {

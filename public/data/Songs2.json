@@ -13,20 +13,6 @@
     "Author": "A", 
     "Duration": "1 min",
     "Tags": []
-  },
-  {
-    "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
-    "Title": "third Song", 
-    "Author": "A", 
-    "Duration": "1 min",
-    "Tags": []
-  },
-  {
-    "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
-    "Title": "fourth Song", 
-    "Author": "A", 
-    "Duration": "1 min",
-    "Tags": []
   }],
   
   "AllPlaylists": [
@@ -46,41 +32,6 @@
       "Author": "A", 
       "Duration": "1 min",
       "Tags": []
-    },
-    {
-      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
-      "Title": "third Song", 
-      "Author": "A", 
-      "Duration": "1 min",
-      "Tags": []
-    },
-    {
-      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
-      "Title": "fourth Song", 
-      "Author": "A", 
-      "Duration": "1 min",
-      "Tags": []
-    },
-    {
-      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
-      "Title": "fifth Song", 
-      "Author": "A", 
-      "Duration": "1 min",
-      "Tags": []
-    },
-    {
-      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
-      "Title": "sixth Song", 
-      "Author": "A", 
-      "Duration": "1 min",
-      "Tags": []
-    },
-    {
-      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
-      "Title": "seventh Song", 
-      "Author": "A", 
-      "Duration": "1 min",
-      "Tags": []
     }]
   },
   { 
@@ -96,41 +47,6 @@
     {
       "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
       "Title": "Nine Song", 
-      "Author": "A", 
-      "Duration": "1 min",
-      "Tags": []
-    },
-    {
-      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
-      "Title": "Tenth Song", 
-      "Author": "A", 
-      "Duration": "1 min",
-      "Tags": []
-    },
-    {
-      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
-      "Title": "Eleventh Song", 
-      "Author": "A", 
-      "Duration": "1 min",
-      "Tags": []
-    },
-    {
-      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
-      "Title": "Twelveth Song", 
-      "Author": "A", 
-      "Duration": "1 min",
-      "Tags": []
-    },
-    {
-      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
-      "Title": "Thirteenth Song", 
-      "Author": "A", 
-      "Duration": "1 min",
-      "Tags": []
-    },
-    {
-      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
-      "Title": "Fourthteen Song", 
       "Author": "A", 
       "Duration": "1 min",
       "Tags": []

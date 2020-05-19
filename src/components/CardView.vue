@@ -123,6 +123,7 @@ export default {
         AuthorNameDialog: false,
         SongNameDialog: false,
         Playing: false,
+        Loaded: false,
         NewSongName: "",
         NewAuthorName: "",
         selected: ['John'],
@@ -161,16 +162,28 @@ export default {
         },
 
         PlaySong: function(PlayingSong) {
-            this.Playing = !this.Playing
-            if(this.Playing) {
-                MyMusicBus.$emit('PlaySong', PlayingSong)
+            if(!this.Playing) {
+                if(!this.Loaded) {
+                    MyMusicBus.$emit('LoadSong', PlayingSong)
+                    this.Playing = true
+                    this.Loaded = true
+                } else {
+                    MyMusicBus.$emit('PlaySong')
+                    this.Playing = true
+                }
             } else {
-                MyMusicBus.$emit('PauseSong');
+                MyMusicBus.$emit('PauseSong')
+                this.Playing = false
             }
         },
 
-        ToggleSongState: function() {
-            this.Playing = !this.Playing
+        ToggleSongState: function(Status) {
+            if(Status) {
+                this.Playing = !this.Playing
+            } else {
+                this.Playing = false; // Stop the Last Song
+                this.Loaded = false;
+            }
         }
     },
 
@@ -181,9 +194,9 @@ export default {
     },
 
     created() {
-        MyMusicBus.$on('ToggleCurrentSong', (SongName) => {
+        MyMusicBus.$on('ToggleCurrentSong', (SongName, Status) => {
             if(this.CurrentSong.Title == SongName) {
-                this.ToggleSongState()
+                this.ToggleSongState(Status)
             }
         })
     }

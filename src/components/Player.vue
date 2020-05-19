@@ -50,8 +50,12 @@ export default {
   }),
 
   methods: {
-    ToggleCardState: async function() {
-      MyMusicBus.$emit('ToggleCurrentSong', this.CurrentSong.Title)
+    ToggleCardState: async function(Current) {
+      if(Current) {
+        MyMusicBus.$emit('ToggleCurrentSong', this.CurrentSong.Title, Current)
+      } else {
+        MyMusicBus.$emit('ToggleCurrentSong', this.LastSong.Title, Current)
+      }
     },
 
     PlayPause: function() {
@@ -67,7 +71,7 @@ export default {
         }
       }
 
-      this.ToggleCardState();
+      this.ToggleCardState(true);
     },
 
     PlaySong: function() {
@@ -105,20 +109,24 @@ export default {
   },
 
   created() {
-    MyMusicBus.$on('PlaySong', (Data) => {
+    MyMusicBus.$on('LoadSong', (Data) => {
       if(this.LastSong === null) {
         this.LastSong = Data
-        this.CurrentSong = Data
       } else {
         this.LastSong = this.CurrentSong
-        this.CurrentSong = Data
+        this.ToggleCardState(false)
       }
 
+      this.CurrentSong = Data
       this.LoadSong(Data);
     })
 
     MyMusicBus.$on('PauseSong', () => {
       this.PauseCurrentSong()
+    })
+
+    MyMusicBus.$on('PlaySong', () => {
+      this.PlayCurrentSong()
     })
   }
 

@@ -1,1 +1,49 @@
-{"AllSongs":[{"Id":1,"ImageSrc":"https://cdn.vuetifyjs.com/images/cards/kitchen.png","Title":"First Song","Author":"A","Duration":0,"DisplayDuration":"1 min","Tags":[]},{"Id":2,"ImageSrc":"https://cdn.vuetifyjs.com/images/cards/kitchen.png","Title":"second Song","Author":"A","Duration":0,"DisplayDuration":"1 min","Tags":[]},{"Id":3,"Source":"F:\\My Music\\English\\Attention.mp3","Duration":231.792,"DisplayDuration":"3min 52sec","Tags":[],"ImageSrc":"http://localhost:8080/data/logo.png","Title":"Charlie Puth - Attention [Official Video]"},{"Id":4,"Source":"F:\\My Music\\English\\Blank Space (Taylor Swift).mp3","Duration":244.536,"DisplayDuration":"4min 5sec","Tags":[],"ImageSrc":"http://localhost:8080/data/logo.png","Title":"Taylor Swift - Blank Space"}],"AllPlaylists":[{"Name":"Punjabi Songs","ContentOfPlaylist":[{"Id":1,"ImageSrc":"https://cdn.vuetifyjs.com/images/cards/kitchen.png","Title":"First Song","Author":"A","Duration":0,"DisplayDuration":"1 min","Tags":[]},{"Id":2,"ImageSrc":"https://cdn.vuetifyjs.com/images/cards/kitchen.png","Title":"second Song","Author":"A","Duration":0,"DisplayDuration":"1 min","Tags":[]}]},{"Name":"English Songs","ContentOfPlaylist":[{"Id":1,"ImageSrc":"https://cdn.vuetifyjs.com/images/cards/kitchen.png","Title":"Eight Song","Author":"A","Duration":0,"DisplayDuration":"1 min","Tags":[]},{"Id":2,"ImageSrc":"https://cdn.vuetifyjs.com/images/cards/kitchen.png","Title":"Nine Song","Author":"A","Duration":0,"DisplayDuration":"1 min","Tags":[]}]}]}
+{
+  "AllSongs":[],
+  
+  "AllPlaylists": [
+  { 
+    "Name": "Punjabi Songs",
+    "ContentOfPlaylist": [
+    {
+      "Id": 1,
+      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
+      "Title": "First Song", 
+      "Author": "A", 
+      "Duration": 0,
+      "DisplayDuration": "1 min",
+      "Tags": []
+    },
+    {
+      "Id": 2,
+      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
+      "Title": "second Song", 
+      "Author": "A", 
+      "Duration": 0,
+      "DisplayDuration": "1 min",
+      "Tags": []
+    }]
+  },
+  { 
+    "Name": "English Songs",
+    "ContentOfPlaylist": [
+    {
+      "Id": 1,
+      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png",
+      "Title": "Eight Song", 
+      "Author": "A", 
+      "Duration": 0,
+      "DisplayDuration": "1 min",
+      "Tags": []
+    },
+    {
+      "Id": 2,
+      "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
+      "Title": "Nine Song", 
+      "Author": "A", 
+      "Duration": 0,
+      "DisplayDuration": "1 min",
+      "Tags": []
+    }]
+  }
+]}

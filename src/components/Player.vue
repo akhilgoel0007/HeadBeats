@@ -18,20 +18,22 @@
         </div>
         <div class="fab-btns">
           <button id="Shuffle-Button" class="floating-action-btn" @click="ShuffleSongs()">
-            <v-icon class="icon-config">mdi-shuffle</v-icon>
+            <v-icon v-if="!Shuffle" class="icon-config">mdi-shuffle</v-icon>
+            <v-icon v-else-if="Shuffle" class="icon-config" style="background-color: white; color: #9575cdff;">mdi-shuffle</v-icon>
           </button>
           <button id="Previous-Button" class="floating-action-btn" @click="PreviousSong()">
             <v-icon class="icon-config">mdi-skip-previous</v-icon>
           </button>
           <button id="Play-Button" class="floating-action-btn footer-fab-play" @click="PlayPause()">
-            <v-icon v-if="PlayerStatus" id="Play-Button-Icon" class="icon-config">mdi-pause</v-icon>
+            <v-icon v-if="PlayerStatus" id="Play-Button-Icon" class="icon-config" style="background-color: white; color: #9575cdff;">mdi-pause</v-icon>
             <v-icon v-else-if="!PlayerStatus" id="Play-Button-Icon" class="icon-config">mdi-play</v-icon>
           </button>
           <button id="Next-Button" class="floating-action-btn" @click="NextSong()">
             <v-icon class="icon-config">mdi-skip-next</v-icon>
           </button>
           <button id="Replay-Button" class="floating-action-btn" @click="RepeatCurrentSong()">
-            <v-icon class="icon-config">mdi-replay</v-icon>
+            <v-icon v-if="!Repeat" class="icon-config">mdi-replay</v-icon>
+            <v-icon v-else-if="Repeat" class="icon-config" style="background-color: white; color: #9575cdff;">mdi-replay</v-icon> 
           </button>
         </div>
         <div class="footer-fab-playlist">
@@ -55,7 +57,9 @@ export default {
     CurrentSong: null,
     CurrentSongsList: null,
     SeekBar: null,
-    SeekSlide: null
+    SeekSlide: null,
+    Repeat: false,
+    Shuffle: false
   }),
 
   methods: {
@@ -129,12 +133,21 @@ export default {
         this.LoadSong(PreviousSong);
       }
     },
+
+    ChangeSong: function() {
+      if(!this.Repeat) {
+        document.getElementById('player').currentTime = 0;
+        this.NextSong();
+      }
+    },
+
     RepeatCurrentSong: function () {
-      //
+      this.Repeat = !this.Repeat
+      document.getElementById('player').loop = this.Repeat
     },
 
     ShuffleSongs: function() {
-      //
+      this.Shuffle = !this.Shuffle
     },
 
     PlaySong: function() {
@@ -185,6 +198,7 @@ export default {
 
       this.SeekBar.addEventListener('change', this.SeekUpdate, false)
       document.getElementById('player').addEventListener('timeupdate', this.SeekTimeUpdate, false)
+      document.getElementById('player').addEventListener('ended', this.ChangeSong, false)
     }
   },
 

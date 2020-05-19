@@ -70,6 +70,7 @@
                 properties: ['openFile', 'multiSelections'],
                 filters: [{
                     name: 'Select Songs',
+                    // extensions: ['mp3', 'wav', 'ogg']
                 }]
             },async function(file) {
                 if(file) {

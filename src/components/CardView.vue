@@ -216,18 +216,6 @@ export default {
                 this.Loaded = false // Removed this song from player..
             }
         })
-
-        MyMusicBus.$on('PreviousSong', (CurrentSong, PreviousSong) => {
-            if(this.CurrentSong.Title === CurrentSong) {
-                this.Playing = !this.Playing
-                this.Loaded = true
-            }
-
-            if(this.CurrentSong.Title === PreviousSong) {
-                this.Playing = !this.Playing
-                this.Loaded = false
-            }
-        })
     }
 }
 

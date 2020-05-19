@@ -1,38 +1,44 @@
 <template>
-  <div class="footer-bar-container">
-    <audio id="player">
-      <source id="SongSource">
-    </audio>
-    <div class="footer-bar">
-      <div class="footer-song-metadata">
-        <img id="CoverImage" class="footer-album-art" />
-        <div class="footer-song-metadata-text">
-          <span id="SongName" class="footer-song-name"></span>
-          <span id="ArtistName" class="footer-song-artist"></span>
+  <div>
+    <div class="SeekBar">
+      <input type="range" id="Seek" name="Seek" value="0" max="100" min="0" />
+      <div class="red Attributes" ></div>
+    </div>
+    <div class="footer-bar-container">
+      <audio id="player">
+        <source id="SongSource">
+      </audio>
+      <div class="footer-bar">
+        <div class="footer-song-metadata">
+          <img id="CoverImage" class="footer-album-art" />
+          <div class="footer-song-metadata-text">
+            <span id="SongName" class="footer-song-name"></span>
+            <span id="ArtistName" class="footer-song-artist"></span>
+          </div>
         </div>
-      </div>
-      <div class="fab-btns">
-        <button id="Shuffle-Button" class="floating-action-btn">
-          <v-icon class="icon-config">mdi-shuffle</v-icon>
-        </button>
-        <button id="Previous-Button" class="floating-action-btn">
-          <v-icon class="icon-config">mdi-skip-previous</v-icon>
-        </button>
-        <button id="Play-Button" class="floating-action-btn footer-fab-play" @click="PlayPause()">
-          <v-icon v-if="PlayerStatus" id="Play-Button-Icon" class="icon-config">mdi-pause</v-icon>
-          <v-icon v-else-if="!PlayerStatus" id="Play-Button-Icon" class="icon-config">mdi-play</v-icon>
-        </button>
-        <button id="Next-Button" class="floating-action-btn">
-          <v-icon class="icon-config">mdi-skip-next</v-icon>
-        </button>
-        <button id="Replay-Button" class="floating-action-btn">
-          <v-icon class="icon-config">mdi-replay</v-icon>
-        </button>
-      </div>
-      <div class="footer-fab-playlist">
-        <button class="floating-action-btn footer-fab-playlist-image">
-          <v-icon class="icon-config">mdi-playlist-plus</v-icon>
-        </button>
+        <div class="fab-btns">
+          <button id="Shuffle-Button" class="floating-action-btn" @click="ShuffleSongs()">
+            <v-icon class="icon-config">mdi-shuffle</v-icon>
+          </button>
+          <button id="Previous-Button" class="floating-action-btn" @click="PreviousSong()">
+            <v-icon class="icon-config">mdi-skip-previous</v-icon>
+          </button>
+          <button id="Play-Button" class="floating-action-btn footer-fab-play" @click="PlayPause()">
+            <v-icon v-if="PlayerStatus" id="Play-Button-Icon" class="icon-config">mdi-pause</v-icon>
+            <v-icon v-else-if="!PlayerStatus" id="Play-Button-Icon" class="icon-config">mdi-play</v-icon>
+          </button>
+          <button id="Next-Button" class="floating-action-btn" @click="NextSong()">
+            <v-icon class="icon-config">mdi-skip-next</v-icon>
+          </button>
+          <button id="Replay-Button" class="floating-action-btn" @click="RepeatCurrentSong()">
+            <v-icon class="icon-config">mdi-replay</v-icon>
+          </button>
+        </div>
+        <div class="footer-fab-playlist">
+          <button class="floating-action-btn footer-fab-playlist-image">
+            <v-icon class="icon-config">mdi-playlist-plus</v-icon>
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -58,20 +64,19 @@ export default {
       }
     },
 
-    PlayPause: function() {
-      var Player = document.getElementById("player");
+    PreviousSong: function() {
+      //
+    },
 
-      if(this.PlayerStatus) {
-        this.PlayerStatus = false;
-        Player.pause();
-      } else {
-        this.PlayerStatus = true;
-        if(Player.readyState) {
-          Player.play();
-        }
-      }
+    NextSong: function() {
+      //
+    },
+    RepeatCurrentSong: function () {
+      //
+    },
 
-      this.ToggleCardState(true);
+    ShuffleSongs: function() {
+      //
     },
 
     PlaySong: function() {
@@ -93,6 +98,15 @@ export default {
       var Player = document.getElementById("player");
       this.PlayerStatus = false;
       Player.pause();
+    },
+
+    PlayPause: function() {
+      if(this.PlayerStatus) {
+        this.PauseCurrentSong();
+      } else {
+        this.PlayCurrentSong();
+      }
+      this.ToggleCardState(true);
     },
 
     LoadSong: function(Data) {
@@ -134,6 +148,51 @@ export default {
 </script>
 
 <style scoped>
+.Attributes {
+  position: absolute;
+  background-color: red;
+  height: 7px;
+  width: 0%;
+}
+
+.SeekBar {
+  position: relative;
+  height: 7px;
+  background-color: lawngreen;
+  width: 100%;
+}
+
+.SeekBar input[type="range"] {
+  position: absolute;
+  top: -5px;
+  bottom: -5px;
+  height: 15px;
+  width: 100%;
+  cursor: pointer;
+  -webkit-appearance: none !important;
+}
+
+input[type="range"]:focus {
+  outline: none;
+}
+
+.SeekBar input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  position: relative;
+  height: 10px;
+  width: 14px;
+  left: -0.5px;
+  border-radius: 35%;
+  background-color: blue;
+  transition: 0.2s ease-in-out forwards;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.SeekBar input[type="range"]:hover::-webkit-slider-thumb {
+  opacity: 1;
+}
+
 .icon-config {
   height: inherit;
   width: inherit;

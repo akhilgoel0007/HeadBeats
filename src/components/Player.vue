@@ -1,8 +1,8 @@
 <template>
   <div>
     <div class="SeekBar">
-      <input type="range" id="Seek" name="Seek" value="0" max="100" min="0" />
-      <div class="red Attributes" ></div>
+      <input type="range" id="Seek" name="Seek" value="0" max="1000" min="0" />
+      <div class="Attributes" id="Fill"></div>
     </div>
     <div class="footer-bar-container">
       <audio id="player">
@@ -53,6 +53,8 @@ export default {
     PlayerStatus: false, // Triangle
     LastSong: null,
     CurrentSong: null,
+    SeekBar: null,
+    SeekSlide: null
   }),
 
   methods: {
@@ -62,6 +64,14 @@ export default {
       } else {
         MyMusicBus.$emit('ToggleCurrentSong', this.LastSong.Title, Current)
       }
+    },
+    SeekTimeUpdate: function() {
+      this.SeekBar.value = document.getElementById('player').currentTime * (1000/this.CurrentSong.Duration)
+      this.SeekSlide.style.width = (this.SeekBar.value/10) + '%'
+    },
+
+    SeekUpdate: function() {
+      document.getElementById('player').currentTime = this.CurrentSong.Duration * (this.SeekBar.value/1000)
     },
 
     PreviousSong: function() {
@@ -101,12 +111,14 @@ export default {
     },
 
     PlayPause: function() {
-      if(this.PlayerStatus) {
-        this.PauseCurrentSong();
-      } else {
-        this.PlayCurrentSong();
+      if(this.CurrentSong != null && this.LastSong != null) {
+        if(this.PlayerStatus) {
+          this.PauseCurrentSong();
+        } else {
+          this.PlayCurrentSong();
+        }
+        this.ToggleCardState(true);
       }
-      this.ToggleCardState(true);
     },
 
     LoadSong: function(Data) {
@@ -116,9 +128,15 @@ export default {
 
     FeedMetaData: function(Data) {
       document.getElementById("SongName").innerHTML = Data.Title
-      document.getElementById("ArtistName").innerHTML = Data.Author
+      document.getElementById("ArtistName").innerHTML = Data.DisplayDuration
       document.getElementById("CoverImage").src = Data.ImageSrc
       document.getElementById('SongSource').src = Data.Source
+
+      this.SeekBar = document.getElementById('Seek')
+      this.SeekSlide = document.getElementById('Fill')
+
+      this.SeekBar.addEventListener('change', this.SeekUpdate, false)
+      document.getElementById('player').addEventListener('timeupdate', this.SeekTimeUpdate, false)
     }
   },
 
@@ -150,7 +168,7 @@ export default {
 <style scoped>
 .Attributes {
   position: absolute;
-  background-color: red;
+  background-color: #51716e;
   height: 7px;
   width: 0%;
 }
@@ -158,7 +176,7 @@ export default {
 .SeekBar {
   position: relative;
   height: 7px;
-  background-color: lawngreen;
+  background-color: #c3d593;
   width: 100%;
 }
 
@@ -181,17 +199,13 @@ input[type="range"]:focus {
   position: relative;
   height: 10px;
   width: 14px;
-  left: -0.5px;
-  border-radius: 35%;
-  background-color: blue;
-  transition: 0.2s ease-in-out forwards;
   cursor: pointer;
   opacity: 0;
 }
 
-.SeekBar input[type="range"]:hover::-webkit-slider-thumb {
+/* .SeekBar input[type="range"]:hover::-webkit-slider-thumb {
   opacity: 1;
-}
+} */
 
 .icon-config {
   height: inherit;

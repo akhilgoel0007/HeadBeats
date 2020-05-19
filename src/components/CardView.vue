@@ -99,7 +99,7 @@
                 </v-menu>
                 <div class=" Song-Title"> {{CurrentSong.Title}} </div>
                 <div class="Info-Font font-weight-light">
-                    Duration: {{CurrentSong.Duration}}<br>
+                    Duration: {{CurrentSong.DisplayDuration}}<br>
                     Author: {{CurrentSong.Author}}<br>
                     <!-- Genre<br>
                     Album<br>

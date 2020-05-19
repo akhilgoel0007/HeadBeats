@@ -51,6 +51,10 @@
     import * as mm from 'music-metadata';
     import * as util from 'util';
 
+    function GetDisplayDuration(SongDuration) {
+        return (((SongDuration-(SongDuration%60))/60).toString(10) + 'min ' + (SongDuration%60).toString(10) + 'sec')
+    }
+
     export default {
     
     data: () => ({
@@ -75,38 +79,32 @@
                         let Path = file[i];
                          
                         var NewSong = { 
+                            'Id': 0,
                             'Source': Path,
+                            'Duration': 0,
+                            'DisplayDuration': 0,
                             'Tags': [],
                         }
 
                         await mm.parseFile(NewSong.Source)
                         .then( metadata => {
-                            util.inspect(metadata, {showHidden:true, depth: null}); 
+                            util.inspect(metadata, {showHidden:true, depth: null});
                             if(metadata.common.picture) {
                                 NewSong.ImageSrc = `data:${metadata.common.picture[0].format}; base64,${metadata.common.picture[0].data.toString('base64')}`;
                             } else {
-                                NewSong.ImageSrc = 'http://localhost:8080/data/logo.png';
+                                NewSong.ImageSrc = 'http://localhost:8080/data/logo.png'
                             }
 
-                            NewSong.Title = metadata.common.title;
+                            NewSong.Title = metadata.common.title
+                            NewSong.Duration = metadata.format.duration
+                            NewSong.DisplayDuration = GetDisplayDuration(Math.ceil(NewSong.Duration))
+                            console.log(NewSong.DisplayDuration)
                         });
 
                         NewSongs.push(NewSong);
                     }
 
                     GetNewSongs(NewSongs);
-                    
-                    // const Source = document.getElementById('SongSource');
-                    // var Path = file[0];
-
-                    // console.log(file.length);
-
-                    // Source.src = Path;
-
-                    // const player = document.getElementById('player');
-
-                    // player.load();
-                    // player.play();
                 }
             })
         },

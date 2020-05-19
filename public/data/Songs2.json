@@ -4,14 +4,16 @@
     "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
     "Title": "First Song", 
     "Author": "A", 
-    "Duration": "1 min",
+    "Duration": 0,
+    "DisplayDuration": "1 min",
     "Tags": []
   },
   {
     "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
     "Title": "second Song", 
     "Author": "A", 
-    "Duration": "1 min",
+    "Duration": 0,
+    "DisplayDuration": "1 min",
     "Tags": []
   }],
   
@@ -23,14 +25,16 @@
       "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
       "Title": "First Song", 
       "Author": "A", 
-      "Duration": "1 min",
+      "Duration": 0,
+      "DisplayDuration": "1 min",
       "Tags": []
     },
     {
       "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
       "Title": "second Song", 
       "Author": "A", 
-      "Duration": "1 min",
+      "Duration": 0,
+      "DisplayDuration": "1 min",
       "Tags": []
     }]
   },
@@ -41,14 +45,16 @@
       "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png",
       "Title": "Eight Song", 
       "Author": "A", 
-      "Duration": "1 min",
+      "Duration": 0,
+      "DisplayDuration": "1 min",
       "Tags": []
     },
     {
       "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
       "Title": "Nine Song", 
       "Author": "A", 
-      "Duration": "1 min",
+      "Duration": 0,
+      "DisplayDuration": "1 min",
       "Tags": []
     }]
   }

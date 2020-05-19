@@ -22,6 +22,7 @@ export default new Vuex.Store({
         })
 
         if(!Present) {
+          payload[i].Id = state.MainData.AllSongs.length + 1;
           state.MainData.AllSongs.push(payload[i]);
         }
       }
@@ -33,8 +34,6 @@ export default new Vuex.Store({
       fs.writeFile('src/Songs.json', buffer, (err) => {
         if(err) {
           throw err;
-        } else {
-          console.log("Saved Data..");
         }
       });
     },

@@ -53,6 +53,7 @@ export default {
     PlayerStatus: false, // Triangle
     LastSong: null,
     CurrentSong: null,
+    CurrentSongsList: null,
     SeekBar: null,
     SeekSlide: null
   }),
@@ -65,6 +66,11 @@ export default {
         MyMusicBus.$emit('ToggleCurrentSong', this.LastSong.Title, Current)
       }
     },
+
+    NextSongToggle: async function() {
+      MyMusicBus.$emit('NextSong', this.LastSong.Title, this.CurrentSong.Title,);
+    },
+
     SeekTimeUpdate: function() {
       this.SeekBar.value = document.getElementById('player').currentTime * (1000/this.CurrentSong.Duration)
       this.SeekSlide.style.width = (this.SeekBar.value/10) + '%'
@@ -74,12 +80,54 @@ export default {
       document.getElementById('player').currentTime = this.CurrentSong.Duration * (this.SeekBar.value/1000)
     },
 
-    PreviousSong: function() {
-      //
+    NextSong: function() {
+      if(this.CurrentSongsList != null) {
+        var NextSong = null;
+
+        if(this.CurrentSong.Id != this.CurrentSongsList.length) {
+          this.CurrentSongsList.forEach(Song => {
+            if(Song.Id === this.CurrentSong.Id+1) {
+              NextSong = Song;
+            }
+          });
+        } else {
+          this.CurrentSongsList.forEach(Song =>{
+            if(Song.Id === 1) {
+              NextSong = Song; // Go to the start of the list.. basically repeat
+            }
+          })
+        }
+
+        this.LastSong = this.CurrentSong;
+        this.CurrentSong = NextSong;
+        this.NextSongToggle();
+        this.LoadSong(NextSong);
+      }
     },
 
-    NextSong: function() {
-      //
+    PreviousSong: function() {
+      if(this.CurrentSongsList != null) {
+        var PreviousSong = null;
+
+        if(this.CurrentSong.Id != 1) {
+          this.CurrentSongsList.forEach(Song => {
+            if(Song.Id === this.CurrentSong.Id-1) {
+              PreviousSong = Song;
+            }
+          });
+        } else {
+          this.CurrentSongsList.forEach(Song =>{
+            if(Song.Id === this.CurrentSongsList.length) {
+              PreviousSong = Song; // Go to the start of the list.. basically repeat
+            }
+          })
+        }
+
+        this.LastSong = this.CurrentSong;
+        this.CurrentSong = PreviousSong;
+        this.NextSongToggle();
+        this.LoadSong(PreviousSong);
+      }
     },
     RepeatCurrentSong: function () {
       //
@@ -160,6 +208,10 @@ export default {
     MyMusicBus.$on('PlaySong', () => {
       this.PlayCurrentSong()
     })
+
+    MyMusicBus.$on('SetSongList', (SongsList) => {
+      this.CurrentSongsList = SongsList;
+    }) 
   }
 
 }
@@ -197,7 +249,7 @@ input[type="range"]:focus {
 .SeekBar input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none !important;
   position: relative;
-  height: 10px;
+  height: 18px;
   width: 14px;
   cursor: pointer;
   opacity: 0;

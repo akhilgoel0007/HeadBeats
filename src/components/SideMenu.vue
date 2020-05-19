@@ -98,7 +98,6 @@
                             NewSong.Title = metadata.common.title
                             NewSong.Duration = metadata.format.duration
                             NewSong.DisplayDuration = GetDisplayDuration(Math.ceil(NewSong.Duration))
-                            console.log(NewSong.DisplayDuration)
                         });
 
                         NewSongs.push(NewSong);

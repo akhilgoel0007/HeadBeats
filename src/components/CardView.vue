@@ -162,18 +162,23 @@ export default {
         },
 
         PlaySong: function(PlayingSong) {
-            if(!this.Playing) {
-                if(!this.Loaded) {
-                    MyMusicBus.$emit('LoadSong', PlayingSong)
-                    this.Playing = true
-                    this.Loaded = true
+            if(this.Place === "AllSongs") {
+                if(!this.Playing) {
+                    if(!this.Loaded) {
+                        MyMusicBus.$emit('LoadSong', PlayingSong)
+                        MyMusicBus.$emit('SetSongList', this.$store.state.MainData.AllSongs);
+                        this.Playing = true
+                        this.Loaded = true
+                    } else {
+                        MyMusicBus.$emit('PlaySong')
+                        this.Playing = true
+                    }
                 } else {
-                    MyMusicBus.$emit('PlaySong')
-                    this.Playing = true
+                    MyMusicBus.$emit('PauseSong')
+                    this.Playing = false
                 }
             } else {
-                MyMusicBus.$emit('PauseSong')
-                this.Playing = false
+                //
             }
         },
 
@@ -197,6 +202,30 @@ export default {
         MyMusicBus.$on('ToggleCurrentSong', (SongName, Status) => {
             if(this.CurrentSong.Title == SongName) {
                 this.ToggleSongState(Status)
+            }
+        })
+
+        MyMusicBus.$on('NextSong', (LastSong, CurrentSong) => {
+            if(this.CurrentSong.Title === CurrentSong) {
+                this.Playing = !this.Playing;
+                this.Loaded = true // Loaded this song in the player..
+            }
+
+            if(this.CurrentSong.Title === LastSong) {
+                this.Playing = !this.Playing;
+                this.Loaded = false // Removed this song from player..
+            }
+        })
+
+        MyMusicBus.$on('PreviousSong', (CurrentSong, PreviousSong) => {
+            if(this.CurrentSong.Title === CurrentSong) {
+                this.Playing = !this.Playing
+                this.Loaded = true
+            }
+
+            if(this.CurrentSong.Title === PreviousSong) {
+                this.Playing = !this.Playing
+                this.Loaded = false
             }
         })
     }

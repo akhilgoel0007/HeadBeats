@@ -1,6 +1,7 @@
 {
   "AllSongs":[
   {
+    "Id": 1,
     "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
     "Title": "First Song", 
     "Author": "A", 
@@ -9,6 +10,7 @@
     "Tags": []
   },
   {
+    "Id": 2,
     "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
     "Title": "second Song", 
     "Author": "A", 
@@ -22,6 +24,7 @@
     "Name": "Punjabi Songs",
     "ContentOfPlaylist": [
     {
+      "Id": 1,
       "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
       "Title": "First Song", 
       "Author": "A", 
@@ -30,6 +33,7 @@
       "Tags": []
     },
     {
+      "Id": 2,
       "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
       "Title": "second Song", 
       "Author": "A", 
@@ -42,6 +46,7 @@
     "Name": "English Songs",
     "ContentOfPlaylist": [
     {
+      "Id": 1,
       "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png",
       "Title": "Eight Song", 
       "Author": "A", 
@@ -50,6 +55,7 @@
       "Tags": []
     },
     {
+      "Id": 2,
       "ImageSrc": "https://cdn.vuetifyjs.com/images/cards/kitchen.png", 
       "Title": "Nine Song", 
       "Author": "A", 

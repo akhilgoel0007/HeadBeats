@@ -19,54 +19,6 @@ export default new Vuex.Store({
       state.PlayingWindow = Payload.PlayingWindow
       state.PlayingSong = Payload.PlayingSong
     },
-
-    UpdateChanges: async function() {
-      var Buffer = {
-        AllSongs: [],
-        AllPlaylists: []
-      }
-
-      this.state.MainData.AllSongs.forEach(Song => {
-        const ThisSong = {
-          Id: Song.Id,
-          Source: Song.Source,
-          Title: Song.Title,
-          Duration: Song.Duration,
-          DisplayDuration: Song.DisplayDuration,
-          Tags: Song.Tags
-        }
-
-        Buffer.AllSongs.push(ThisSong);
-      })
-
-      this.state.MainData.AllPlaylists.forEach(Playlist => {
-        const ThisPlaylist = {
-          Name: Playlist.Name,
-          ContentOfPlaylist: []
-        }
-
-        Playlist.ContentOfPlaylist.forEach(PlaylistSong => {
-          const ThisPlaylistSong = {
-            Id: PlaylistSong.Id,
-            Source: PlaylistSong.Source,
-            Title: PlaylistSong.Title,
-            Duration: PlaylistSong.Duration,
-            DisplayDuration: PlaylistSong.DisplayDuration,
-            Tags: PlaylistSong.Tags
-          }
-
-          ThisPlaylist.ContentOfPlaylist.push(ThisPlaylistSong)
-        })
-
-        Buffer.AllPlaylists.push(ThisPlaylist)
-      })
-
-      fs.writeFile('src/Songs.json', JSON.stringify(Buffer), (err) => {
-        if(err) {
-          throw err;
-        }
-      });
-    },
   },
   
   actions: {
@@ -105,8 +57,90 @@ export default new Vuex.Store({
       })
     },
     
-    UpdateChanges: function(context) {
-      context.commit('UpdateChanges');
+    UpdateChanges: async function() {
+      var Buffer = {
+        AllSongs: [],
+        AllPlaylists: []
+      }
+
+      this.state.MainData.AllSongs.forEach(Song => {
+        const ThisSong = {
+          Id: Song.Id,
+          Source: Song.Source,
+          Author: Song.Author,
+          Title: Song.Title,
+          Duration: Song.Duration,
+          DisplayDuration: Song.DisplayDuration,
+          Tags: Song.Tags
+        }
+
+        Buffer.AllSongs.push(ThisSong);
+      })
+
+      this.state.MainData.AllPlaylists.forEach(Playlist => {
+        const ThisPlaylist = {
+          Name: Playlist.Name,
+          ContentOfPlaylist: []
+        }
+
+        Playlist.ContentOfPlaylist.forEach(PlaylistSong => {
+          const ThisPlaylistSong = {
+            Id: PlaylistSong.Id,
+            Source: PlaylistSong.Source,
+            Author: PlaylistSong.Author,
+            Title: PlaylistSong.Title,
+            Duration: PlaylistSong.Duration,
+            DisplayDuration: PlaylistSong.DisplayDuration,
+            Tags: PlaylistSong.Tags
+          }
+
+          ThisPlaylist.ContentOfPlaylist.push(ThisPlaylistSong)
+        })
+
+        Buffer.AllPlaylists.push(ThisPlaylist)
+      })
+
+      fs.writeFile('src/Songs.json', JSON.stringify(Buffer), (err) => {
+        if(err) {
+          throw err;
+        }
+      });
+    },
+
+    ChangeAuthorName: function(context, Payload) {
+      this.state.MainData.AllSongs.forEach(Song => {
+        if(Song.Source === Payload.Source) {
+          Song.Author = Payload.AuthorName
+        }
+      })
+
+      this.state.MainData.AllPlaylists.forEach(Playlist => {
+        Playlist.ContentOfPlaylist.forEach(PlaylistSong => {
+          if(PlaylistSong.Source === Payload.Source) {
+            PlaylistSong.Author = Payload.AuthorName
+          }
+        })
+      })
+
+      context.dispatch('UpdateChanges');
+    },
+
+    ChangeSongName: function(context, Payload) {
+      this.state.MainData.AllSongs.forEach(Song => {
+        if(Song.Source === Payload.Source) {
+          Song.Title = Payload.SongName
+        }
+      })
+
+      this.state.MainData.AllPlaylists.forEach(Playlist => {
+        Playlist.ContentOfPlaylist.forEach(PlaylistSong => {
+          if(PlaylistSong.Source === Payload.Source) {
+            PlaylistSong.Title = Payload.SongName
+          }
+        })
+      })
+
+      context.dispatch('UpdateChanges');
     },
 
     AddPayload: async function(context, Payload) { 
@@ -145,20 +179,18 @@ export default new Vuex.Store({
     },
 
     AddToPlaylist: function(context, Payload) {
-      // console.log(Payload.Id)
-
       this.state.MainData.AllSongs.forEach(Song => {
         if(Song.Id === Payload.Id) {
           const ThisSong = {
             Id: 0,
             Source: Song.Source,
+            Author: Song.Author,
             Title: Song.Title,
             Duration: Song.Duration,
             DisplayDuration: Song.DisplayDuration,
             ImageSrc: Song.ImageSrc,
             Tags: Song.Tags
           }
-          // console.log(ThisSong);
 
           for(var i=0; i<Payload.Playlists.length; ++i) {
             this.state.MainData.AllPlaylists.forEach(Playlist => {
@@ -171,12 +203,21 @@ export default new Vuex.Store({
         } 
       })
 
-      // console.log(this.state.MainData.AllPlaylists)
+      context.dispatch('UpdateChanges');
+    },
+
+    AddNewPlaylist: function (context, NewPlaylist) {
+      var CreatePlaylist = {
+        Name: NewPlaylist,
+        ContentOfPlaylist: []
+      }
+
+      this.state.MainData.AllPlaylists.push(CreatePlaylist)
       context.dispatch('UpdateChanges');
     }
   },
   
   modules: {
-    
+    //  
   },
 })

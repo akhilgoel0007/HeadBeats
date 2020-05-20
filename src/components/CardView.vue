@@ -72,7 +72,7 @@
                                 <v-card>
                                     <v-card-title class="headline">Name Of The Song</v-card-title>
                                     <v-card-text>
-                                        <v-text-field v-model="NewSongName" v-on:keyup.enter="SongNameEnter()"></v-text-field>
+                                        <v-text-field v-model="SongName" v-on:keyup.enter="SongNameEnter()"></v-text-field>
                                     </v-card-text>
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
@@ -88,7 +88,7 @@
                                 <v-card>
                                     <v-card-title class="headline">Name Of The Author</v-card-title>
                                     <v-card-text>
-                                        <v-text-field v-model="NewAuthorName" v-on:keyup.enter="AuthorNameEnter()"></v-text-field>
+                                        <v-text-field v-model="AuthorName" v-on:keyup.enter="AuthorNameEnter()"></v-text-field>
                                     </v-card-text>
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
@@ -103,7 +103,7 @@
                 <div class=" Song-Title"> {{CurrentSong.Title}} </div>
                 <div class="Info-Font font-weight-light">
                     Duration: {{CurrentSong.DisplayDuration}}<br>
-                    Author: {{CurrentSong.Author}}<br>
+                    Author: {{AuthorName}}<br>
                     <!-- Genre<br>
                     Album<br>
                     so..on<br> -->
@@ -128,8 +128,8 @@ export default {
             SongNameDialog: false,
             Loaded: false,
             Playing: this.IsPlaying,
-            NewSongName: "",
-            NewAuthorName: "",
+            SongName: this.CurrentSong.Title,
+            AuthorName: this.CurrentSong.Author,
             selected: [],
             chips: [],
         }
@@ -148,14 +148,26 @@ export default {
 
         GetAuthorName: function() {
             this.AuthorNameDialog = false
-            console.log(this.NewAuthorName)
-            this.NewAuthorName = ""
+
+            var Payload = {
+                AuthorName: this.AuthorName,
+                Source: this.CurrentSong.Source
+            }
+            
+            this.$store.dispatch('ChangeAuthorName', Payload);
+            // this.NewAuthorName = ""
         },
 
         GetSongName: function() {
             this.SongNameDialog = false
-            console.log(this.NewSongName)
-            this.NewSongName = ""
+
+            var Payload = {
+                SongName: this.SongName,
+                Source: this.CurrentSong.Source
+            }
+
+            this.$store.dispatch('ChangeSongName', Payload);
+            // this.NewSongName = ""
         },
 
         GetPlaylists: function() {

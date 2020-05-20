@@ -82,6 +82,7 @@
                         var NewSong = { 
                             'Id': 0,
                             'Source': Path,
+                            'Author': "",
                             'Duration': 0,
                             'DisplayDuration': 0,
                             'Tags': [],
@@ -113,6 +114,7 @@
 
         PressedEnter: function() {
             this.PlaylistDialog = false
+            this.$store.dispatch('AddNewPlaylist', this.NewPlaylist)
             this.NewPlaylist = ""; // Important to reintialize NewPlaylist Variable...
         },
 

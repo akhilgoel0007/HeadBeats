@@ -117,23 +117,23 @@
 
 import { MyMusicBus, PlaylistBus } from '../main'
 
-// import { PlaylistBus } from '../main'
-
 export default {
-    props: ['CurrentSong', 'Place'],
+    props: ['CurrentSong', 'Place', 'IsPlaying'],
 
-    data: () => ({
-        TagDialog: false,
-        PlaylistDialog: false,
-        AuthorNameDialog: false,
-        SongNameDialog: false,
-        Playing: false,
-        Loaded: false,
-        NewSongName: "",
-        NewAuthorName: "",
-        selected: [],
-        chips: [],
-    }),
+    data: function() {
+        return {
+            TagDialog: false,
+            PlaylistDialog: false,
+            AuthorNameDialog: false,
+            SongNameDialog: false,
+            Loaded: false,
+            Playing: this.IsPlaying,
+            NewSongName: "",
+            NewAuthorName: "",
+            selected: [],
+            chips: [],
+        }
+    },
 
     methods: {
         Output: function() {
@@ -177,6 +177,15 @@ export default {
             this.GetSongName()
         },
 
+        CommitChanges: function(Song, Window) {
+            var Payload = {
+                PlayingSong: Song,
+                PlayingWindow: Window
+            }
+
+            this.$store.commit('ChangeData', Payload)
+        },
+
         PlaySong: function(PlayingSong) {
             if(this.Place === "AllSongs") { 
                 // AllMusic Window
@@ -184,7 +193,10 @@ export default {
                 if(!this.Playing) {
                     if(!this.Loaded) {
                         MyMusicBus.$emit('LoadSong', PlayingSong)
-                        MyMusicBus.$emit('SetSongList', this.$store.state.MainData.AllSongs);
+                        MyMusicBus.$emit('SetSongList', "AllSongs" , this.$store.state.MainData.AllSongs);
+
+                        this.CommitChanges(this.CurrentSong, this.Place)
+                        
                         this.Playing = true
                         this.Loaded = true
                     } else {
@@ -203,9 +215,12 @@ export default {
                         PlaylistBus.$emit('LoadSong', PlayingSong)
                         this.$store.state.MainData.AllPlaylists.forEach(Playlist => {
                             if(Playlist.Name === this.Place) {
-                                PlaylistBus.$emit('SetSongList', Playlist.ContentOfPlaylist)
+                                PlaylistBus.$emit('SetSongList', Playlist.Name, Playlist.ContentOfPlaylist)
                             }
                         });
+
+                        this.CommitChanges(this.CurrentSong, this.Place)
+                        
                         this.Playing = true
                         this.Loaded = true
                     } else {
@@ -226,7 +241,7 @@ export default {
                 this.Playing = false; // Stop the Last Song
                 this.Loaded = false;
             }
-        }
+        },
     },
 
     computed: {
@@ -246,11 +261,35 @@ export default {
             if(this.CurrentSong.Title === CurrentSong) {
                 this.Playing = !this.Playing;
                 this.Loaded = true // Loaded this song in the player..
+                this.CommitChanges(this.CurrentSong, this.Place)
             }
 
             if(this.CurrentSong.Title === LastSong) {
                 this.Playing = !this.Playing;
                 this.Loaded = false // Removed this song from player..
+            }
+        })
+
+        PlaylistBus.$on('ToggleCurrentSong', (PlaylistName, SongName, Status) => {
+            if(PlaylistName === this.Place) {
+                if(this.CurrentSong.Title === SongName) {
+                    this.ToggleSongState(Status)
+                }
+            }
+        })
+
+        PlaylistBus.$on('NextSong', (PlaylistName, LastSong, CurrentSong) => {
+            if(PlaylistName === this.Place) {
+                if(this.CurrentSong.Title === CurrentSong) {
+                    this.Playing = !this.Playing;
+                    this.Loaded = true // Loaded this song in the player..
+                    this.CommitChanges(this.CurrentSong, this.Place)
+                }
+
+                if(this.CurrentSong.Title === LastSong) {
+                    this.Playing = !this.Playing;
+                    this.Loaded = false // Removed this song from player..
+                }
             }
         })
     }

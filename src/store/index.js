@@ -9,9 +9,16 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     MainData: [],
+    PlayingWindow: null,
+    PlayingSong: null,
   },
 
   mutations: {
+
+    ChangeData: function(state, Payload) {
+      state.PlayingWindow = Payload.PlayingWindow
+      state.PlayingSong = Payload.PlayingSong
+    },
 
     UpdateChanges: async function() {
       var Buffer = {
@@ -69,7 +76,6 @@ export default new Vuex.Store({
           throw err;
         } else {
           this.state.MainData = JSON.parse(data)
-          console.log( this.state.MainData)
           this.state.MainData.AllSongs.forEach(Song => {
              mm.parseFile(Song.Source)
             .then( metadata => {

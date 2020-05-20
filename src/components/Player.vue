@@ -52,6 +52,7 @@ import { PlaylistBus } from '../main';
 
 export default {
   data: () => ({
+    WindowName: null,
     PlayerStatus: false, // Triangle
     LastSong: null,
     CurrentSong: null,
@@ -63,7 +64,7 @@ export default {
   }),
 
   methods: {
-    ToggleCardState: async function(Current) {
+    ToggleMyMusicCardState: async function(Current) {
       if(Current) {
         MyMusicBus.$emit('ToggleCurrentSong', this.CurrentSong.Title, Current)
       } else {
@@ -71,8 +72,20 @@ export default {
       }
     },
 
-    NextSongToggle: async function() {
-      MyMusicBus.$emit('NextSong', this.LastSong.Title, this.CurrentSong.Title,);
+    TogglePlaylistCardState: async function(Current) {
+      if(Current) {
+        PlaylistBus.$emit('ToggleCurrentSong', this.WindowName, this.CurrentSong.Title, Current)
+      } else {
+        PlaylistBus.$emit('ToggleCurrentSong', this.WindowName, this.LastSong.Title, Current)
+      }
+    },
+
+    NextSongToggle: async function(WindowName) {
+      if(WindowName === "AllSongs") {
+        MyMusicBus.$emit('NextSong', this.LastSong.Title, this.CurrentSong.Title);
+      } else {
+        PlaylistBus.$emit("NextSong", WindowName, this.LastSong.Title, this.CurrentSong.Title);
+      }
     },
 
     SeekTimeUpdate: function() {
@@ -104,7 +117,7 @@ export default {
 
         this.LastSong = this.CurrentSong;
         this.CurrentSong = NextSong;
-        this.NextSongToggle();
+        this.NextSongToggle(this.WindowName);
         this.LoadSong(NextSong);
       }
     },
@@ -129,7 +142,7 @@ export default {
 
         this.LastSong = this.CurrentSong;
         this.CurrentSong = PreviousSong;
-        this.NextSongToggle();
+        this.NextSongToggle(this.WindowName);
         this.LoadSong(PreviousSong);
       }
     },
@@ -178,7 +191,7 @@ export default {
         } else {
           this.PlayCurrentSong();
         }
-        this.ToggleCardState(true);
+        this.ToggleMyMusicCardState(true);
       }
     },
 
@@ -208,7 +221,7 @@ export default {
         this.LastSong = Data
       } else {
         this.LastSong = this.CurrentSong
-        this.ToggleCardState(false)
+        this.ToggleMyMusicCardState(false)
       }
 
       this.CurrentSong = Data
@@ -223,25 +236,28 @@ export default {
       this.PlayCurrentSong()
     })
 
-    MyMusicBus.$on('SetSongList', (SongsList) => {
+    MyMusicBus.$on('SetSongList', (Name, SongsList) => {
+      this.WindowName = Name
       this.CurrentSongsList = SongsList;
     })
     
     // Make another window to work on the switching of the windows..
 
     PlaylistBus.$on('LoadSong', (Data) => {
+      
       if(this.LastSong === null) {
         this.LastSong = Data
       } else {
         this.LastSong = this.CurrentSong
-        this.ToggleCardState(false)
+        this.TogglePlaylistCardState(false)
       }
 
       this.CurrentSong = Data
       this.LoadSong(Data);
     })
 
-    PlaylistBus.$on('SetSongList', (SongsList) => {
+    PlaylistBus.$on('SetSongList', (Name, SongsList) => {
+      this.WindowName = Name
       this.CurrentSongsList = SongsList;
     })
 
@@ -254,6 +270,7 @@ export default {
     })
   }
 }
+
 </script>
 
 <style scoped>

@@ -30,7 +30,7 @@
       <v-tabs-items v-model="Tab">
         <v-tab-item  v-for="Playlist in AllPlaylists" :key="Playlist.Name" :value="Playlist.Name">
           <div v-for="Song in Playlist.ContentOfPlaylist" :key="Song.Title">
-            <CardView :CurrentSong="Song" :Place="Playlist.Name"></CardView>
+            <CardView :CurrentSong="Song" :Place="Playlist.Name" :IsPlaying="GetPlayingStatus(Song, Playlist.Name)"></CardView>
           </div>
           <!-- <v-hover v-slot:default="{ hover }" v-for="Song in Playlist.ContentOfPlaylist" :key="Song.Title" class="AdditionalAttributes">
             <v-card class="mt-4" color="grey lighten-4" max-width="300">
@@ -138,7 +138,17 @@ export default {
   data: () => ({
     Tab: true,
   }),
-
+  methods: {
+    GetPlayingStatus: function(Song, PlaylistName) {
+      if(this.$store.state.PlayingSong != null && this.$store.state.PlayingWindow != null) {
+        if(this.$store.state.PlayingSong.Title === Song.Title && this.$store.state.PlayingWindow === PlaylistName) {
+          return true
+        } else {
+          return false
+        }
+      }
+    }
+  },
   computed: {
     AllPlaylists() {
       return this.$store.state.MainData.AllPlaylists;

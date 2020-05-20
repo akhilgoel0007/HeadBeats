@@ -21,7 +21,7 @@
 
         <v-card-text style="height: 500px; overflow-y: auto">
             <div v-for="Song in AllSongs" :key="Song.Title">
-                <CardView :CurrentSong="Song" Place="AllSongs"></CardView>
+                <CardView :CurrentSong="Song" Place="AllSongs" :IsPlaying="GetPlayingStatus(Song)"></CardView>
             </div>
         </v-card-text>
     </v-card>
@@ -38,6 +38,18 @@ export default {
     data: () => ({
         //
     }),
+
+    methods: {
+        GetPlayingStatus: function(Song) {
+            if(this.$store.state.PlayingSong != null && this.$store.state.PlayingWindow != null) {
+                if(this.$store.state.PlayingSong.Title === Song.Title && this.$store.state.PlayingWindow === "AllSongs") {
+                    return true
+                } else {
+                    return false
+                }
+            }
+        },
+    },
 
     computed: {
         AllSongs: function() {

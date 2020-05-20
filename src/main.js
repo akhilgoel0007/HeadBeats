@@ -8,6 +8,8 @@ Vue.config.productionTip = false
 
 export const MyMusicBus = new Vue();
 export const PlaylistBus = new Vue();
+export const MyMusicViewBus = new Vue();
+export const PlaylistViewBus = new Vue();
 
 new Vue({
   router,

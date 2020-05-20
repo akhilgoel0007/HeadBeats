@@ -55,6 +55,9 @@
                                             <div v-for="SongPlaylist in AllPlaylists" :key="SongPlaylist.Name">
                                                 <v-checkbox v-model="selected" :label="SongPlaylist.Name" :value="SongPlaylist.Name" hide-details></v-checkbox>
                                             </div>
+                                            <br><br>
+                                            <v-btn color="green darken-1" text @click="GetPlaylists()"> Save </v-btn>
+                                            <v-btn color="green darken-1" text @click="PlaylistDialog = false"> Close </v-btn>
                                         </v-container>
                                     </v-card-actions>
                                 </v-card>
@@ -112,7 +115,9 @@
 
 <script>
 
-import { MyMusicBus } from '../main'
+import { MyMusicBus, PlaylistBus } from '../main'
+
+// import { PlaylistBus } from '../main'
 
 export default {
     props: ['CurrentSong', 'Place'],
@@ -126,7 +131,7 @@ export default {
         Loaded: false,
         NewSongName: "",
         NewAuthorName: "",
-        selected: ['John'],
+        selected: [],
         chips: [],
     }),
 
@@ -153,6 +158,17 @@ export default {
             this.NewSongName = ""
         },
 
+        GetPlaylists: function() {
+            this.PlaylistDialog = false
+            
+            var Payload = {
+                Id: this.CurrentSong.Id,
+                Playlists: this.selected
+            }
+
+            this.$store.dispatch('AddToPlaylist', Payload)
+        },
+
         AuthorNameEnter: function() {
             this.GetAuthorName()
         },
@@ -162,7 +178,9 @@ export default {
         },
 
         PlaySong: function(PlayingSong) {
-            if(this.Place === "AllSongs") {
+            if(this.Place === "AllSongs") { 
+                // AllMusic Window
+                
                 if(!this.Playing) {
                     if(!this.Loaded) {
                         MyMusicBus.$emit('LoadSong', PlayingSong)
@@ -178,7 +196,26 @@ export default {
                     this.Playing = false
                 }
             } else {
-                //
+                // Playlist Window
+
+                if(!this.Playing) { 
+                    if(!this.Loaded) {
+                        PlaylistBus.$emit('LoadSong', PlayingSong)
+                        this.$store.state.MainData.AllPlaylists.forEach(Playlist => {
+                            if(Playlist.Name === this.Place) {
+                                PlaylistBus.$emit('SetSongList', Playlist.ContentOfPlaylist)
+                            }
+                        });
+                        this.Playing = true
+                        this.Loaded = true
+                    } else {
+                        PlaylistBus.$emit('PlaySong')
+                        this.Playing = true
+                    }
+                } else {
+                    PlaylistBus.$emit('PauseSong')
+                    this.Playing = false
+                }
             }
         },
 

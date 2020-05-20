@@ -70,7 +70,7 @@
                 properties: ['openFile', 'multiSelections'],
                 filters: [{
                     name: 'Select Songs',
-                    // extensions: ['mp3', 'wav', 'ogg']
+                    extensions: ['mp3', 'wav', 'ogg']
                 }]
             },async function(file) {
                 if(file) {
@@ -90,12 +90,6 @@
                         await mm.parseFile(NewSong.Source)
                         .then( metadata => {
                             util.inspect(metadata, {showHidden:true, depth: null});
-                            if(metadata.common.picture) {
-                                NewSong.ImageSrc = `data:${metadata.common.picture[0].format}; base64,${metadata.common.picture[0].data.toString('base64')}`;
-                            } else {
-                                NewSong.ImageSrc = 'http://localhost:8080/data/logo.png'
-                            }
-
                             NewSong.Title = metadata.common.title
                             NewSong.Duration = metadata.format.duration
                             NewSong.DisplayDuration = GetDisplayDuration(Math.ceil(NewSong.Duration))

@@ -48,7 +48,7 @@
 
 <script>
 import { MyMusicBus } from '../main';
-// import {PlaylistBus} from '../main';
+import { PlaylistBus } from '../main';
 
 export default {
   data: () => ({
@@ -225,9 +225,34 @@ export default {
 
     MyMusicBus.$on('SetSongList', (SongsList) => {
       this.CurrentSongsList = SongsList;
-    }) 
-  }
+    })
+    
+    // Make another window to work on the switching of the windows..
 
+    PlaylistBus.$on('LoadSong', (Data) => {
+      if(this.LastSong === null) {
+        this.LastSong = Data
+      } else {
+        this.LastSong = this.CurrentSong
+        this.ToggleCardState(false)
+      }
+
+      this.CurrentSong = Data
+      this.LoadSong(Data);
+    })
+
+    PlaylistBus.$on('SetSongList', (SongsList) => {
+      this.CurrentSongsList = SongsList;
+    })
+
+    PlaylistBus.$on('PauseSong', () => {
+      this.PauseCurrentSong()
+    })
+
+    PlaylistBus.$on('PlaySong', () => {
+      this.PlayCurrentSong()
+    })
+  }
 }
 </script>
 

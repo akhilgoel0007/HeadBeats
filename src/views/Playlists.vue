@@ -20,11 +20,7 @@
       <h1 class="font-weight-bold display-1 white--text"> Playlists </h1>
     </v-card-title>
     <!-- <v-divider></v-divider> -->
-    <v-tabs  background-color="purple" dark show-arrows center-active centered
-      v-model="Tab"
-      next-icon="mdi-chevron-right"
-      prev-icon="mdi-chevron-left"
-    >   
+    <v-tabs  background-color="purple" dark show-arrows center-active centered v-model="Tab" next-icon="mdi-chevron-right" prev-icon="mdi-chevron-left">   
       <v-tabs-slider color="yellow"></v-tabs-slider>
       <v-tab v-for="Playlist in AllPlaylists" :key="Playlist.Name" :href="'#' + Playlist.Name">
         {{ Playlist.Name }}
@@ -33,23 +29,15 @@
     <v-card flat style="overflow-y: auto; height:430px" max-width="1400">
       <v-tabs-items v-model="Tab">
         <v-tab-item  v-for="Playlist in AllPlaylists" :key="Playlist.Name" :value="Playlist.Name">
-          <v-hover 
-            v-slot:default="{ hover }" 
-            v-for="Song in Playlist.ContentOfPlaylist" 
-            :key="Song.Title" 
-            class="AdditionalAttributes"
-          >
-            <v-card 
-              class="mt-4" 
-              color="grey lighten-4" max-width="300"
-            >
-              <!-- Image source file path in below src tag -->
+          <div v-for="Song in Playlist.ContentOfPlaylist" :key="Song.Title">
+            <CardView :CurrentSong="Song" :Place="Playlist.Name"></CardView>
+          </div>
+          <!-- <v-hover v-slot:default="{ hover }" v-for="Song in Playlist.ContentOfPlaylist" :key="Song.Title" class="AdditionalAttributes">
+            <v-card class="mt-4" color="grey lighten-4" max-width="300">
+              Image source file path in below src tag
               <v-img :aspect-ratio="16/10" src="https://cdn.vuetifyjs.com/images/cards/kitchen.png">
                 <v-expand-transition>
-                  <div v-if="hover"
-                    class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text"
-                    style="height: 100%;"
-                  >
+                  <div v-if="hover" class="d-flex transition-fast-in-fast-out orange darken-2 v-card--reveal display-3 white--text" style="height: 100%;">
                     <v-icon style="font-size: 100px" class="white--text">mdi-play</v-icon>
                   </div>
                 </v-expand-transition>
@@ -116,23 +104,23 @@
                     </v-list-item>
                   </v-list>
                 </v-menu>
-                <!-- <v-fab-transition>
+                <v-fab-transition>
                   <v-btn absolute color="orange" class="white--text" fab large right top>
                     <v-icon>mdi-view-grid-plus</v-icon>
                   </v-btn>
-                </v-fab-transition> -->
+                </v-fab-transition>
 
                 <div class=" Song-Title"> {{Song.Title}} </div>
                 <div class="Info-Font font-weight-light">
                   Duration: {{Song.Duration}}<br>
                   Author: {{Song.Author}}<br>
-                  <!-- Genre<br>
+                  Genre<br>
                   Album<br>
-                  so..on<br> -->
+                  so..on<br>
                 </div>
               </v-card-text>
             </v-card>
-          </v-hover>
+          </v-hover> -->
         </v-tab-item>
       </v-tabs-items>
     </v-card>
@@ -141,38 +129,15 @@
 
 <script>
 
-// import {PlaylistBus} from '../main'
+import CardView from '../components/CardView';
 
 export default {
   name: 'Playlists',
-
+  components: { CardView },
+  
   data: () => ({
-    TagDialog: false,
-    PlaylistDialog: false,
     Tab: true,
-    selected: ['John'],
-    chips: [],
   }),
-
-  methods: {
-
-    AddPlayList: () => {
-      //
-    },
-
-    Output: function() {
-      this.TagDialog = false;
-      console.log(this.chips);
-    },
-
-    ToggleIconText: function() {
-      if(this.IconText === 'mdi-play') {
-        this.IconText = 'mdi-pause';
-      } else {
-        this.IconText = 'mdi-play';
-      }
-    },
-  },
 
   computed: {
     AllPlaylists() {

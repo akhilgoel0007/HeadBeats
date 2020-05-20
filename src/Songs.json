@@ -1,0 +1,13 @@
+{
+    "AllSongs":[],
+    
+    "AllPlaylists": [
+    { 
+      "Name": "Punjabi Songs",
+      "ContentOfPlaylist": []
+    },
+    { 
+      "Name": "English Songs",
+      "ContentOfPlaylist": []
+    }
+  ]}

@@ -1,26 +1,30 @@
 <template>
-  <v-card>
-    <v-combobox multiple chips label="Song Tags">
-      <template v-slot:selection="data">
-        <v-chip>
-          <v-avatar left class="accent white--text" v-text="data.item.slice(0, 1).toUpperCase()"></v-avatar>
-          {{ data.item }}
-        </v-chip>
-      </template>
-    </v-combobox>
-  </v-card>
+  <v-row justify="center">
+    <v-btn color="primary" dark @click.stop="dialog = true">
+      Open Dialog
+    </v-btn>
+
+    <v-dialog v-model="dialog" max-width="290">
+      <v-card>
+        <v-card-title class="headline">Playlists</v-card-title>
+        <v-card-actions>
+          <v-container fluid style="padiing-top: 0px;">
+            <v-checkbox v-model="selected" label="John" value="John" hide-details></v-checkbox>
+            <v-checkbox v-model="selected" label="Jacob" value="Jacob" hide-details></v-checkbox>
+            <v-checkbox v-model="selected" label="Akhil" value="Akhil" hide-details></v-checkbox>
+          </v-container>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-row>
 </template>
 
 <script>
   export default {
     data () {
       return {
-        items: [
-          'Programming',
-          'Design',
-          'Vue',
-          'Vuetify',
-        ],
+        dialog: false,
+        selected: ['John'],
       }
     },
   }

@@ -60,7 +60,7 @@
     data: () => ({
         PlaylistDialog: false,
         AllNewSongs: [],
-        NewPlaylist: ""
+        NewPlaylist: "",
     }),
 
     methods: {
@@ -92,6 +92,11 @@
                         .then( metadata => {
                             util.inspect(metadata, {showHidden:true, depth: null});
                             NewSong.Title = metadata.common.title
+                            
+                            if(!NewSong.Title) {
+                                NewSong.Title = 'Custom Title' // if Songs title is not defined
+                            }
+
                             NewSong.Duration = metadata.format.duration
                             NewSong.DisplayDuration = GetDisplayDuration(Math.ceil(NewSong.Duration))
                         });
@@ -113,9 +118,22 @@
         },
 
         PressedEnter: function() {
-            this.PlaylistDialog = false
-            this.$store.dispatch('AddNewPlaylist', this.NewPlaylist)
-            this.NewPlaylist = ""; // Important to reintialize NewPlaylist Variable...
+            var Present = false
+
+            this.$store.state.MainData.AllPlaylists.forEach(Playlist => {
+                if(Playlist.Name === this.NewPlaylist) {
+                    Present = true
+                }
+            })
+
+            if(!Present) {
+                this.PlaylistDialog = false
+                this.$store.dispatch('AddNewPlaylist', this.NewPlaylist)
+                this.NewPlaylist = ""; // Important to reintialize NewPlaylist Variable...
+                return true
+            } else {
+                alert('Cannot Have two Playlist\'s with same name.')
+            }
         },
 
         GetNewPlaylistName: function() {

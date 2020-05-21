@@ -308,6 +308,7 @@ input[type="range"]:focus {
   height: 18px;
   width: 14px;
   cursor: pointer;
+  transition: ease-in-out;
   opacity: 0;
 }
 

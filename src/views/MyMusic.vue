@@ -3,24 +3,13 @@
         <v-toolbar flat>
             <v-toolbar-title class="grey--text">All Songs</v-toolbar-title>
             <v-spacer></v-spacer>
-        
-            <!-- <v-btn icon>
-                <v-icon>mdi-magnify</v-icon>
-            </v-btn>
-
-            <v-btn icon>
-                <v-icon>mdi-apps</v-icon>
-            </v-btn>
-
-            <v-btn icon>
-                <v-icon>mdi-dots-vertical</v-icon>
-            </v-btn> -->
+            <v-text-field hide-details prepend-icon="mdi-magnify" single-line v-model="search" placeholder="Search Songs"></v-text-field>
         </v-toolbar>
 
         <v-divider></v-divider>
 
         <v-card-text style="height: 500px; overflow-y: auto">
-            <div v-for="Song in AllSongs" :key="Song.Title">
+            <div v-for="Song in FilteredSongs" :key="Song.Title">
                 <CardView :CurrentSong="Song" Place="AllSongs" :IsPlaying="GetPlayingStatus(Song)"></CardView>
             </div>
         </v-card-text>
@@ -34,9 +23,9 @@ import CardView from '../components/CardView';
 export default {
     name: 'MyMusic',
     components: { CardView },
-    
+
     data: () => ({
-        //
+        search: "",
     }),
 
     methods: {
@@ -53,7 +42,18 @@ export default {
 
     computed: {
         AllSongs: function() {
-            return this.$store.state.MainData.AllSongs;
+            return this.$store.getters.GetAllSongs
+        },
+
+        FilteredSongs: function() {
+            var Songs = this.$store.getters.GetAllSongs
+            if(Songs) {
+                return Songs.filter((Song) => {
+                    return Song.Title.match(this.search)
+                })
+            } else {
+                return null
+            }
         },
 
         AllPlaylists: function() {

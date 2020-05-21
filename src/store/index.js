@@ -21,15 +21,25 @@ export default new Vuex.Store({
     },
   },
   
+  getters: {
+    GetAllSongs: state => {
+      return state.MainData.AllSongs
+    },
+
+    GetAllPlaylists: state => {
+      return state.MainData.AllPlaylists
+    }
+  },
+
   actions: {
     LoadData: function() {
-      fs.readFile ('src/Songs.json', (err, data) => {
+      fs.readFile('src/Songs.json', (err, data) => {
         if(err) {
           throw err;
         } else {
           this.state.MainData = JSON.parse(data)
           this.state.MainData.AllSongs.forEach(Song => {
-             mm.parseFile(Song.Source)
+            mm.parseFile(Song.Source)
             .then( metadata => {
               util.inspect(metadata, {showHidden:true, depth: null});
               if(metadata.common.picture) {

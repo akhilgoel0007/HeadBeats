@@ -42,7 +42,7 @@
             </div> -->
           <!-- </div> -->
         </v-tab-item>
-      </v-tabs-items>
+      </v-tabs-items> 
     </v-card>
   </v-card>
 </template>

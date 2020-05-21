@@ -11,9 +11,8 @@
             <v-btn depressed class="grey--text">
                 <v-icon>mdi-logout</v-icon> 
                 <span class="font-weight-bold">Sign Out</span>
-            </v-btn>
-<!-- 
-            <v-btn icon>
+            </v-btn> 
+            <!--<v-btn icon>
                 <v-icon>mdi-heart</v-icon>
             </v-btn>
 
@@ -53,6 +52,7 @@ export default {
             drawer: false,
             Sidedrawer: false,
             SideMenu: [
+                { Title: 'Home', Icon: 'mdi-home', Route:'/'},
                 { Title: 'My Music', Icon: 'mdi-account-music', Route:'/MyMusic' },
                 { Title: 'Playlists', Icon: 'mdi-playlist-music', Route:'/Playlists' },
                 { Title: 'Test Option', Icon: 'mdi-playlist-music', Route:'/TestOption'}

@@ -51,8 +51,10 @@
                 <Visualizer />
             </div>
             <div v-show="MusicPlaying == 5" style="height: inherit; width: inherit;">
+                <Follower />
             </div>
             <div v-show="MusicPlaying == 6" style="height: inherit; width: inherit;">
+                <StarShower />
             </div>
         </v-card>
     </div>
@@ -62,10 +64,12 @@
 
 import Circles from '../components/Canvas/Circles';
 import Visualizer from '../components/Canvas/BarVisualizer';
+import Follower from '../components/Canvas/Follower'
+import StarShower from '../components/Canvas/StarShower'
 
 export default {
     name: 'AnimationScreen',
-    components: { Circles, Visualizer },    
+    components: { Circles, Visualizer, Follower, StarShower },    
     data: () => ({
         //
     }),

@@ -9,7 +9,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     MainData: [],
-    MusicPlaying: 2,
+    MusicPlaying: 6,
     PlayingWindow: null,
     PlayingSong: null,
   },

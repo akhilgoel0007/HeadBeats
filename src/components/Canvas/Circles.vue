@@ -71,7 +71,6 @@ export default {
         var innerHeight = this.$refs['Circle-Canvas'].height;
         var innerWidth = this.$refs['Circle-Canvas'].width;
 
-        // console.log(innerHeight + " " + innerWidth);
         var mouse = {
             x: undefined,
             y: undefined

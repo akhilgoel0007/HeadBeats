@@ -6,7 +6,7 @@
     </div>
     <div class="footer-bar-container">
       <audio id="player">
-        <source id="SongSource" />
+        <source id="SongSource">
       </audio>
       <div class="footer-bar">
         <div class="footer-song-metadata">
@@ -19,22 +19,13 @@
         <div class="fab-btns">
           <button id="Shuffle-Button" class="floating-action-btn" @click="ShuffleSongs()">
             <v-icon v-if="!Shuffle" class="icon-config">mdi-shuffle</v-icon>
-            <v-icon
-              v-else-if="Shuffle"
-              class="icon-config"
-              style="background-color: white; color: #9575cdff;"
-            >mdi-shuffle</v-icon>
+            <v-icon v-else-if="Shuffle" class="icon-config" style="background-color: white; color: #9575cdff;">mdi-shuffle</v-icon>
           </button>
           <button id="Previous-Button" class="floating-action-btn" @click="PreviousSong()">
             <v-icon class="icon-config">mdi-skip-previous</v-icon>
           </button>
           <button id="Play-Button" class="floating-action-btn footer-fab-play" @click="PlayPause()">
-            <v-icon
-              v-if="PlayerStatus"
-              id="Play-Button-Icon"
-              class="icon-config"
-              style="background-color: white; color: #9575cdff;"
-            >mdi-pause</v-icon>
+            <v-icon v-if="PlayerStatus" id="Play-Button-Icon" class="icon-config" style="background-color: white; color: #9575cdff;">mdi-pause</v-icon>
             <v-icon v-else-if="!PlayerStatus" id="Play-Button-Icon" class="icon-config">mdi-play</v-icon>
           </button>
           <button id="Next-Button" class="floating-action-btn" @click="NextSong()">
@@ -42,19 +33,13 @@
           </button>
           <button id="Replay-Button" class="floating-action-btn" @click="RepeatCurrentSong()">
             <v-icon v-if="!Repeat" class="icon-config">mdi-replay</v-icon>
-            <v-icon
-              v-else-if="Repeat"
-              class="icon-config"
-              style="background-color: white; color: #9575cdff;"
-            >mdi-replay</v-icon>
+            <v-icon v-else-if="Repeat" class="icon-config" style="background-color: white; color: #9575cdff;">mdi-replay</v-icon> 
           </button>
         </div>
-        <div class="footer-fab-volume">
-          <!-- Can change the volume icon to high, medium or low depending on slider value. Can mute/unmute by clicking on it -->
-          <button class="volume-mute-unmute">
-            <v-icon id="volume-icon" class="icon-config">mdi-volume-medium</v-icon>
+        <div class="footer-fab-playlist">
+          <button class="floating-action-btn footer-fab-playlist-image">
+            <v-icon class="icon-config">mdi-playlist-plus</v-icon>
           </button>
-          <input type="range" min="0" max="100" value="50" class="volume-slider" />
         </div>
       </div>
     </div>
@@ -62,10 +47,12 @@
 </template>
 
 <script>
-import { MyMusicBus } from "../main";
-import { PlaylistBus } from "../main";
+import { MyMusicBus } from '../main';
+import { PlaylistBus } from '../main';
+import { VisualizerBus } from '../main';
 
 export default {
+
   data: () => ({
     WindowName: null,
     PlayerStatus: false, // Triangle
@@ -80,76 +67,54 @@ export default {
 
   methods: {
     ToggleMyMusicCardState: async function(Current) {
-      if (Current) {
-        MyMusicBus.$emit("ToggleCurrentSong", this.CurrentSong.Title, Current);
+      if(Current) {
+        MyMusicBus.$emit('ToggleCurrentSong', this.CurrentSong.Title, Current)
       } else {
-        MyMusicBus.$emit("ToggleCurrentSong", this.LastSong.Title, Current);
+        MyMusicBus.$emit('ToggleCurrentSong', this.LastSong.Title, Current)
       }
     },
 
     TogglePlaylistCardState: async function(Current) {
-      if (Current) {
-        PlaylistBus.$emit(
-          "ToggleCurrentSong",
-          this.WindowName,
-          this.CurrentSong.Title,
-          Current
-        );
+      if(Current) {
+        PlaylistBus.$emit('ToggleCurrentSong', this.WindowName, this.CurrentSong.Title, Current)
       } else {
-        PlaylistBus.$emit(
-          "ToggleCurrentSong",
-          this.WindowName,
-          this.LastSong.Title,
-          Current
-        );
+        PlaylistBus.$emit('ToggleCurrentSong', this.WindowName, this.LastSong.Title, Current)
       }
     },
 
     NextSongToggle: async function(WindowName) {
-      if (WindowName === "AllSongs") {
-        MyMusicBus.$emit(
-          "NextSong",
-          this.LastSong.Title,
-          this.CurrentSong.Title
-        );
+      if(WindowName === "AllSongs") {
+        MyMusicBus.$emit('NextSong', this.LastSong.Title, this.CurrentSong.Title);
       } else {
-        PlaylistBus.$emit(
-          "NextSong",
-          WindowName,
-          this.LastSong.Title,
-          this.CurrentSong.Title
-        );
+        PlaylistBus.$emit("NextSong", WindowName, this.LastSong.Title, this.CurrentSong.Title);
       }
     },
 
     SeekTimeUpdate: function() {
-      this.SeekBar.value =
-        document.getElementById("player").currentTime *
-        (1000 / this.CurrentSong.Duration);
-      this.SeekSlide.style.width = this.SeekBar.value / 10 + "%";
+      this.SeekBar.value = document.getElementById('player').currentTime * (1000/this.CurrentSong.Duration)
+      this.SeekSlide.style.width = (this.SeekBar.value/10) + '%'
     },
 
     SeekUpdate: function() {
-      document.getElementById("player").currentTime =
-        this.CurrentSong.Duration * (this.SeekBar.value / 1000);
+      document.getElementById('player').currentTime = this.CurrentSong.Duration * (this.SeekBar.value/1000)
     },
 
     NextSong: function() {
-      if (this.CurrentSongsList != null) {
+      if(this.CurrentSongsList != null) {
         var NextSong = null;
 
-        if (this.CurrentSong.Id != this.CurrentSongsList.length) {
+        if(this.CurrentSong.Id != this.CurrentSongsList.length) {
           this.CurrentSongsList.forEach(Song => {
-            if (Song.Id === this.CurrentSong.Id + 1) {
+            if(Song.Id === this.CurrentSong.Id+1) {
               NextSong = Song;
             }
           });
         } else {
-          this.CurrentSongsList.forEach(Song => {
-            if (Song.Id === 1) {
+          this.CurrentSongsList.forEach(Song =>{
+            if(Song.Id === 1) {
               NextSong = Song; // Go to the start of the list.. basically repeat
             }
-          });
+          })
         }
 
         this.LastSong = this.CurrentSong;
@@ -160,21 +125,21 @@ export default {
     },
 
     PreviousSong: function() {
-      if (this.CurrentSongsList != null) {
+      if(this.CurrentSongsList != null) {
         var PreviousSong = null;
 
-        if (this.CurrentSong.Id != 1) {
+        if(this.CurrentSong.Id != 1) {
           this.CurrentSongsList.forEach(Song => {
-            if (Song.Id === this.CurrentSong.Id - 1) {
+            if(Song.Id === this.CurrentSong.Id-1) {
               PreviousSong = Song;
             }
           });
         } else {
-          this.CurrentSongsList.forEach(Song => {
-            if (Song.Id === this.CurrentSongsList.length) {
+          this.CurrentSongsList.forEach(Song =>{
+            if(Song.Id === this.CurrentSongsList.length) {
               PreviousSong = Song; // Go to the start of the list.. basically repeat
             }
-          });
+          })
         }
 
         this.LastSong = this.CurrentSong;
@@ -185,31 +150,31 @@ export default {
     },
 
     ChangeSong: function() {
-      if (!this.Repeat) {
-        document.getElementById("player").currentTime = 0;
+      if(!this.Repeat) {
+        document.getElementById('player').currentTime = 0;
         this.NextSong();
       }
     },
 
-    RepeatCurrentSong: function() {
-      this.Repeat = !this.Repeat;
-      document.getElementById("player").loop = this.Repeat;
+    RepeatCurrentSong: function () {
+      this.Repeat = !this.Repeat
+      document.getElementById('player').loop = this.Repeat
     },
 
     ShuffleSongs: function() {
-      this.Shuffle = !this.Shuffle;
+      this.Shuffle = !this.Shuffle
     },
 
     PlaySong: function() {
-      this.PlayerStatus = true;
-      document.getElementById("player").load(); // Load The Song in Player..
-      document.getElementById("player").play(); // Play The Song in Player..
+      this.PlayerStatus = true
+      document.getElementById('player').load() // Load The Song in Player..
+      document.getElementById('player').play() // Play The Song in Player..
     },
 
     PlayCurrentSong: function() {
       var Player = document.getElementById("player");
-
-      if (Player.readyState) {
+      
+      if(Player.readyState) {
         Player.play();
         this.PlayerStatus = true;
       }
@@ -222,8 +187,8 @@ export default {
     },
 
     PlayPause: function() {
-      if (this.CurrentSong != null && this.LastSong != null) {
-        if (this.PlayerStatus) {
+      if(this.CurrentSong != null && this.LastSong != null) {
+        if(this.PlayerStatus) {
           this.PauseCurrentSong();
         } else {
           this.PlayCurrentSong();
@@ -233,83 +198,85 @@ export default {
     },
 
     LoadSong: function(Data) {
-      this.FeedMetaData(Data);
-      this.PlaySong();
+      if(this.$store.getters.GetMusicPlaying == 4) {
+        VisualizerBus.$emit('ChangeSong', Data);
+      }
+      
+      this.FeedMetaData(Data)
+      this.PlaySong()
     },
 
     FeedMetaData: function(Data) {
-      document.getElementById("SongName").innerHTML = Data.Title;
-      document.getElementById("ArtistName").innerHTML = Data.DisplayDuration;
-      document.getElementById("CoverImage").src = Data.ImageSrc;
-      document.getElementById("SongSource").src = Data.Source;
+      document.getElementById("SongName").innerHTML = Data.Title
+      document.getElementById("ArtistName").innerHTML = Data.DisplayDuration
+      document.getElementById("CoverImage").src = Data.ImageSrc
+      document.getElementById('SongSource').src = Data.Source
 
-      this.SeekBar = document.getElementById("Seek");
-      this.SeekSlide = document.getElementById("Fill");
+      this.SeekBar = document.getElementById('Seek')
+      this.SeekSlide = document.getElementById('Fill')
 
-      this.SeekBar.addEventListener("change", this.SeekUpdate, false);
-      document
-        .getElementById("player")
-        .addEventListener("timeupdate", this.SeekTimeUpdate, false);
-      document
-        .getElementById("player")
-        .addEventListener("ended", this.ChangeSong, false);
+      this.SeekBar.addEventListener('change', this.SeekUpdate, false)
+      document.getElementById('player').addEventListener('timeupdate', this.SeekTimeUpdate, false)
+      document.getElementById('player').addEventListener('ended', this.ChangeSong, false)
     }
   },
 
   created() {
-    MyMusicBus.$on("LoadSong", Data => {
-      if (this.LastSong === null) {
-        this.LastSong = Data;
+    MyMusicBus.$on('LoadSong', (Data) => {
+      if(this.LastSong === null) {
+        this.LastSong = Data
       } else {
-        this.LastSong = this.CurrentSong;
-        this.ToggleMyMusicCardState(false);
+        this.LastSong = this.CurrentSong
+        this.ToggleMyMusicCardState(false)
       }
 
-      this.CurrentSong = Data;
+      this.CurrentSong = Data
       this.LoadSong(Data);
-    });
+    })
 
-    MyMusicBus.$on("PauseSong", () => {
-      this.PauseCurrentSong();
-    });
+    MyMusicBus.$on('PauseSong', () => {
+      this.PauseCurrentSong()
+    })
 
-    MyMusicBus.$on("PlaySong", () => {
-      this.PlayCurrentSong();
-    });
+    MyMusicBus.$on('PlaySong', () => {
+      this.PlayCurrentSong()
+    })
 
-    MyMusicBus.$on("SetSongList", (Name, SongsList) => {
-      this.WindowName = Name;
+    MyMusicBus.$on('SetSongList', (Name, SongsList) => {
+      this.WindowName = Name
       this.CurrentSongsList = SongsList;
-    });
-
+    })
+    
     // Make another window to work on the switching of the windows..
 
-    PlaylistBus.$on("LoadSong", Data => {
-      if (this.LastSong === null) {
-        this.LastSong = Data;
+    PlaylistBus.$on('LoadSong', (Data) => {
+      
+      if(this.LastSong === null) {
+        this.LastSong = Data
       } else {
-        this.LastSong = this.CurrentSong;
-        this.TogglePlaylistCardState(false);
+        this.LastSong = this.CurrentSong
+        this.TogglePlaylistCardState(false)
       }
 
-      this.CurrentSong = Data;
+      this.CurrentSong = Data
       this.LoadSong(Data);
-    });
+    })
 
-    PlaylistBus.$on("SetSongList", (Name, SongsList) => {
-      this.WindowName = Name;
+    PlaylistBus.$on('SetSongList', (Name, SongsList) => {
+      this.WindowName = Name
       this.CurrentSongsList = SongsList;
-    });
+    })
 
-    PlaylistBus.$on("PauseSong", () => {
-      this.PauseCurrentSong();
-    });
+    PlaylistBus.$on('PauseSong', () => {
+      this.PauseCurrentSong()
+    })
 
-    PlaylistBus.$on("PlaySong", () => {
-      this.PlayCurrentSong();
-    });
+    PlaylistBus.$on('PlaySong', () => {
+      this.PlayCurrentSong()
+    })
   }
-};
+}
+
 </script>
 
 <style scoped>
@@ -347,6 +314,7 @@ input[type="range"]:focus {
   height: 18px;
   width: 14px;
   cursor: pointer;
+  transition: ease-in-out;
   opacity: 0;
 }
 
@@ -394,7 +362,7 @@ input[type="range"]:focus {
   display: flex;
   justify-content: start;
   font-size: 17px;
-  font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   width: 25%;
   height: 60px;
 }
@@ -404,7 +372,7 @@ input[type="range"]:focus {
   width: 60px;
   margin: 0px 15px;
   border: 1.5px solid white;
-  box-shadow: 0 5px 0 rgb(107, 5, 107);
+  box-shadow: 0 5px 0 rgb(107, 5, 107),
 }
 
 .footer-song-metadata-text {
@@ -491,37 +459,15 @@ input[type="range"]:focus {
   color: white;
 }
 
-.footer-fab-volume {
+.footer-fab-playlist {
   position: absolute;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
   right: 10px;
   color: black;
-  width: 120px;
+  width: 60px;
 }
 
-.volume-mute-unmute {
-  outline: none;
+.footer-fab-playlist-image:hover {
+  background-color: white;
 }
 
-.volume-slider {
-  appearance: none;
-  height: 2px;
-  position: relative;
-  cursor: pointer;
-  widows: inherit;
-  width: 70%;
-  background: #b3d4fc;
-  outline: none;
-}
-
-.volume-slider::-webkit-slider-thumb {
-  appearance: none;
-  width: 15px;
-  height: 15px;
-  background: #b3d4fc;
-  border-radius: 50%;
-}
 </style>

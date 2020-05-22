@@ -1,52 +1,240 @@
 <template>
-    <div class="Loader-Container">
-        <div class="Loader">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
+    <div class="Main-Container">
+        <v-card class="card-config">
+            <div v-show="MusicPlaying == 1">
+                <div class="Loader-Container">
+                    <div class="Loader">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+            <div v-show="MusicPlaying == 2">
+                <div class="Container">
+                    <div class="Circle-Container">
+                        <div class="Circle"></div>
+                    </div>
+                    <div class="Circle-Container">
+                        <div class="Circle"></div>
+                    </div>
+                    <div class="Circle-Container">
+                        <div class="Circle"></div>
+                    </div>
+                    <div class="Circle-Container">
+                        <div class="Circle"></div>
+                    </div>
+                </div>
+            </div>
+            <div v-show="MusicPlaying == 3" style="height: inherit; width: 1500px;">
+                <Circles />
+            </div>
+            <div v-show="MusicPlaying == 4" style="height: inherit; width: inherit;">
+                <Visualizer />
+            </div>
+            <div v-show="MusicPlaying == 5" style="height: inherit; width: inherit;">
+                <Follower />
+            </div>
+            <div v-show="MusicPlaying == 6" style="height: inherit; width: inherit;">
+                <StarShower />
+            </div>
+        </v-card>
     </div>
 </template>
 
 <script>
 
+import Circles from '../components/Canvas/Circles';
+import Visualizer from '../components/Canvas/BarVisualizer';
+import Follower from '../components/Canvas/Follower'
+import StarShower from '../components/Canvas/StarShower'
+
 export default {
     name: 'AnimationScreen',
+    components: { Circles, Visualizer, Follower, StarShower },    
+    data: () => ({
+        //
+    }),
+
+    methods: {
+        MakeCircles: function() {
+            //
+        }
+    },
+
+    computed: {
+        MusicPlaying: function() {
+            return this.$store.getters.GetMusicPlaying
+        }
+    },
+
+    mounted() {
+        if(this.$store.getters.GetMusicPlaying == 3) {
+            this.MakeCircles()
+        }
+    }
 }
 </script>
 
 <style scoped>
-* {
-    margin: 0px;
-    padding: 0px;
+
+/* #Canvas1 {
+    width: 1000px;
+    height: 500px;
+    background-color: red;
+} */
+
+.Main-Container {
+    margin-top: 11px;
+    margin-left: 10px;
+    height: 75vh;
+    width: 1500px;
+}
+
+.card-config {
+    width: 1500px;
+    height: 75vh;
+    float: left;
+}
+
+.Container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+}
+
+.Circle-Container {
+    width: 400px;
+    height: 25vh;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.Circle-Container:after {
+    content: '';
+    width: 20px;
+    height: 5px;
+    position: absolute;
+    background: black;
+    border-radius: 50%;
+    bottom: 0;
+    left: 50%;
+    opacity: 0.4;
+    animation: Shadows 2s linear infinite;
+}
+
+.Circle-Container:nth-child(2):after {
+    animation-delay: -0.3s
+}
+
+.Circle-Container:nth-child(3):after {
+    animation-delay: -0.6s
+}
+
+.Circle {
+    width: 15px;
+    height: 15px;
+    background: skyblue;
+    border-radius: 50%;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    animation: Anim 2s linear infinite;
+}
+
+.Circle-Container:nth-child(2) .Circle {
+    animation-delay: -0.3s
+}
+
+.Circle-Container:nth-child(3) .Circle {
+    animation-delay: -0.6s;
+}
+
+@keyframes Anim {
+    0% {
+        transform-origin: 400% 50%;
+        transform: rotate(0);
+    }
+
+    50% {
+        transform-origin: 400% 50%;
+        transform: rotate(360deg);
+    }
+
+    50.1% {
+        transform-origin: -300% 50%;
+        transform: rotate(0deg);
+    } 
+
+    100% {
+        transform-origin: -300% 50%;
+        transform: rotate(-360deg);
+    }
+}
+
+@keyframes Shadows {
+    0% {
+
+    }
+
+    12.5% {
+        transform: translate(50px) scale(0.6);
+    }
+
+    25% {
+        transform: translate(110px);
+    }
+
+    37.5% {
+        transform: translate(50px) scale(1.4);
+    }
+
+    50% {
+        transform: translate(0px);
+    }
+
+    67.5% {
+        transform: translate(-50px) scale(0.6);
+    }
+
+    75% {
+        transform: translate(-110px);
+    }
+
+    87.5% {
+        transform: translate(-50px) scale(1.4);
+    }
+
+    100% {
+        transform: translate(0px);
+    }
 }
 
 .Loader-Container {
     display: flex;
     justify-content: center;
-    margin: auto;
     align-items: center;
-    min-height: 70vh;
-    width: 1000px;
-    /* background: #9c27b0; */
+    height: 75vh;
 }
 
 .Loader {
@@ -245,5 +433,6 @@ export default {
     right: 200px;
     animation-delay: -2.1s;
 }
+
 </style>
 

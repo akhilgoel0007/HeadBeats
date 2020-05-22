@@ -31,16 +31,9 @@
     <v-card flat style="overflow-y: auto; height:430px" max-width="1400">
       <v-tabs-items v-model="Tab">
         <v-tab-item  v-for="Playlist in AllPlaylists" :key="Playlist.Name" :value="Playlist.Name">
-          <!-- <div v-if="Tab"> -->
-            <div v-for="Song in FilteredSongs(Playlist.ContentOfPlaylist)" :key="Song.Title">
-              <CardView :CurrentSong="Song" :Place="Playlist.Name" :IsPlaying="GetPlayingStatus(Song, Playlist.Name)"></CardView>
-            </div>
-          <!-- </div>
-          <div v-if="!Tab">
-            <div v-for="Song in Playlist.ContentOfPlaylist" :key="Song.Title">
-              <CardView :CurrentSong="Song" :Place="Playlist.Name" :IsPlaying="GetPlayingStatus(Song, Playlist.Name)"></CardView>
-            </div> -->
-          <!-- </div> -->
+          <div v-for="Song in FilteredSongs(Playlist.ContentOfPlaylist)" :key="Song.Title">
+            <CardView :CurrentSong="Song" :Place="Playlist.Name" :IsPlaying="GetPlayingStatus(Song, Playlist.Name)"></CardView>
+          </div>
         </v-tab-item>
       </v-tabs-items> 
     </v-card>

@@ -1,388 +1,123 @@
 <template>
-  <div class="Main-Container">
-    <v-card class="card-config">
-      <div class="Loader-Container">
-                <div class="Loader">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            </div>
-    </v-card>
-    <v-card class="card-config ml-4">
+    <v-row justify="center">
+        <v-btn color="primary" dark @click.stop="dialog = true">
+            Open Dialog
+        </v-btn>
 
-    </v-card>
-    <v-card class="card-config ml-4">
-      <div class="Container">
-                <div class="Circle-Container">
-                    <div class="Circle"></div>
-                </div>
-                <div class="Circle-Container">
-                    <div class="Circle"></div>
-                </div>
-                <div class="Circle-Container">
-                    <div class="Circle"></div>
-                </div>
-                <div class="Circle-Container">
-                    <div class="Circle"></div>
-                </div>
-            </div>
-    </v-card>
-  </div>
+        <v-dialog v-model="dialog" persistent max-width="800px">
+            <v-card>
+                <v-card-title height="50" class="headline">Settings</v-card-title>
+                <v-card-text style="height:500px;">
+                    <v-tabs show-arrows center-active centered v-model="Tab" next-icon="mdi-chevron-right" prev-icon="mdi-chevron-left">
+                        <v-tab v-for="Option in Options" :key="Option.Name">
+                            {{ Option.Name }}
+                        </v-tab>
+                    </v-tabs>
+                    <v-tabs-items v-model="Tab">
+                        <v-tab-item>
+                            Hello Color
+                        </v-tab-item>
+                        <v-tab-item>
+                            <v-divider></v-divider><br>
+                            <v-tabs show-arrows center-active centered v-model="InnerTab" next-icon="mdi-chevron-right" prev-icon="mdi-chevron-left">
+                                <v-tab>Animations</v-tab>
+                                <v-tab>Awesome Animation </v-tab>
+                                <v-tab>Spectrum..</v-tab>
+                            </v-tabs>
+                            <v-tabs-items v-model="InnerTab">
+                                <v-radio-group v-model="Selected">
+                                    <v-tab-item>
+                                        Css Animations
+                                        <v-list-item>
+                                            <v-radio color="red" value="1" label="3-D Rings">
+                                                <v-list-item-content>
+                                                    <v-list-item-title>3-D Rings</v-list-item-title>
+                                                    <v-list-item-subtitle>Rings in continous 3D motion</v-list-item-subtitle>
+                                                </v-list-item-content>
+                                            </v-radio>
+                                        </v-list-item>
+                                        <v-list-item>
+                                            <v-radio color="red" value="2" label="3 Circles">
+                                                <v-list-item-content>
+                                                    <v-list-item-title>3 Circles</v-list-item-title>
+                                                    <v-list-item-subtitle>3 Circles in Continuos motion</v-list-item-subtitle>
+                                                </v-list-item-content>
+                                            </v-radio>
+                                        </v-list-item>
+                                    </v-tab-item>
+                                    <v-tab-item>
+                                        Canvas Animation
+                                        <v-list-item>
+                                            <v-radio color="red" value="3" label="Expanding Circles">
+                                                <v-list-item-content>
+                                                    <v-list-item-title>Expanding Circles</v-list-item-title>
+                                                    <v-list-item-subtitle>Circles Expand When Hovered upon</v-list-item-subtitle>
+                                                </v-list-item-content>
+                                            </v-radio>
+                                        </v-list-item>
+                                        <v-list-item>
+                                            <v-radio color="red" value="5" label="Cursor Follower">                                  
+                                                <v-list-item-content>
+                                                    <v-list-item-title>Cursor Follower</v-list-item-title>
+                                                    <v-list-item-subtitle>Rotating lines which follow the motion of cursor</v-list-item-subtitle>
+                                                </v-list-item-content>
+                                            </v-radio>
+                                        </v-list-item>
+                                        <v-list-item>
+                                            <v-radio color="red" value="6" label="Star Shower">
+                                                <v-list-item-content>
+                                                    <v-list-item-title>Star Shower</v-list-item-title>
+                                                    <v-list-item-subtitle>See Star shower on screen whilst enjoying your music.</v-list-item-subtitle>
+                                                </v-list-item-content>
+                                            </v-radio>
+                                        </v-list-item>
+                                    </v-tab-item>
+                                    <v-tab-item>
+                                        Men at Work :) <br>
+                                        P.S. No Spectrums are available right now..
+                                    </v-tab-item>
+                                </v-radio-group>
+                            </v-tabs-items>
+                        </v-tab-item>   
+                    </v-tabs-items>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="green darken-1" text @click="ExitDialog('Save')">Save</v-btn>
+                    <v-btn color="green darken-1" text @click="ExitDialog('Close')">Close</v-btn>
+                </v-card-actions>
+            </v-card>
+        </v-dialog>
+    </v-row>
 </template>
 
-<style scoped>
+<script>
+  export default {
+    data () {
+      return {
+        Tab: true,
+        InnerTab: true,
+        dialog: false,
+        Selected: this.$store.getters.GetMusicPlaying,
+        Options: [
+            {Name: 'Color'},
+            {Name: 'Home Screen'}
+        ]
+      }
+    },
 
-.Main-Container {
-  margin-top: 11px;
-  margin-left: 10px;
-  height: 75vh;
-  width: 1500px;
-}
+    methods: {
+        ExitDialog(Action) {
+            this.dialog = !this.dialog;
 
-.card-config {
-  width: 489.3px;
-  height: 75vh;
-  float: left;
-  background-color: chartreuse;
-}
-
-.Container {
-    position: absolute;
-    top: 50%;
-    right: 240px;
-}
-
-.Circle-Container {
-        /* background-color: brown; */
-    width: 400px;
-    height: 60vh;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.Circle-Container:after {
-    content: '';
-    width: 20px;
-    height: 5px;
-    position: absolute;
-    background: black;
-    border-radius: 50%;
-    bottom: 0;
-    left: 50%;
-    opacity: 0.4;
-    animation: Shadows 2s linear infinite;
-}
-
-.Circle-Container:nth-child(2):after {
-    animation-delay: -0.3s
-}
-
-.Circle-Container:nth-child(3):after {
-    animation-delay: -0.6s
-}
-
-.Circle {
-    width: 15px;
-    height: 15px;
-    background: #fff;
-    border-radius: 50%;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    animation: Anim 2s linear infinite;
-}
-
-.Circle-Container:nth-child(2) .Circle {
-    animation-delay: -0.3s
-}
-
-.Circle-Container:nth-child(3) .Circle {
-    animation-delay: -0.6s;
-}
-
-@keyframes Anim {
-    0% {
-        transform-origin: 400% 50%;
-        transform: rotate(0);
+            if(Action === 'Save') {
+                var Payload = {
+                    MusicPlaying: parseInt(this.Selected, 10)
+                }
+                
+                this.$store.dispatch('UpdateSettings', Payload);
+            }
+        }
     }
-
-    50% {
-        transform-origin: 400% 50%;
-        transform: rotate(360deg);
-    }
-
-    50.1% {
-        transform-origin: -300% 50%;
-        transform: rotate(0deg);
-    } 
-
-    100% {
-        transform-origin: -300% 50%;
-        transform: rotate(-360deg);
-    }
-}
-
-@keyframes Shadows {
-    0% {
-
-    }
-
-    12.5% {
-        transform: translate(50px) scale(0.6);
-    }
-
-    25% {
-        transform: translate(110px);
-    }
-
-    37.5% {
-        transform: translate(50px) scale(1.4);
-    }
-
-    50% {
-        transform: translate(0px);
-    }
-
-    67.5% {
-        transform: translate(-50px) scale(0.6);
-    }
-
-    75% {
-        transform: translate(-110px);
-    }
-
-    87.5% {
-        transform: translate(-50px) scale(1.4);
-    }
-
-    100% {
-        transform: translate(0px);
-    }
-}
-
-.Loader-Container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 75vh;
-}
-
-.Loader {
-    /* background-color: red; */
-    position: relative;
-    width: 410px;
-    height: 410px;
-    transform-style: preserve-3d;
-    transform: perspective(500px) rotateX(60deg);
-}
-
-.Loader span {
-    position: absolute;
-    display: block;
-    border: 5px solid #9c27b0;
-    box-shadow: 0 5px 0 rgb(107, 5, 107),
-                inset 0 5px 0 rgb(255, 190, 252);
-    box-sizing: border-box;
-    border-radius: 50%;
-    animation: Animate 3s ease-in-out infinite;
-}
-
-@keyframes Animate{
-    0%, 100% {
-        transform: translateZ(-100px);
-    }
-
-    50% {
-        transform: translateZ(100px);
-    }
-}
-
-.Loader span:nth-child(1) {
-    top: 0px;
-    left: 0px;
-    bottom: 0px;
-    right: 0px;
-    animation-delay: -0.1s;
-}
-
-.Loader span:nth-child(2) {
-    top: 10px;
-    left: 10px;
-    bottom: 10px;
-    right: 10px;
-    animation-delay: -0.2s;
-}
-
-.Loader span:nth-child(3) {
-    top: 20px;
-    left: 20px;
-    bottom: 20px;
-    right: 20px;
-    animation-delay: -0.3s;
-}
-
-.Loader span:nth-child(4) {
-    top: 30px;
-    left: 30px;
-    bottom: 30px;
-    right: 30px;
-    animation-delay: -0.4s;
-}
-
-.Loader span:nth-child(5) {
-    top: 40px;
-    left: 40px;
-    bottom: 40px;
-    right: 40px;
-    animation-delay: -0.5s;
-}
-
-.Loader span:nth-child(6) {
-    top: 50px;
-    left: 50px;
-    bottom: 50px;
-    right: 50px;
-    animation-delay: -0.6s;
-}
-
-.Loader span:nth-child(7) {
-    top: 60px;
-    left: 60px;
-    bottom: 60px;
-    right: 60px;
-    animation-delay: -0.7s;
-}
-.Loader span:nth-child(8) {
-    top: 70px;
-    left: 70px;
-    bottom: 70px;
-    right: 70px;
-    animation-delay: -0.8s;
-}
-
-.Loader span:nth-child(9) {
-    top: 80px;
-    left: 80px;
-    bottom: 80px;
-    right: 80px;
-    animation-delay: -0.9s;
-}
-
-.Loader span:nth-child(10) {
-    top: 90px;
-    left: 90px;
-    bottom: 90px;
-    right: 90px;
-    animation-delay: -1s;
-}
-
-.Loader span:nth-child(11) {
-    top: 100px;
-    left: 100px;
-    bottom: 100px;
-    right: 100px;
-    animation-delay: -1.1s;
-}
-
-.Loader span:nth-child(12) {
-    top: 110px;
-    left: 110px;
-    bottom: 110px;
-    right: 110px;
-    animation-delay: -1.2s;
-}
-
-.Loader span:nth-child(13) {
-    top: 120px;
-  left: 120px;
-  bottom: 120px;
-  right: 120px;
-  animation-delay: -1.3s;
-}
-
-.Loader span:nth-child(14) {
-  top: 130px;
-  left: 130px;
-  bottom: 130px;
-  right: 130px;
-  animation-delay: -1.4s;
-}
-
-.Loader span:nth-child(15) {
-  top: 140px;
-  left: 140px;
-  bottom: 140px;
-  right: 140px;
-  animation-delay: -1.5s;
-}
-
-.Loader span:nth-child(16) {
-  top: 150px;
-  left: 150px;
-  bottom: 150px;
-  right: 150px;
-  animation-delay: -1.6s;
-}
-
-.Loader span:nth-child(17) {
-  top: 160px;
-  left: 160px;
-  bottom: 160px;
-  right: 160px;
-  animation-delay: -1.7s;
-}
-
-.Loader span:nth-child(18) {
-  top: 170px;
-  left: 170px;
-  bottom: 170px;
-  right: 170px;
-  animation-delay: -1.8s;
-}
-
-.Loader span:nth-child(19) {
-  top: 180px;
-  left: 180px;
-  bottom: 180px;
-  right: 180px;
-  animation-delay: -1.9s;
-}
-
-.Loader span:nth-child(20) {
-  top: 190px;
-  left: 190px;
-  bottom: 190px;
-  right: 190px;
-  animation-delay: -2s;
-}
-
-.Loader span:nth-child(21) {
-  top: 200px;
-  left: 200px;
-  bottom: 200px;
-  right: 200px;
-  animation-delay: -2.1s;
-}
-
-</style>
+  }
+</script>

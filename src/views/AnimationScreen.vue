@@ -154,7 +154,7 @@ export default {
 .Circle {
     width: 15px;
     height: 15px;
-    background: #fff;
+    background: skyblue;
     border-radius: 50%;
     position: absolute;
     left: 50%;

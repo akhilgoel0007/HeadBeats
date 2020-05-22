@@ -9,7 +9,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     MainData: [],
-    MusicPlaying: 6,
+    MusicPlaying: 1,
     PlayingWindow: null,
     PlayingSong: null,
   },
@@ -38,6 +38,15 @@ export default new Vuex.Store({
 
   actions: {
     LoadData: function() {
+      fs.readFile('src/MainData.json', (err, Data) => {
+        if(err) {
+          throw err;
+        } else {
+          var CurrentData = JSON.parse(Data);
+          this.state.MusicPlaying = CurrentData.MusicPlaying;
+        }
+      }) 
+
       fs.readFile('src/Songs.json', (err, data) => {
         if(err) {
           throw err;
@@ -122,6 +131,18 @@ export default new Vuex.Store({
       });
     },
 
+    UpdateSettings: async function(context, Payload) {
+      this.state.MusicPlaying = Payload.MusicPlaying;
+      var SettingsBuffer = Object.assign({}, Payload);
+
+      fs.writeFile('src/MainData.json', JSON.stringify(SettingsBuffer), (err) => {
+        if(err) {
+          throw err;
+        }
+      });
+    },
+
+    // UpdateSettings: function(context, )
     ChangeAuthorName: function(context, Payload) {
       this.state.MainData.AllSongs.forEach(Song => {
         if(Song.Source === Payload.Source) {

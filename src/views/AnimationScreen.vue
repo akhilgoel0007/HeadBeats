@@ -1,7 +1,7 @@
 <template>
     <div class="Main-Container">
-        <v-card class="card-config" style="background-color: black;">
-            <div v-if="!MusicPlaying">
+        <v-card class="card-config">
+            <div v-show="MusicPlaying == 1">
                 <div class="Loader-Container">
                     <div class="Loader">
                         <span></span>
@@ -28,21 +28,7 @@
                     </div>
                 </div>
             </div>
-            <div v-else-if="MusicPlaying">
-                Music Toggled
-            </div>
-        </v-card>
-        <v-card class="card-config ml-4">
-            <v-card-title class="text-center Py-6" style="background-color: chartreuse;">
-                <h1 class="font-weight-bold display-1 white--text"> Lyrics </h1>
-            </v-card-title>
-            <v-divider></v-divider>
-            <v-card-text>
-                Hello, World
-            </v-card-text>
-        </v-card>
-        <v-card class="card-config ml-4" style="background-color: black;">
-            <div v-if="!MusicPlaying">
+            <div v-show="MusicPlaying == 2">
                 <div class="Container">
                     <div class="Circle-Container">
                         <div class="Circle"></div>
@@ -58,8 +44,15 @@
                     </div>
                 </div>
             </div>
-            <div v-else-if="MusicPlaying">
-                Music Toggled
+            <div v-show="MusicPlaying == 3" style="height: inherit; width: 1500px;">
+                <Circles />
+            </div>
+            <div v-show="MusicPlaying == 4" style="height: inherit; width: inherit;">
+                <Visualizer />
+            </div>
+            <div v-show="MusicPlaying == 5" style="height: inherit; width: inherit;">
+            </div>
+            <div v-show="MusicPlaying == 6" style="height: inherit; width: inherit;">
             </div>
         </v-card>
     </div>
@@ -67,16 +60,43 @@
 
 <script>
 
+import Circles from '../components/Canvas/Circles';
+import Visualizer from '../components/Canvas/BarVisualizer';
+
 export default {
     name: 'AnimationScreen',
-    
+    components: { Circles, Visualizer },    
     data: () => ({
-        MusicPlaying: false
-    })
+        //
+    }),
+
+    methods: {
+        MakeCircles: function() {
+            //
+        }
+    },
+
+    computed: {
+        MusicPlaying: function() {
+            return this.$store.getters.GetMusicPlaying
+        }
+    },
+
+    mounted() {
+        if(this.$store.getters.GetMusicPlaying == 3) {
+            this.MakeCircles()
+        }
+    }
 }
 </script>
 
 <style scoped>
+
+/* #Canvas1 {
+    width: 1000px;
+    height: 500px;
+    background-color: red;
+} */
 
 .Main-Container {
     margin-top: 11px;
@@ -86,7 +106,7 @@ export default {
 }
 
 .card-config {
-    width: 489.3px;
+    width: 1500px;
     height: 75vh;
     float: left;
 }
@@ -94,12 +114,12 @@ export default {
 .Container {
     position: absolute;
     top: 50%;
-    right: 240px;
+    left: 50%;
 }
 
 .Circle-Container {
     width: 400px;
-    height: 60vh;
+    height: 25vh;
     position: absolute;
     left: 50%;
     top: 50%;

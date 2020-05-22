@@ -9,6 +9,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     MainData: [],
+    MusicPlaying: 2,
     PlayingWindow: null,
     PlayingSong: null,
   },
@@ -28,6 +29,10 @@ export default new Vuex.Store({
 
     GetAllPlaylists: state => {
       return state.MainData.AllPlaylists
+    },
+
+    GetMusicPlaying: state => {
+      return state.MusicPlaying
     }
   },
 

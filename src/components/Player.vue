@@ -49,8 +49,10 @@
 <script>
 import { MyMusicBus } from '../main';
 import { PlaylistBus } from '../main';
+import { VisualizerBus } from '../main';
 
 export default {
+
   data: () => ({
     WindowName: null,
     PlayerStatus: false, // Triangle
@@ -196,6 +198,10 @@ export default {
     },
 
     LoadSong: function(Data) {
+      if(this.$store.getters.GetMusicPlaying == 4) {
+        VisualizerBus.$emit('ChangeSong', Data);
+      }
+      
       this.FeedMetaData(Data)
       this.PlaySong()
     },

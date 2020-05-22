@@ -57,49 +57,43 @@
                                             <v-radio-group v-model="Selected">
                                                 <v-tab-item>
                                                     Css Animations
-                                                    <v-list-item>
-                                                        <v-radio color="red" value="1" label="3-D Rings">
-                                                            <!-- <v-list-item-content>
-                                                                <v-list-item-title>3-D Rings</v-list-item-title>
-                                                                <v-list-item-subtitle>Rings in continous 3D motion</v-list-item-subtitle>
-                                                            </v-list-item-content> -->
-                                                        </v-radio>
-                                                    </v-list-item>
-                                                    <v-list-item>
-                                                        <v-radio color="red" value="2" label="3 Circles">
-                                                            <!-- <v-list-item-content>
-                                                                <v-list-item-title>3 Circles</v-list-item-title>
-                                                                <v-list-item-subtitle>3 Circles in Continuos motion</v-list-item-subtitle>
-                                                            </v-list-item-content> -->
-                                                        </v-radio>
-                                                    </v-list-item>
+                                                    <br><br>
+                                                    <v-radio color="red" value="1" label="3-D Rings">
+                                                        <!-- <v-list-item-content>
+                                                            <v-list-item-title>3-D Rings</v-list-item-title>
+                                                            <v-list-item-subtitle>Rings in continous 3D motion</v-list-item-subtitle>
+                                                        </v-list-item-content> -->
+                                                    </v-radio>
+                                                    <br>
+                                                    <v-radio color="red" value="2" label="3 Circles">
+                                                        <!-- <v-list-item-content>
+                                                            <v-list-item-title>3 Circles</v-list-item-title>
+                                                            <v-list-item-subtitle>3 Circles in Continuos motion</v-list-item-subtitle>
+                                                        </v-list-item-content> -->
+                                                    </v-radio>
                                                 </v-tab-item>
                                                 <v-tab-item>
                                                     Canvas Animation
-                                                    <v-list-item>
-                                                        <v-radio color="red" value="3" label="Expanding Circles">
-                                                            <v-list-item-content>
-                                                                <v-list-item-title>Expanding Circles</v-list-item-title>
-                                                                <v-list-item-subtitle>Circles Expand When Hovered upon</v-list-item-subtitle>
-                                                            </v-list-item-content>
-                                                        </v-radio>
-                                                    </v-list-item>
-                                                    <v-list-item>
-                                                        <v-radio color="red" value="5" label="Cursor Follower">                                  
-                                                            <v-list-item-content>
-                                                                <v-list-item-title>Cursor Follower</v-list-item-title>
-                                                                <v-list-item-subtitle>Rotating lines which follow the motion of cursor</v-list-item-subtitle>
-                                                            </v-list-item-content>
-                                                        </v-radio>
-                                                    </v-list-item>
-                                                    <v-list-item>
-                                                        <v-radio color="red" value="6" label="Star Shower">
-                                                            <v-list-item-content>
-                                                                <v-list-item-title>Star Shower</v-list-item-title>
-                                                                <v-list-item-subtitle>See Star shower on screen whilst enjoying your music.</v-list-item-subtitle>
-                                                            </v-list-item-content>
-                                                        </v-radio>
-                                                    </v-list-item>
+                                                    <br><br>
+                                                    <v-radio color="red" value="3" label="Expanding Circles">
+                                                        <!-- <v-list-item-content>
+                                                            <v-list-item-title>Expanding Circles</v-list-item-title>
+                                                            <v-list-item-subtitle>Circles Expand When Hovered upon</v-list-item-subtitle>
+                                                        </v-list-item-content> -->
+                                                    </v-radio><br>
+                                                    <v-radio color="red" value="5" label="Cursor Follower">                                  
+                                                        <!-- <v-list-item-content>
+                                                            <v-list-item-title>Cursor Follower</v-list-item-title>
+                                                            <v-list-item-subtitle>Rotating lines which follow the motion of cursor</v-list-item-subtitle>
+                                                        </v-list-item-content> -->
+                                                    </v-radio>
+                                                    <br>
+                                                    <v-radio color="red" value="6" label="Star Shower">
+                                                        <!-- <v-list-item-content>
+                                                            <v-list-item-title>Star Shower</v-list-item-title>
+                                                            <v-list-item-subtitle>See Star shower on screen whilst enjoying your music.</v-list-item-subtitle>
+                                                        </v-list-item-content> -->
+                                                    </v-radio><br>
                                                 </v-tab-item>
                                                 <v-tab-item>
                                                     Men at Work :) <br>

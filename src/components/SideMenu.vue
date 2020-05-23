@@ -169,7 +169,7 @@ export default {
                 properties: ['openFile', 'multiSelections'],
                 filters: [{
                     name: 'Select Songs',
-                    extensions: ['mp3', 'wav', 'ogg']
+                    extensions: ['mp3', 'wav', 'ogg', 'flac']
                 }]
             },async function(file) {
                 if(file) {

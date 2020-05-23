@@ -82,14 +82,6 @@ export default {
       }
     },
 
-    NextSongToggle: async function(WindowName) {
-      if(WindowName === "AllSongs") {
-        MyMusicBus.$emit('NextSong', this.LastSong.Title, this.CurrentSong.Title);
-      } else {
-        PlaylistBus.$emit("NextSong", WindowName, this.LastSong.Title, this.CurrentSong.Title);
-      }
-    },
-
     SeekTimeUpdate: function() {
       this.SeekBar.value = document.getElementById('player').currentTime * (1000/this.CurrentSong.Duration)
       this.SeekSlide.style.width = (this.SeekBar.value/10) + '%'
@@ -97,6 +89,14 @@ export default {
 
     SeekUpdate: function() {
       document.getElementById('player').currentTime = this.CurrentSong.Duration * (this.SeekBar.value/1000)
+    },
+
+    NextSongToggle: async function(WindowName) {
+      if(WindowName === "AllSongs") {
+        MyMusicBus.$emit('NextSong', this.LastSong.Title, this.CurrentSong.Title);
+      } else {
+        PlaylistBus.$emit("NextSong", WindowName, this.LastSong.Title, this.CurrentSong.Title);
+      }
     },
 
     NextSong: function() {
@@ -201,7 +201,6 @@ export default {
       if(this.$store.getters.GetMusicPlaying == 4) {
         VisualizerBus.$emit('ChangeSong', Data);
       }
-      
       this.FeedMetaData(Data)
       this.PlaySong()
     },

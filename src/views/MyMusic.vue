@@ -1,9 +1,26 @@
 <template>
     <v-card class="mx-auto mt-5" max-width="1400" elevation="6">
-        <v-toolbar flat>
-            <v-toolbar-title class="grey--text">All Songs</v-toolbar-title>
+        <v-toolbar height="85" flat class="blue">
+            <v-toolbar-title class="font-weight-bold display-1 white--text">All Songs</v-toolbar-title>
             <v-spacer></v-spacer>
-            <v-text-field hide-details prepend-icon="mdi-magnify" single-line v-model="search" placeholder="Search Songs"></v-text-field>
+            <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                    <v-btn icon @click="SortBy('Title')" v-on="on">
+                        <v-icon>mdi-alpha-t-box-outline</v-icon>
+                    </v-btn>
+                </template>
+                <span>Sort By Title</span>
+            </v-tooltip>
+            <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
+                    <v-btn icon @click="SortBy('Author')" v-on="on">
+                        <v-icon>mdi-account-details-outline</v-icon>
+                    </v-btn>
+                </template>
+                <span>Sort By Author</span>
+            </v-tooltip>
+            <v-text-field prepend-icon="mdi-magnify" hide-details v-model="search" :label="SearchLabel" placeholder="Search Songs">
+            </v-text-field>
         </v-toolbar>
 
         <v-divider></v-divider>
@@ -18,6 +35,13 @@
 
 
 <script>
+// 1. Adding Colors to Settings..
+// 2. Help Tab...
+// 3. Side Profile...
+// 4. Modifying Mini View...
+// 5. Screen Switching Problem with cards..
+// 6. Adding SnackBar for alerts..
+
 import CardView from '../components/CardView';
 
 export default {
@@ -26,6 +50,12 @@ export default {
 
     data: () => ({
         search: "",
+        SearchLabel: 'Song Title',
+        Labels: [
+            'Song Tags',
+            'Song Author',
+            'Song Title'
+        ]
     }),
 
     methods: {
@@ -38,6 +68,10 @@ export default {
                 }
             }
         },
+    
+        SortBy(Prop) {
+            this.$store.getters.GetAllSongs.sort((a, b) => a[Prop] < b[Prop] ? -1 : 1);
+        }
     },
 
     computed: {
@@ -49,7 +83,7 @@ export default {
             var Songs = this.$store.getters.GetAllSongs
             if(Songs) {
                 return Songs.filter((Song) => {
-                    return Song.Title.match(this.search)
+                    return (Song.Title).toLowerCase().match(this.search.toLowerCase())
                 })
             } else {
                 return null

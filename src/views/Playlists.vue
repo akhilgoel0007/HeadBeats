@@ -1,27 +1,26 @@
 <template>
   <v-card class="mx-auto mt-5" max-width="1400" elevation="6" color="purple">
-    <!-- <v-toolbar>
-    <v-toolbar-title class="grey--text">Playlists</v-toolbar-title>
+    <v-toolbar class="purple" height="85">
+      <v-toolbar-title class="font-weight-bold display-1 white--text">Playlists</v-toolbar-title>
       <v-spacer></v-spacer>
-        
-            <v-btn icon>
-                <v-icon>mdi-magnify</v-icon>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn icon @click="SortBy('Title')" v-on="on">
+              <v-icon>mdi-alpha-t-box-outline</v-icon>
             </v-btn>
-
-            <v-btn icon>
-                <v-icon>mdi-apps</v-icon>
+          </template>
+          <span>Sort By Title</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn icon @click="SortBy('Author')" v-on="on">
+              <v-icon>mdi-account-details-outline</v-icon>
             </v-btn>
-
-            <v-btn icon>
-                <v-icon>mdi-dots-vertical</v-icon>
-            </v-btn>
-    </v-toolbar>-->
-    <v-card-title class="text-center ml-6 Py-6" >
-      <h1 class="font-weight-bold display-1 white--text"> Playlists </h1>
-      <v-spacer></v-spacer>
-      <v-text-field hide-details prepend-icon="mdi-magnify" single-line v-model="search" placeholder="Search Songs"></v-text-field>
-    </v-card-title>
-    <!-- <v-divider></v-divider> -->
+          </template>
+          <span>Sort By Author</span>
+        </v-tooltip>
+      <v-text-field prepend-icon="mdi-magnify" hide-details v-model="search" :label="SearchLabel" placeholder="Search Songs"></v-text-field>
+    </v-toolbar>
     <v-tabs  background-color="purple" dark show-arrows center-active centered v-model="Tab" next-icon="mdi-chevron-right" prev-icon="mdi-chevron-left">   
       <v-tabs-slider color="yellow"></v-tabs-slider>
       <v-tab v-for="Playlist in AllPlaylists" :key="Playlist.Name" :href="'#' + Playlist.Name">
@@ -51,7 +50,13 @@ export default {
   data: () => ({
     Tab: true,
     search: "",
-    CurrentPlaylist: ""
+    CurrentPlaylist: "",
+    SearchLabel: 'Song Title',
+    Labels: [
+      'Song Tags',
+      'Song Author',
+      'Song Title'
+    ]
   }),
 
   methods: {
@@ -63,6 +68,12 @@ export default {
           return false
         }
       }
+    },
+
+    SortBy(Prop) {
+      this.$store.state.MainData.AllPlaylists.forEach((Playlist) => {
+        Playlist.ContentOfPlaylist.sort((a, b) => a[Prop] < b[Prop] ? -1 : 1)
+      })
     }
   },
   computed: {
@@ -74,7 +85,7 @@ export default {
       return PlaylistSongs => {
         if(PlaylistSongs) {
           return PlaylistSongs.filter((Song) => {
-            return Song.Title.match(this.search)
+            return (Song.Title).toLowerCase().match(this.search.toLowerCase())
           })
         } else {
           return null

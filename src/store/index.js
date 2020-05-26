@@ -12,6 +12,9 @@ export default new Vuex.Store({
     MusicPlaying: 1,
     PlayingWindow: null,
     PlayingSong: null,
+    PlayingSongStatus: null,
+    ProfileImage: null,
+    ProfileName: null
   },
 
   mutations: {
@@ -24,15 +27,39 @@ export default new Vuex.Store({
   
   getters: {
     GetAllSongs: state => {
-      return state.MainData.AllSongs
+      return state.MainData.AllSongs;
     },
 
     GetAllPlaylists: state => {
-      return state.MainData.AllPlaylists
+      return state.MainData.AllPlaylists;
     },
 
     GetMusicPlaying: state => {
-      return state.MusicPlaying
+      return state.MusicPlaying;
+    },
+
+    GetProfileImage: state => {
+      return state.ProfileImage;
+    },
+
+    GetProfileName: state => {
+      return state.ProfileName;
+    },
+
+    ProfileName: state => {
+      if(state.ProfileName === null || state.ProfileName === "") {
+        return false;
+      } else {
+        return true;
+      }
+    },
+
+    ProfileImage: state => {
+      if(state.ProfileImage === "" || state.ProfileImage === null) {
+        return false;
+      } else {
+        return true;
+      }
     }
   },
 
@@ -44,6 +71,8 @@ export default new Vuex.Store({
         } else {
           var CurrentData = JSON.parse(Data);
           this.state.MusicPlaying = CurrentData.MusicPlaying;
+          this.state.ProfileImage = CurrentData.ProfileImage;
+          this.state.ProfileName = CurrentData.ProfileName;
         }
       }) 
 
@@ -132,10 +161,56 @@ export default new Vuex.Store({
     },
 
     UpdateSettings: async function(context, Payload) {
+
       this.state.MusicPlaying = Payload.MusicPlaying;
+      Payload.ProfileImage = this.state.ProfileImage;
+      Payload.ProfileName = this.state.ProfileName;
+      
       var SettingsBuffer = Object.assign({}, Payload);
 
       fs.writeFile('src/MainData.json', JSON.stringify(SettingsBuffer), (err) => {
+        if(err) {
+          throw err;
+        }
+      });
+    },
+
+    UpdateMainData: async function(context, Payload) {
+      var MainPayload = {
+        MusicPlaying: this.state.MusicPlaying, 
+        ProfileImage: this.state.ProfileImage,
+        ProfileName: this.state.ProfileName
+      }
+
+      if(Payload.Target === 'MusicPlaying') {
+        MainPayload.MusicPlaying = Payload.MusicPlaying;
+        this.state.MusicPlaying = Payload.MusicPlaying;
+      } else if(Payload.Target === 'ProfileImage') {
+        MainPayload.ProfileImage = Payload.ProfileImage;
+        this.state.ProfileImage = Payload.ProfileImage;
+      } else if(Payload.Target === 'ProfileName') {
+        MainPayload.ProfileName = Payload.ProfileName;
+        this.state.ProfileName = Payload.ProfileName;
+      }
+
+      var ProfileBuffer = Object.assign({}, MainPayload);
+      
+      fs.writeFile('src/MainData.json', JSON.stringify(ProfileBuffer), (err) => {
+        if(err) {
+          throw err;
+        }
+      });
+    },
+
+    UpdateProfile: async function(context, Payload) {
+
+      Payload.MusicPlaying = this.state.MusicPlaying
+      this.state.ProfileImage = Payload.ProfileImage;
+      this.state.ProfileName = Payload.ProfileName;
+      
+      var ProfileBuffer = Object.assign({}, Payload);
+
+      fs.writeFile('src/MainData.json', JSON.stringify(ProfileBuffer), (err) => {
         if(err) {
           throw err;
         }
@@ -250,6 +325,10 @@ export default new Vuex.Store({
 
       this.state.MainData.AllPlaylists.push(CreatePlaylist)
       context.dispatch('UpdateChanges');
+    },
+
+    SetImagePath: function(context, Payload) {
+      this.state.ProfileImage = Payload;
     }
   },
   

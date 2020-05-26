@@ -5,6 +5,14 @@
             <v-spacer></v-spacer>
             <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
+                    <v-btn icon @click="SortBy('Id')" v-on="on">
+                        <v-icon>mdi-music-box</v-icon>
+                    </v-btn>
+                </template>
+                <span>Original Order</span>
+            </v-tooltip>
+            <v-tooltip bottom>
+                <template v-slot:activator="{ on }">
                     <v-btn icon @click="SortBy('Title')" v-on="on">
                         <v-icon>mdi-alpha-t-box-outline</v-icon>
                     </v-btn>
@@ -19,6 +27,7 @@
                 </template>
                 <span>Sort By Author</span>
             </v-tooltip>
+            <v-spacer></v-spacer>
             <v-text-field prepend-icon="mdi-magnify" hide-details v-model="search" :label="SearchLabel" placeholder="Search Songs">
             </v-text-field>
         </v-toolbar>
@@ -27,7 +36,7 @@
 
         <v-card-text style="height: 500px; overflow-y: auto">
             <div v-for="Song in FilteredSongs" :key="Song.Title">
-                <CardView :CurrentSong="Song" Place="AllSongs" :IsPlaying="GetPlayingStatus(Song)"></CardView>
+                <CardView :CurrentSong="Song" Place="AllSongs" :IsPlaying="GetPlayingStatus(Song)" :IsLoaded="GetLoadedStatus(Song)"></CardView>
             </div>
         </v-card-text>
     </v-card>
@@ -36,11 +45,10 @@
 
 <script>
 // 1. Adding Colors to Settings..
-// 2. Help Tab...
 // 3. Side Profile...
-// 4. Modifying Mini View...
-// 5. Screen Switching Problem with cards..
-// 6. Adding SnackBar for alerts..
+// 4. Screen Switching Problem with cards..
+// 5. Help Tab...
+// 6. Modifying Mini View...
 
 import CardView from '../components/CardView';
 
@@ -62,13 +70,22 @@ export default {
         GetPlayingStatus: function(Song) {
             if(this.$store.state.PlayingSong != null && this.$store.state.PlayingWindow != null) {
                 if(this.$store.state.PlayingSong.Title === Song.Title && this.$store.state.PlayingWindow === "AllSongs") {
-                    return true
+                    return this.$store.state.PlayingSongStatus;
                 } else {
                     return false
                 }
             }
         },
-    
+        GetLoadedStatus: function(Song) {
+            if(this.$store.state.PlayingSong != null && this.$store.state.PlayingWindow != null) {
+                if(this.$store.state.PlayingSong.Title === Song.Title && this.$store.state.PlayingWindow === "AllSongs") {
+                    return true;
+                } else {
+                    return false
+                }
+            }
+        },
+
         SortBy(Prop) {
             this.$store.getters.GetAllSongs.sort((a, b) => a[Prop] < b[Prop] ? -1 : 1);
         }

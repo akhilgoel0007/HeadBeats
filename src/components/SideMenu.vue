@@ -27,6 +27,15 @@
                             </v-card-actions>
                         </v-card>
                     </v-dialog>
+                    <v-dialog v-model="SamePlaylistError" max-width="460">
+                        <v-card color="yellow" height="50" class="pt-1">
+                            <v-icon class="ml-2 mr-2" color="white">mdi-alert-circle-outline</v-icon>
+                            Cannot have two Playlist with same name.
+                            <v-btn color="red" class="ml-4" text @click="SamePlaylistError = false">
+                                Close
+                            </v-btn>
+                        </v-card>
+                    </v-dialog>
                 </v-list-item>
                 <v-list-item class="Settings-Color" @click="SettingsTab = !SettingsTab;">
                     <v-list-item-icon class='Settings-Color'>
@@ -59,40 +68,20 @@
                                                     Css Animations
                                                     <br><br>
                                                     <v-radio color="red" value="1" label="3-D Rings">
-                                                        <!-- <v-list-item-content>
-                                                            <v-list-item-title>3-D Rings</v-list-item-title>
-                                                            <v-list-item-subtitle>Rings in continous 3D motion</v-list-item-subtitle>
-                                                        </v-list-item-content> -->
                                                     </v-radio>
                                                     <br>
                                                     <v-radio color="red" value="2" label="3 Circles">
-                                                        <!-- <v-list-item-content>
-                                                            <v-list-item-title>3 Circles</v-list-item-title>
-                                                            <v-list-item-subtitle>3 Circles in Continuos motion</v-list-item-subtitle>
-                                                        </v-list-item-content> -->
                                                     </v-radio>
                                                 </v-tab-item>
                                                 <v-tab-item>
                                                     Canvas Animation
                                                     <br><br>
                                                     <v-radio color="red" value="3" label="Expanding Circles">
-                                                        <!-- <v-list-item-content>
-                                                            <v-list-item-title>Expanding Circles</v-list-item-title>
-                                                            <v-list-item-subtitle>Circles Expand When Hovered upon</v-list-item-subtitle>
-                                                        </v-list-item-content> -->
                                                     </v-radio><br>
                                                     <v-radio color="red" value="5" label="Cursor Follower">                                  
-                                                        <!-- <v-list-item-content>
-                                                            <v-list-item-title>Cursor Follower</v-list-item-title>
-                                                            <v-list-item-subtitle>Rotating lines which follow the motion of cursor</v-list-item-subtitle>
-                                                        </v-list-item-content> -->
                                                     </v-radio>
                                                     <br>
                                                     <v-radio color="red" value="6" label="Star Shower">
-                                                        <!-- <v-list-item-content>
-                                                            <v-list-item-title>Star Shower</v-list-item-title>
-                                                            <v-list-item-subtitle>See Star shower on screen whilst enjoying your music.</v-list-item-subtitle>
-                                                        </v-list-item-content> -->
                                                     </v-radio><br>
                                                 </v-tab-item>
                                                 <v-tab-item>
@@ -112,7 +101,7 @@
                         </v-card>
                     </v-dialog>
                 </v-list-item>
-                <v-list-item class="Help-Color">
+                <v-list-item class="Help-Color" router :to="HelpRoute">
                     <v-list-item-icon class="Help-Color">
                         <v-icon class="white--text font-weight-bold">mdi-help-circle</v-icon>
                     </v-list-item-icon >
@@ -143,6 +132,8 @@ export default {
         NewPlaylist: "",
         Tab: true,
         InnerTab: true,
+        SamePlaylistError: false,
+        HelpRoute: '/HelpMenu',
         Selected: '',
         Options: [
             {Name: 'Color'},
@@ -156,10 +147,11 @@ export default {
 
             if(Action === 'Save') {
                 var Payload = {
-                    MusicPlaying: parseInt(this.Selected, 10)
+                    Target: 'MusicPlaying',
+                    MusicPlaying: parseInt(this.Selected, 10),
                 }
                 
-                this.$store.dispatch('UpdateSettings', Payload);
+                this.$store.dispatch('UpdateMainData', Payload);
             }
         },
 
@@ -220,7 +212,7 @@ export default {
             var Present = false
 
             this.$store.state.MainData.AllPlaylists.forEach(Playlist => {
-                if(Playlist.Name === this.NewPlaylist) {
+                if(Playlist.Name.toLowerCase() === this.NewPlaylist.toLowerCase()) {
                     Present = true
                 }
             })
@@ -231,13 +223,15 @@ export default {
                 this.NewPlaylist = ""; // Important to reintialize NewPlaylist Variable...
                 return true
             } else {
-                alert('Cannot Have two Playlist\'s with same name.')
+                // alert('Cannot Have two Playlist\'s with same name.')
+                console.log('Error Called')
+                this.PlaylistDialog = false;
+                this.SamePlaylistError = true;
             }
         },
 
         GetNewPlaylistName: function() {
-            this.PlaylistDialog = false;
-            // console.log(this.NewPlaylist);
+            this.PressedEnter();
         },
 
         OpenHelp: function() {

@@ -4,10 +4,11 @@ import AnimationScreen from '../views/AnimationScreen.vue'
 import MyMusic from '../views/MyMusic.vue'
 import Playlists from '../views/Playlists.vue'
 import TestOption from '../views/TestOption.vue'
+import HelpMenu from '../views/HelpMenu.vue'
 
 Vue.use(VueRouter)
 
-  const routes = [
+const routes = [
   {
     path: '/',
     name: 'AnimationScreen',
@@ -27,7 +28,12 @@ Vue.use(VueRouter)
     path: '/TestOption',
     name: 'TestOption',
     component: TestOption
-  }
+  },
+  {
+    path: '/HelpMenu',
+    name: 'HelpMenu',
+    component: HelpMenu,
+  },  
 ]
 
 const router = new VueRouter({

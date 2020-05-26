@@ -5,6 +5,14 @@
       <v-spacer></v-spacer>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
+            <v-btn icon @click="SortBy('Id')" v-on="on">
+              <v-icon>mdi-music-box</v-icon>
+            </v-btn>
+          </template>
+          <span>Original Order</span>
+        </v-tooltip>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
             <v-btn icon @click="SortBy('Title')" v-on="on">
               <v-icon>mdi-alpha-t-box-outline</v-icon>
             </v-btn>
@@ -19,6 +27,7 @@
           </template>
           <span>Sort By Author</span>
         </v-tooltip>
+        <v-spacer></v-spacer>
       <v-text-field prepend-icon="mdi-magnify" hide-details v-model="search" :label="SearchLabel" placeholder="Search Songs"></v-text-field>
     </v-toolbar>
     <v-tabs  background-color="purple" dark show-arrows center-active centered v-model="Tab" next-icon="mdi-chevron-right" prev-icon="mdi-chevron-left">   
@@ -31,7 +40,7 @@
       <v-tabs-items v-model="Tab">
         <v-tab-item  v-for="Playlist in AllPlaylists" :key="Playlist.Name" :value="Playlist.Name">
           <div v-for="Song in FilteredSongs(Playlist.ContentOfPlaylist)" :key="Song.Title">
-            <CardView :CurrentSong="Song" :Place="Playlist.Name" :IsPlaying="GetPlayingStatus(Song, Playlist.Name)"></CardView>
+            <CardView :CurrentSong="Song" :Place="Playlist.Name" :IsPlaying="GetPlayingStatus(Song, Playlist.Name)" :IsLoaded="GetLoadedStatus(Song, Playlist.Name)"></CardView>
           </div>
         </v-tab-item>
       </v-tabs-items> 
@@ -63,6 +72,16 @@ export default {
     GetPlayingStatus: function(Song, PlaylistName) {
       if(this.$store.state.PlayingSong != null && this.$store.state.PlayingWindow != null) {
         if(this.$store.state.PlayingSong.Title === Song.Title && this.$store.state.PlayingWindow === PlaylistName) {
+          return this.$store.state.PlayingSongStatus;
+        } else {
+          return false
+        }
+      }
+    },
+
+    GetLoadedStatus: function(Song, PlaylistName) {
+      if(this.$store.state.PlayingSong != null && this.$store.state.PlayingWindow != null) {
+        if(this.$store.state.PlayingSong.Title === Song.Title && this.$store.state.PlayingWindow === PlaylistName) {
           return true
         } else {
           return false
@@ -77,7 +96,7 @@ export default {
     }
   },
   computed: {
-    AllPlaylists() {
+    AllPlaylists: function() {
       return this.$store.state.MainData.AllPlaylists;
     },
 

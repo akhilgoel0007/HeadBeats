@@ -81,6 +81,15 @@
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
+                            <v-dialog v-model="SameSongNameError" max-width="460">
+                                <v-card color="yellow" height="50" class="pt-2" style="text-weight: bold;">
+                                    <v-icon class="ml-3  mr-3" color="white">mdi-alert-circle-outline</v-icon>
+                                    Cannot have Two Song's with same name.
+                                    <v-btn color="red" class="ml-4" text @click="SameSongNameError = false">
+                                        Close
+                                    </v-btn>
+                                </v-card>
+                            </v-dialog>
                         </v-list-item>
                         <v-list-item class="List-Items" @click.stop="AuthorNameDialog = true">
                             <v-list-item-title>Edit Author Name</v-list-item-title>
@@ -118,7 +127,7 @@
 import { MyMusicBus, PlaylistBus } from '../main'
 
 export default {
-    props: ['CurrentSong', 'Place', 'IsPlaying'],
+    props: ['CurrentSong', 'Place', 'IsPlaying', 'IsLoaded'],
 
     data: function() {
         return {
@@ -126,7 +135,8 @@ export default {
             PlaylistDialog: false,
             AuthorNameDialog: false,
             SongNameDialog: false,
-            Loaded: false,
+            Loaded: this.IsLoaded,
+            SameSongNameError: false,
             Playing: this.IsPlaying,
             SongName: this.CurrentSong.Title,
             AuthorName: this.CurrentSong.Author,
@@ -160,14 +170,25 @@ export default {
 
         GetSongName: function() {
             this.SongNameDialog = false
+            var Present = false;
 
-            var Payload = {
-                SongName: this.SongName,
-                Source: this.CurrentSong.Source
+            this.$store.state.MainData.AllSongs.forEach(Song => {
+                if(Song.Title.toLowerCase() === this.SongName.toLowerCase()) {
+                    Present = true;
+                }
+            })
+            
+            if(!Present) {
+                var Payload = {
+                    SongName: this.SongName,
+                    Source: this.CurrentSong.Source
+                }
+
+                this.$store.dispatch('ChangeSongName', Payload);
+            } else {
+                this.SameSongNameError = true;
+                this.SongName = this.CurrentSong.Title;
             }
-
-            this.$store.dispatch('ChangeSongName', Payload);
-            // this.NewSongName = ""
         },
 
         GetPlaylists: function() {

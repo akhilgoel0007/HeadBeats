@@ -167,6 +167,7 @@ export default {
 
     PlaySong: function() {
       this.PlayerStatus = true
+      this.$store.state.PlayingSongStatus = true;
       document.getElementById('player').load() // Load The Song in Player..
       document.getElementById('player').play() // Play The Song in Player..
     },
@@ -176,12 +177,14 @@ export default {
       
       if(Player.readyState) {
         Player.play();
+        this.$store.state.PlayingSongStatus = true;
         this.PlayerStatus = true;
       }
     },
 
     PauseCurrentSong: function() {
       var Player = document.getElementById("player");
+      this.$store.state.PlayingSongStatus = false;
       this.PlayerStatus = false;
       Player.pause();
     },
@@ -193,7 +196,11 @@ export default {
         } else {
           this.PlayCurrentSong();
         }
-        this.ToggleMyMusicCardState(true);
+        if(this.WindowName === "AllSongs") {
+          this.ToggleMyMusicCardState(true);
+        } else {
+          this.TogglePlaylistCardState(true);
+        }
       }
     },
 

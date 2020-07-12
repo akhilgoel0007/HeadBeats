@@ -8,16 +8,7 @@
             </v-toolbar-title>
             <v-spacer></v-spacer>
             <v-menu origin= "center center"  transition="scale-transition">
-                <template v-if="!ProfileImage" v-slot:activator="{ on: Menu }">
-                    <v-tooltip bottom>
-                        <template v-slot:activator="{ on: ToolTip }">
-                            <v-icon color="red lighten-1" size="40" v-on="{...Menu, ...ToolTip}" style="right: 25px;">mdi-account-circle</v-icon>
-                                <!-- <img v-if="!ProfileImage" src="../assets/MyPic.jpg"> -->
-                        </template>
-                        <span>Account</span>
-                    </v-tooltip>
-                </template>
-                <template v-if="ProfileImage" v-slot:activator="{ on: Menu }">
+                <template v-slot:activator="{ on: Menu }">
                     <v-tooltip bottom>
                         <template v-slot:activator="{ on: ToolTip }">
                             <v-avatar v-on="{...Menu, ...ToolTip}" size="40" style="right: 25px;">
@@ -26,15 +17,13 @@
                         </template>
                         <span>Account</span>
                     </v-tooltip>
-                </template>
+                </template> 
                 <v-card class="mx-auto" width="256" tile>
                     <v-list>
                         <v-list-item>
                             <v-list-item-avatar>
-                                <v-icon v-if="!ProfileImage" color="red lighten-1" size="40">mdi-account-circle</v-icon>
-                                <v-avatar v-else-if="ProfileImage" size="40">
+                                <v-avatar size="40">
                                     <img :src="GetProfileImage">
-                                <!-- <img v-if="!ProfileImage" src="../assets/MyPic.jpg"> -->
                                 </v-avatar>
                             </v-list-item-avatar>
                             <v-spacer></v-spacer>
@@ -44,8 +33,8 @@
                         </v-list-item>
 
                         <v-list-item @click.stop="ChangeProfileName = true">
-                            <v-list-item-title v-if="ProfileName" class="title">{{ GetProfileName }}</v-list-item-title>
-                            <v-list-item-title v-if="!ProfileName" class="title">No Name..</v-list-item-title>
+                            <v-list-item-title v-if="ProfileNamePresent" class="title">{{ GetProfileName }}</v-list-item-title>
+                            <v-list-item-title v-if="!ProfileNamePresent" class="title">No Name..</v-list-item-title>
                             <v-list-item-action>
                                 <v-btn icon @click="ChangeProfileName = !ChangeProfileName">
                                     <v-icon>mdi-pencil</v-icon>
@@ -60,33 +49,17 @@
                                     <v-card-actions>
                                         <v-spacer></v-spacer>
                                         <v-btn color="green darken-1" text @click="GetNewProfileName()"> Save </v-btn>
-                                        <v-btn color="green darken-1" text @click="PlaylistDialog = false"> Close </v-btn>
+                                        <v-btn color="green darken-1" text @click="ChangeProfileName = false"> Close </v-btn>
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
                         </v-list-item>
                     </v-list>
-                    <!-- <v-divider></v-divider>
-                    <v-list nav dense>
-                        <v-list-item-group v-model="item" color="primary">
-                            <v-list-item v-for="(item, i) in items" :key="i">
-                        <v-list-item-icon>
-                        <v-icon v-text="item.icon"></v-icon>
-                        </v-list-item-icon>
-
-                        <v-list-item-content>
-                        <v-list-item-title v-text="item.text"></v-list-item-title>
-                        </v-list-item-content>
-                    </v-list-item>
-                    </v-list-item-group>
-                </v-list> -->
-                <!-- </v-navigation-drawer> -->
                 </v-card>
             </v-menu>
         </v-app-bar>
         <v-navigation-drawer app temporary v-model='drawer' class="indigo">
-            <v-icon v-if="!ProfileImage" color="red lighten-1" size="200" >mdi-account-circle</v-icon>
-            <v-avatar v-else-if="ProfileImage" size="200" min-width="250px" min-height="250px">
+            <v-avatar size="200" min-width="250px" min-height="250px">
                 <img :src="GetProfileImage">
             </v-avatar>
             <v-list>
@@ -134,7 +107,9 @@ export default {
     methods: {
         PressedEnter: function() {
             this.ChangeProfileName = false;
-            
+            if(this.NewProfileName === "") {
+                this.NewProfileName = 'No Name..'
+            }
             var Payload = {
                 Target: 'ProfileName',
                 ProfileName: this.NewProfileName
@@ -155,11 +130,12 @@ export default {
             dialog.showOpenDialog({
                 properties: ['openFile'],
                 filters: [{
-                    name: 'Select Songs',
+                    name: 'Select Picture',
                     extensions: ['png', 'jpg', 'jpeg']
                 }]
             }, function(file) {
                 if(file) {
+                    console.log(file[0])
                     var Payload = {
                         Target: 'ProfileImage',
                         ProfileImage: file[0]
@@ -168,7 +144,7 @@ export default {
                     Store.dispatch('UpdateMainData', Payload);
                 }
             })
-        }
+        },
     },
 
     computed: {
@@ -176,17 +152,13 @@ export default {
             return this.$store.getters.GetProfileImage;
         },
 
-        ProfileImage: function() {
-            return this.$store.getters.ProfileImage;
-        },
-
         GetProfileName: function() {
             return this.$store.getters.GetProfileName;
         },
-
-        ProfileName: function() {
-            return this.$store.getters.ProfileName;
-        }
-    }
+        
+        ProfileNamePresent: function() {
+            return this.$store.getters.CheckProfileName
+        },
+    },
 }
 </script>

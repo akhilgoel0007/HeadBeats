@@ -43,62 +43,7 @@
                     </v-list-item-icon >
                     <v-list-item-title class="white--text font-weight-bold Settings-Color">Settings</v-list-item-title>
                     <v-dialog v-model="SettingsTab" persistent max-width="800px">
-                        <v-card>
-                            <v-card-title height="50" class="headline">Settings</v-card-title>
-                            <v-card-text style="height:500px;">
-                                <v-tabs show-arrows center-active centered v-model="Tab" next-icon="mdi-chevron-right" prev-icon="mdi-chevron-left">
-                                    <v-tab v-for="Option in Options" :key="Option.Name">
-                                        {{ Option.Name }}
-                                    </v-tab>
-                                </v-tabs>
-                                <v-tabs-items v-model="Tab">
-                                    <v-tab-item>
-                                        Hello Color
-                                    </v-tab-item>
-                                    <v-tab-item>
-                                        <v-divider></v-divider><br>
-                                        <v-tabs show-arrows center-active centered v-model="InnerTab" next-icon="mdi-chevron-right" prev-icon="mdi-chevron-left">
-                                            <v-tab>Animations</v-tab>
-                                            <v-tab>Awesome Animation </v-tab>
-                                            <v-tab>Spectrum..</v-tab>
-                                        </v-tabs>
-                                        <v-tabs-items v-model="InnerTab">
-                                            <v-radio-group v-model="Selected">
-                                                <v-tab-item>
-                                                    Css Animations
-                                                    <br><br>
-                                                    <v-radio color="red" value="1" label="3-D Rings">
-                                                    </v-radio>
-                                                    <br>
-                                                    <v-radio color="red" value="2" label="3 Circles">
-                                                    </v-radio>
-                                                </v-tab-item>
-                                                <v-tab-item>
-                                                    Canvas Animation
-                                                    <br><br>
-                                                    <v-radio color="red" value="3" label="Expanding Circles">
-                                                    </v-radio><br>
-                                                    <v-radio color="red" value="5" label="Cursor Follower">                                  
-                                                    </v-radio>
-                                                    <br>
-                                                    <v-radio color="red" value="6" label="Star Shower">
-                                                    </v-radio><br>
-                                                </v-tab-item>
-                                                <v-tab-item>
-                                                    Men at Work :) <br>
-                                                    P.S. No Spectrums are available right now..
-                                                </v-tab-item>
-                                            </v-radio-group>
-                                        </v-tabs-items>
-                                    </v-tab-item>   
-                                </v-tabs-items>
-                            </v-card-text>
-                            <v-card-actions>
-                                <v-spacer></v-spacer>
-                                <v-btn color="green darken-1" text @click="ExitDialog('Save')">Save</v-btn>
-                                <v-btn color="green darken-1" text @click="ExitDialog('Close')">Close</v-btn>
-                            </v-card-actions>
-                        </v-card>
+                        <Settings v-on:Changed="ExitDialog($event)"/>
                     </v-dialog>
                 </v-list-item>
                 <v-list-item class="Help-Color" router :to="HelpRoute">
@@ -118,6 +63,7 @@
 import { remote } from 'electron';
 import * as mm from 'music-metadata';
 import * as util from 'util';
+import Settings from './Settings'
 
 
 function GetDisplayDuration(SongDuration) {
@@ -125,13 +71,12 @@ function GetDisplayDuration(SongDuration) {
 }
 
 export default {
+    components: {Settings},
     data: () => ({
         PlaylistDialog: false,
         SettingsTab: false,
         AllNewSongs: [],
         NewPlaylist: "",
-        Tab: true,
-        InnerTab: true,
         SamePlaylistError: false,
         HelpRoute: '/HelpMenu',
         Selected: '',
@@ -142,16 +87,17 @@ export default {
     }),
 
     methods: {
-        ExitDialog(Action) {
+        ExitDialog(Paramters) {
             this.SettingsTab = !this.SettingsTab;
-
-            if(Action === 'Save') {
-                var Payload = {
-                    Target: 'MusicPlaying',
-                    MusicPlaying: parseInt(this.Selected, 10),
+            if(Paramters['Type'] === 'Save') {
+                if(Paramters['Selection'] != '' && Paramters['Selection'] != null) {
+                    var Payload = {
+                        Target: 'MusicPlaying',
+                        MusicPlaying: parseInt(Paramters['Selection'], 10),
+                    }
+                    
+                    this.$store.dispatch('UpdateMainData', Payload);
                 }
-                
-                this.$store.dispatch('UpdateMainData', Payload);
             }
         },
 

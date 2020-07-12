@@ -81,10 +81,10 @@
                                     </v-card-actions>
                                 </v-card>
                             </v-dialog>
-                            <v-dialog v-model="SameSongNameError" max-width="460">
+                            <v-dialog v-model="SameSongNameError" max-width="480">
                                 <v-card color="yellow" height="50" class="pt-2" style="text-weight: bold;">
                                     <v-icon class="ml-3  mr-3" color="white">mdi-alert-circle-outline</v-icon>
-                                    Cannot have Two Song's with same name.
+                                    <span class="ErrorAttributes">Cannot have Two Song's with same name.</span>
                                     <v-btn color="red" class="ml-4" text @click="SameSongNameError = false">
                                         Close
                                     </v-btn>
@@ -372,4 +372,8 @@ export default {
     background-color: rgb(223, 223, 223);
 }
 
+.ErrorAttributes {
+    font-family: 'Goudy Old Style';
+    font-weight: 800;
+}
 </style>

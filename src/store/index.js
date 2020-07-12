@@ -10,6 +10,7 @@ export default new Vuex.Store({
   state: {
     MainData: [],
     MusicPlaying: 1,
+    CurrentTheme: null,
     PlayingWindow: null,
     PlayingSong: null,
     PlayingSongStatus: null,
@@ -46,21 +47,13 @@ export default new Vuex.Store({
       return state.ProfileName;
     },
 
-    ProfileName: state => {
+    CheckProfileName: state => {
       if(state.ProfileName === null || state.ProfileName === "") {
         return false;
       } else {
         return true;
       }
     },
-
-    ProfileImage: state => {
-      if(state.ProfileImage === "" || state.ProfileImage === null) {
-        return false;
-      } else {
-        return true;
-      }
-    }
   },
 
   actions: {
@@ -71,7 +64,12 @@ export default new Vuex.Store({
         } else {
           var CurrentData = JSON.parse(Data);
           this.state.MusicPlaying = CurrentData.MusicPlaying;
-          this.state.ProfileImage = CurrentData.ProfileImage;
+          this.state.CurrentTheme = CurrentData.Theme;
+          if(CurrentData.ProfileImage === "" || CurrentData.ProfileName === null) {
+            this.state.ProfileImage = '../../../data/logo.png'
+          } else {
+            this.state.ProfileImage = CurrentData.ProfileImage;
+          }
           this.state.ProfileName = CurrentData.ProfileName;
         }
       }) 
@@ -179,7 +177,8 @@ export default new Vuex.Store({
       var MainPayload = {
         MusicPlaying: this.state.MusicPlaying, 
         ProfileImage: this.state.ProfileImage,
-        ProfileName: this.state.ProfileName
+        ProfileName: this.state.ProfileName,
+        Theme: this.state.CurrentTheme
       }
 
       if(Payload.Target === 'MusicPlaying') {
@@ -191,6 +190,8 @@ export default new Vuex.Store({
       } else if(Payload.Target === 'ProfileName') {
         MainPayload.ProfileName = Payload.ProfileName;
         this.state.ProfileName = Payload.ProfileName;
+      } else if(Payload.Target === 'Theme') {
+        MainPayload.Theme = Payload.Theme;
       }
 
       var ProfileBuffer = Object.assign({}, MainPayload);

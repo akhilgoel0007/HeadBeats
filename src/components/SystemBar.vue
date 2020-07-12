@@ -1,6 +1,7 @@
 <template>
     <div>
-        <v-system-bar app window dark>
+        <v-system-bar app window style="background-color: #A7FFEB;">
+        <!-- <v-system-bar app window class=""> -->
             <v-spacer></v-spacer>
             <v-icon @click="MiniMizeWindow" class="pl-4">mdi-minus</v-icon>
             <v-icon @click="MaximizeWindow" class="pl-4">mdi-checkbox-blank-outline</v-icon>
@@ -29,3 +30,11 @@ export default {
     }    
 }
 </script>
+
+<style scoped>
+
+.SystemBarColors {
+    background-color: #004D40;
+}
+
+</style>

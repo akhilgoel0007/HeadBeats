@@ -19,131 +19,27 @@
                     </v-list-item-group>
                 </v-list>
             </v-card>
-            <v-card id="Content" flat width="1100" height="500px" class="Card-Config" style="overflow-y: auto; border-radius: 0px 0px 4px 0px; border: 1.5px solid #358597">
-                <pre>
-                    <h1 id="ID1">Help Menu Content goes to ID 1</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1 id="ID2">Help Menu Content goes to ID 2</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1 id="ID3">Help Menu Content goes to ID 3</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1 id="ID4">Help Menu Content goes to ID 4</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1 id='ID5'>Help Menu Content goes to ID 5</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                    <h1>Help Menu Content goes here</h1>
-                </pre>
+            <v-card id="Content" flat width="1100" height="500px" class="Card-Config Text-Card">
+                <HelpScreenText />
             </v-card>
         </v-card-text>
     </v-card>
 </template>
+
 <script>
+import HelpScreenText from '../components/Help/HelpComponent'
 
 export default {
     name: 'HelpMenu',
+    components: { HelpScreenText },
     data: () => ({
       item: 1,
       items: [
-        { text: 'Account', icon: 'mdi-account', HTMLid: 'ID1'},
-        { text: 'Dashboard', icon: 'mdi-view-dashboard', HTMLid: 'ID2'},
-        { text: 'SideMenu', icon: 'mdi-menu', HTMLid: 'ID3'}, 
-        { text: 'Animation', icon: 'mdi-animation', HTMLid: 'ID4'},
-        { text: 'Music Player', icon: 'mdi-play-circle-outline', HTMLid: 'ID5'},
+        { text: 'Account', icon: 'mdi-account', HTMLid: 'Account'},
+        { text: 'Dashboard', icon: 'mdi-view-dashboard', HTMLid: 'Dashboard'},
+        { text: 'SideMenu', icon: 'mdi-menu', HTMLid: 'SideMenu'}, 
+        { text: 'Animation', icon: 'mdi-animation', HTMLid: 'Animation'},
+        { text: 'Music Player', icon: 'mdi-play-circle-outline', HTMLid: 'MusicPlayer'},
 
       ],
     }),
@@ -158,6 +54,13 @@ export default {
 
 </script>
 <style scoped>
+
+.Text-Card {
+    overflow-y: auto; 
+    border-radius: 0px 0px 4px 0px; 
+    /* border: 1.5px solid #358597; */
+    color: #8AAAE5;
+}
 
 .Card-Config {
     float: left;

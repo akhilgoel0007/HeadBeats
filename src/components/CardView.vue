@@ -63,9 +63,9 @@
                                 </v-card>
                              </v-dialog>
                         </v-list-item>
-                        <v-list-item class="List-Items">
+                        <!-- <v-list-item class="List-Items">
                             <v-list-item-title>Add Lyrics</v-list-item-title>
-                        </v-list-item>
+                        </v-list-item> -->
                         <v-list-item class="List-Items" @click.stop="SongNameDialog = true">
                             <v-list-item-title>Edit Song Name</v-list-item-title>
                             <v-dialog v-model="SongNameDialog" max-width="600">

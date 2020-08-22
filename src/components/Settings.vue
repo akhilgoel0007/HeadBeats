@@ -109,7 +109,7 @@ export default {
         drawer: false,
         ChoosenSetting: 1,
         Options: [
-            {Name: 'Color'},
+            {Name: 'Color' },
             {Name: 'Home Screen'}
         ],
     }),

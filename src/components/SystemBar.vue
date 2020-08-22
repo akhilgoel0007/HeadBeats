@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-system-bar app window style="background-color: #A7FFEB;">
+        <v-system-bar app window dark>
         <!-- <v-system-bar app window class=""> -->
             <v-spacer></v-spacer>
             <v-icon @click="MiniMizeWindow" class="pl-4">mdi-minus</v-icon>

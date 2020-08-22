@@ -1,6 +1,6 @@
-export const ChangeData = (state, Payload) => {
-    state.PlayingWindow = Payload.PlayingWindow;
-    state.PlayingSong = Payload.PlayingSong;
+export const CHANGE_DATA = (state, Data) => {
+    state.PlayingWindow = Data.PlayingWindow;
+    state.PlayingSong = Data.PlayingSong;
 }
 
 export const MUSIC_PLAYING = (state, MusicPlaying) => {
@@ -29,4 +29,8 @@ export const ADD_NEW_SONG = (state, NewSong) => {
 
 export const ADD_NEW_PLAYLIST = (state, NewPlaylist) => {
     state.MainData.AllPlaylists.push(NewPlaylist);
+}
+
+export const CHANGE_PLAYING_SONG_STATUS = (state, Status) => {
+    state.PlayingSongStatus = Status;
 }

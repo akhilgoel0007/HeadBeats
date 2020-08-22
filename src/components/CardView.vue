@@ -113,9 +113,6 @@
                 <div class="Info-Font font-weight-light">
                     Duration: {{CurrentSong.DisplayDuration}}<br>
                     Author: {{AuthorName}}<br>
-                    <!-- Genre<br>
-                    Album<br>
-                    so..on<br> -->
                 </div>
             </v-card-text>
         </v-card>
@@ -152,27 +149,26 @@ export default {
         },
 
         Remove: function(item) {
-            this.$store.state.MainData.AllSongs.Tags.splice(this.$store.state.MainData.AllSongs.Tags.indexOf(item), 1)
-            this.$store.state.MainData.AllSongs.Tags = [...this.$store.state.MainData.AllSongs.Tags]
+            this.$store.state.MainData.AllSongs.Tags.splice(this.$store.state.MainData.AllSongs.Tags.indexOf(item), 1);
+            this.$store.state.MainData.AllSongs.Tags = [...this.$store.state.MainData.AllSongs.Tags];
         },
 
         GetAuthorName: function() {
-            this.AuthorNameDialog = false
+            this.AuthorNameDialog = false;
 
             var Payload = {
                 AuthorName: this.AuthorName,
                 Source: this.CurrentSong.Source
-            }
+            };
             
             this.$store.dispatch('ChangeAuthorName', Payload);
-            // this.NewAuthorName = ""
         },
 
         GetSongName: function() {
             this.SongNameDialog = false
             var Present = false;
 
-            this.$store.state.MainData.AllSongs.forEach(Song => {
+            this.$store.getters.GetAllSongs.forEach(Song => {
                 if(Song.Title.toLowerCase() === this.SongName.toLowerCase()) {
                     Present = true;
                 }
@@ -203,20 +199,20 @@ export default {
         },
 
         AuthorNameEnter: function() {
-            this.GetAuthorName()
+            this.GetAuthorName();
         },
 
         SongNameEnter: function() {
-            this.GetSongName()
+            this.GetSongName();
         },
 
         CommitChanges: function(Song, Window) {
             var Payload = {
                 PlayingSong: Song,
                 PlayingWindow: Window
-            }
+            };
 
-            this.$store.commit('ChangeData', Payload)
+            this.$store.dispatch('ChangeData', Payload);
         },
 
         PlaySong: function(PlayingSong) {
@@ -225,51 +221,51 @@ export default {
                 
                 if(!this.Playing) {
                     if(!this.Loaded) {
-                        MyMusicBus.$emit('LoadSong', PlayingSong)
-                        MyMusicBus.$emit('SetSongList', "AllSongs" , this.$store.state.MainData.AllSongs);
+                        MyMusicBus.$emit('LoadSong', PlayingSong);
+                        MyMusicBus.$emit('SetSongList', "AllSongs" , this.$store.getters.GetAllSongs);
 
-                        this.CommitChanges(this.CurrentSong, this.Place)
+                        this.CommitChanges(this.CurrentSong, this.Place);
                         
-                        this.Playing = true
-                        this.Loaded = true
+                        this.Playing = true;
+                        this.Loaded = true;
                     } else {
-                        MyMusicBus.$emit('PlaySong')
-                        this.Playing = true
+                        MyMusicBus.$emit('PlaySong');
+                        this.Playing = true;
                     }
                 } else {
-                    MyMusicBus.$emit('PauseSong')
-                    this.Playing = false
+                    MyMusicBus.$emit('PauseSong');
+                    this.Playing = false;
                 }
             } else {
                 // Playlist Window
 
                 if(!this.Playing) { 
                     if(!this.Loaded) {
-                        PlaylistBus.$emit('LoadSong', PlayingSong)
-                        this.$store.state.MainData.AllPlaylists.forEach(Playlist => {
+                        PlaylistBus.$emit('LoadSong', PlayingSong);
+                        this.$store.getters.GetAllPlaylists.forEach(Playlist => {
                             if(Playlist.Name === this.Place) {
-                                PlaylistBus.$emit('SetSongList', Playlist.Name, Playlist.ContentOfPlaylist)
+                                PlaylistBus.$emit('SetSongList', Playlist.Name, Playlist.ContentOfPlaylist);
                             }
                         });
 
-                        this.CommitChanges(this.CurrentSong, this.Place)
+                        this.CommitChanges(this.CurrentSong, this.Place);
                         
-                        this.Playing = true
-                        this.Loaded = true
+                        this.Playing = true;
+                        this.Loaded = true;
                     } else {
-                        PlaylistBus.$emit('PlaySong')
-                        this.Playing = true
+                        PlaylistBus.$emit('PlaySong');
+                        this.Playing = true;
                     }
                 } else {
-                    PlaylistBus.$emit('PauseSong')
-                    this.Playing = false
+                    PlaylistBus.$emit('PauseSong');
+                    this.Playing = false;
                 }
             }
         },
 
         ToggleSongState: function(Status) {
             if(Status) {
-                this.Playing = !this.Playing
+                this.Playing = !this.Playing;
             } else {
                 this.Playing = false; // Stop the Last Song
                 this.Loaded = false;
@@ -279,34 +275,34 @@ export default {
 
     computed: {
         AllPlaylists: function() {
-            return this.$store.state.MainData.AllPlaylists;
+            return this.$store.getters.GetAllPlaylists;
         },
     },
 
     created() {
         MyMusicBus.$on('ToggleCurrentSong', (SongName, Status) => {
             if(this.CurrentSong.Title == SongName) {
-                this.ToggleSongState(Status)
+                this.ToggleSongState(Status);
             }
         })
 
         MyMusicBus.$on('NextSong', (LastSong, CurrentSong) => {
             if(this.CurrentSong.Title === CurrentSong) {
                 this.Playing = !this.Playing;
-                this.Loaded = true // Loaded this song in the player..
-                this.CommitChanges(this.CurrentSong, this.Place)
+                this.Loaded = true; // Loaded this song in the player..
+                this.CommitChanges(this.CurrentSong, this.Place);
             }
 
             if(this.CurrentSong.Title === LastSong) {
                 this.Playing = !this.Playing;
-                this.Loaded = false // Removed this song from player..
+                this.Loaded = false; // Removed this song from player..
             }
         })
 
         PlaylistBus.$on('ToggleCurrentSong', (PlaylistName, SongName, Status) => {
             if(PlaylistName === this.Place) {
                 if(this.CurrentSong.Title === SongName) {
-                    this.ToggleSongState(Status)
+                    this.ToggleSongState(Status);
                 }
             }
         })
@@ -315,13 +311,13 @@ export default {
             if(PlaylistName === this.Place) {
                 if(this.CurrentSong.Title === CurrentSong) {
                     this.Playing = !this.Playing;
-                    this.Loaded = true // Loaded this song in the player..
-                    this.CommitChanges(this.CurrentSong, this.Place)
+                    this.Loaded = true; // Loaded this song in the player..
+                    this.CommitChanges(this.CurrentSong, this.Place);
                 }
 
                 if(this.CurrentSong.Title === LastSong) {
                     this.Playing = !this.Playing;
-                    this.Loaded = false // Removed this song from player..
+                    this.Loaded = false; // Removed this song from player..
                 }
             }
         })

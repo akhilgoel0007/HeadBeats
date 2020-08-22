@@ -9,8 +9,10 @@
         <source id="SongSource">
       </audio>
       <div class="footer-bar">
+        <!-- <div v-if="LastSong != null" class="footer-song-metadata"> -->
         <div class="footer-song-metadata">
-          <img id="CoverImage" class="footer-album-art" />
+          <img v-if="LastSong == null" id="CoverImage" class="footer-album-art" />
+          <img v-else id="CoverImage" class="footer-album-art footer-album-art-border" />
           <div class="footer-song-metadata-text">
             <span id="SongName" class="footer-song-name"></span>
             <span id="ArtistName" class="footer-song-artist"></span>
@@ -68,27 +70,27 @@ export default {
   methods: {
     ToggleMyMusicCardState: async function(Current) {
       if(Current) {
-        MyMusicBus.$emit('ToggleCurrentSong', this.CurrentSong.Title, Current)
+        MyMusicBus.$emit('ToggleCurrentSong', this.CurrentSong.Title, Current);
       } else {
-        MyMusicBus.$emit('ToggleCurrentSong', this.LastSong.Title, Current)
+        MyMusicBus.$emit('ToggleCurrentSong', this.LastSong.Title, Current);
       }
     },
 
     TogglePlaylistCardState: async function(Current) {
       if(Current) {
-        PlaylistBus.$emit('ToggleCurrentSong', this.WindowName, this.CurrentSong.Title, Current)
+        PlaylistBus.$emit('ToggleCurrentSong', this.WindowName, this.CurrentSong.Title, Current);
       } else {
-        PlaylistBus.$emit('ToggleCurrentSong', this.WindowName, this.LastSong.Title, Current)
+        PlaylistBus.$emit('ToggleCurrentSong', this.WindowName, this.LastSong.Title, Current);
       }
     },
 
     SeekTimeUpdate: function() {
-      this.SeekBar.value = document.getElementById('player').currentTime * (1000/this.CurrentSong.Duration)
-      this.SeekSlide.style.width = (this.SeekBar.value/10) + '%'
+      this.SeekBar.value = document.getElementById('player').currentTime * (1000/this.CurrentSong.Duration);
+      this.SeekSlide.style.width = (this.SeekBar.value/10) + '%';
     },
 
     SeekUpdate: function() {
-      document.getElementById('player').currentTime = this.CurrentSong.Duration * (this.SeekBar.value/1000)
+      document.getElementById('player').currentTime = this.CurrentSong.Duration * (this.SeekBar.value/1000);
     },
 
     NextSongToggle: async function(WindowName) {
@@ -157,19 +159,21 @@ export default {
     },
 
     RepeatCurrentSong: function () {
-      this.Repeat = !this.Repeat
-      document.getElementById('player').loop = this.Repeat
+      this.Repeat = !this.Repeat;
+      document.getElementById('player').loop = this.Repeat;
     },
 
     ShuffleSongs: function() {
-      this.Shuffle = !this.Shuffle
+      this.Shuffle = !this.Shuffle;
     },
 
     PlaySong: function() {
-      this.PlayerStatus = true
-      this.$store.state.PlayingSongStatus = true;
-      document.getElementById('player').load() // Load The Song in Player..
-      document.getElementById('player').play() // Play The Song in Player..
+      this.PlayerStatus = true;
+      
+      this.$store.dispatch('ChangePlayingSongStatus', true);
+
+      document.getElementById('player').load(); // Load The Song in Player..
+      document.getElementById('player').play(); // Play The Song in Player..
     },
 
     PlayCurrentSong: function() {
@@ -177,14 +181,16 @@ export default {
       
       if(Player.readyState) {
         Player.play();
-        this.$store.state.PlayingSongStatus = true;
+        this.$store.dispatch('ChangePlayingSongStatus', true);
         this.PlayerStatus = true;
       }
     },
 
     PauseCurrentSong: function() {
       var Player = document.getElementById("player");
-      this.$store.state.PlayingSongStatus = false;
+
+      this.$store.dispatch('ChangePlayingSongStatus', false);
+      
       this.PlayerStatus = false;
       Player.pause();
     },
@@ -208,32 +214,32 @@ export default {
       if(this.$store.getters.GetMusicPlaying == 4) {
         VisualizerBus.$emit('ChangeSong', Data);
       }
-      this.FeedMetaData(Data)
-      this.PlaySong()
+      this.FeedMetaData(Data);
+      this.PlaySong();
     },
 
     FeedMetaData: function(Data) {
-      document.getElementById("SongName").innerHTML = Data.Title
-      document.getElementById("ArtistName").innerHTML = Data.DisplayDuration
-      document.getElementById("CoverImage").src = Data.ImageSrc
-      document.getElementById('SongSource').src = Data.Source
+      document.getElementById("SongName").innerHTML = Data.Title;
+      document.getElementById("ArtistName").innerHTML = Data.DisplayDuration;
+      document.getElementById("CoverImage").src = Data.ImageSrc;
+      document.getElementById('SongSource').src = Data.Source;
 
-      this.SeekBar = document.getElementById('Seek')
-      this.SeekSlide = document.getElementById('Fill')
+      this.SeekBar = document.getElementById('Seek');
+      this.SeekSlide = document.getElementById('Fill');
 
-      this.SeekBar.addEventListener('change', this.SeekUpdate, false)
-      document.getElementById('player').addEventListener('timeupdate', this.SeekTimeUpdate, false)
-      document.getElementById('player').addEventListener('ended', this.ChangeSong, false)
+      this.SeekBar.addEventListener('change', this.SeekUpdate, false);
+      document.getElementById('player').addEventListener('timeupdate', this.SeekTimeUpdate, false);
+      document.getElementById('player').addEventListener('ended', this.ChangeSong, false);
     }
   },
 
   created() {
     MyMusicBus.$on('LoadSong', (Data) => {
       if(this.LastSong === null) {
-        this.LastSong = Data
+        this.LastSong = Data;
       } else {
-        this.LastSong = this.CurrentSong
-        this.ToggleMyMusicCardState(false)
+        this.LastSong = this.CurrentSong;
+        this.ToggleMyMusicCardState(false);
       }
 
       this.CurrentSong = Data
@@ -241,15 +247,15 @@ export default {
     })
 
     MyMusicBus.$on('PauseSong', () => {
-      this.PauseCurrentSong()
+      this.PauseCurrentSong();
     })
 
     MyMusicBus.$on('PlaySong', () => {
-      this.PlayCurrentSong()
+      this.PlayCurrentSong();
     })
 
     MyMusicBus.$on('SetSongList', (Name, SongsList) => {
-      this.WindowName = Name
+      this.WindowName = Name;
       this.CurrentSongsList = SongsList;
     })
     
@@ -258,27 +264,27 @@ export default {
     PlaylistBus.$on('LoadSong', (Data) => {
       
       if(this.LastSong === null) {
-        this.LastSong = Data
+        this.LastSong = Data;
       } else {
-        this.LastSong = this.CurrentSong
-        this.TogglePlaylistCardState(false)
+        this.LastSong = this.CurrentSong;
+        this.TogglePlaylistCardState(false);
       }
 
-      this.CurrentSong = Data
+      this.CurrentSong = Data;
       this.LoadSong(Data);
     })
 
     PlaylistBus.$on('SetSongList', (Name, SongsList) => {
-      this.WindowName = Name
+      this.WindowName = Name;
       this.CurrentSongsList = SongsList;
     })
 
     PlaylistBus.$on('PauseSong', () => {
-      this.PauseCurrentSong()
+      this.PauseCurrentSong();
     })
 
     PlaylistBus.$on('PlaySong', () => {
-      this.PlayCurrentSong()
+      this.PlayCurrentSong();
     })
   }
 }
@@ -373,11 +379,14 @@ input[type="range"]:focus {
   height: 60px;
 }
 
+.footer-album-art-border {
+  border: 1.5px solid white;
+}
+
 .footer-album-art {
   height: 60px;
   width: 60px;
   margin: 0px 15px;
-  border: 1.5px solid white;
   box-shadow: 0 5px 0 rgb(107, 5, 107),
 }
 

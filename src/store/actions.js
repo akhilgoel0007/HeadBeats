@@ -296,3 +296,11 @@ export const AddNewPlaylist = ({ dispatch, commit}, NewPlaylist) => {
 export const SetImagePath = ({ commit }, Payload) => {
     commit('PROFILE_IMAGE', Payload);
 }
+
+export const ChangePlayingSongStatus = ({ commit }, Status) => {
+    commit('CHANGE_PLAYING_SONG_STATUS', Status);
+}
+
+export const ChangeData = ({ commit }, Data) => {
+    commit('CHANGE_DATA', Data);
+}
